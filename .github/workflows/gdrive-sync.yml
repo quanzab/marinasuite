@@ -26,7 +26,7 @@ jobs:
           GDRIVE_SERVICE_KEY: ${{ secrets.GDRIVE_MARINASUITE_SERVICE_KEY }}
         run: echo "$GDRIVE_SERVICE_KEY" > service_account.json
 
-      - name: Download quanzab.zip from Google Drive
+      - name: Download Quanzab ERP Lite.zip from Google Drive
         run: |
           python3 <<EOF
 import json
@@ -38,12 +38,12 @@ from googleapiclient.http import MediaIoBaseDownload
 creds = service_account.Credentials.from_service_account_file('service_account.json')
 drive = build('drive', 'v3', credentials=creds)
 
-# Search for the file named 'quanzab.zip'
-results = drive.files().list(q="name='quanzab.zip' and trashed=false", spaces='drive', fields='files(id, name)').execute()
+# Search for the file named 'Quanzab ERP Lite.zip'
+results = drive.files().list(q="name='Quanzab ERP Lite.zip' and trashed=false", spaces='drive', fields='files(id, name)').execute()
 files = results.get('files', [])
 
 if not files:
-    raise Exception("quanzab.zip not found in Google Drive")
+    raise Exception("Quanzab ERP Lite.zip not found in Google Drive")
 
 file_id = files[0]['id']
 request = drive.files().get_media(fileId=file_id)
