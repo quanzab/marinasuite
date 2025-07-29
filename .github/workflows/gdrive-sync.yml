@@ -37,13 +37,13 @@ jobs:
           echo "creds = service_account.Credentials.from_service_account_file('service_account.json')" >> gdrive_download.py
           echo "drive = build('drive', 'v3', credentials=creds)" >> gdrive_download.py
           echo "" >> gdrive_download.py
-          echo "results = drive.files().list(q=\"name='Quanzab ERP Lite.zip' and trashed=false\", spaces='drive', fields='files(id, name)').execute()" >> gdrive_download.py
+          echo "results = drive.files().list(q=\"name='MarinaSuite.zip' and trashed=false\", spaces='drive', fields='files(id, name)').execute()" >> gdrive_download.py
           echo "files = results.get('files', [])" >> gdrive_download.py
           echo "if not files:" >> gdrive_download.py
-          echo "    raise Exception('File not found')" >> gdrive_download.py
+          echo "    raise Exception('MarinaSuite.zip not found in Google Drive')" >> gdrive_download.py
           echo "file_id = files[0]['id']" >> gdrive_download.py
           echo "request = drive.files().get_media(fileId=file_id)" >> gdrive_download.py
-          echo "fh = io.FileIO('quanzab.zip', 'wb')" >> gdrive_download.py
+          echo "fh = io.FileIO('marinasuite.zip', 'wb')" >> gdrive_download.py
           echo "downloader = MediaIoBaseDownload(fh, request)" >> gdrive_download.py
           echo "done = False" >> gdrive_download.py
           echo "while not done:" >> gdrive_download.py
@@ -56,7 +56,7 @@ jobs:
       - name: Unzip and Sync
         run: |
           rm -rf project && mkdir project
-          unzip -o quanzab.zip -d project
+          unzip -o marinasuite.zip -d project
           cp -r project/* ./
 
       - name: Commit and Push Changes
@@ -68,4 +68,4 @@ jobs:
           git push
 
       - name: Clean up temp files
-        run: rm -f quanzab.zip gdrive_download.py service_account.json
+        run: rm -f marinasuite.zip gdrive_download.py service_account.json
