@@ -1,8 +1,8 @@
-name: GDrive Sync
+name: Sync AI Studio from Google Drive
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Runs every 6 hours
+    - cron: '0 */6 * * *'  # every 6 hours
   workflow_dispatch:
 
 jobs:
@@ -10,28 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repo
         uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.10'
 
-      - name: Install dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib
+      - name: Install Python Google APIs
+        run: pip install google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib
 
-      - name: Write Google Service Account Credentials
+      - name: Save service account key to file
         env:
-          GDRIVE_MARINASUITE_SERVICE_KEY: ${{ secrets.GDRIVE_MARINASUITE_SERVICE_KEY }}
-        run: |
-          echo "$GDRIVE_MARINASUITE_SERVICE_KEY" > service_account.json
+          GDRIVE_SERVICE_KEY: ${{ secrets.GDRIVE_MARINASUITE_SERVICE_KEY }}
+        run: echo "$GDRIVE_SERVICE_KEY" > service_account.json
 
-      - name: Download Quanzab ERP Lite.zip from Google Drive
+      - name: Create Python Script to Download File
         run: |
-          cat <<EOF > download_gdrive.py
+          cat <<EOF > download_from_gdrive.py
 import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -41,6 +38,7 @@ from googleapiclient.http import MediaIoBaseDownload
 creds = service_account.Credentials.from_service_account_file('service_account.json')
 drive = build('drive', 'v3', credentials=creds)
 
+# Search for the file named 'Quanzab ERP Lite.zip'
 results = drive.files().list(q="name='Quanzab ERP Lite.zip' and trashed=false", spaces='drive', fields='files(id, name)').execute()
 files = results.get('files', [])
 
@@ -57,18 +55,20 @@ while not done:
     status, done = downloader.next_chunk()
     print(f"Download progress: {int(status.progress() * 100)}%")
 EOF
-          python3 download_gdrive.py
 
-      - name: Unzip and copy files
+      - name: Run Python Script
+        run: python3 download_from_gdrive.py
+
+      - name: Unzip Project
         run: |
-          rm -rf project
+          rm -rf project && mkdir project
           unzip -o quanzab.zip -d project
           cp -r project/* ./
 
-      - name: Commit and push changes
+      - name: Commit and Push Changes
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "aistudio-bot"
+          git config user.email "bot@aistudio.com"
           git add .
-          git diff --staged --quiet || git commit -m "Sync from Google Drive"
+          git commit -m "Auto-sync from Google Drive [$(date)]" || echo "No changes to commit"
           git push
