@@ -66,3 +66,6 @@ jobs:
           git add .
           git commit -m "Auto-sync from Google Drive [$(date)]" || echo "No changes"
           git push
+
+      - name: Clean up temp files
+        run: rm -f quanzab.zip gdrive_download.py service_account.json
