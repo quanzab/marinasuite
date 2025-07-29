@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Python Google APIs
+      - name: Install Google Drive API Libraries
         run: pip install google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib
 
       - name: Save service account key to file
@@ -26,34 +26,43 @@ jobs:
           GDRIVE_SERVICE_KEY: ${{ secrets.GDRIVE_MARINASUITE_SERVICE_KEY }}
         run: echo "$GDRIVE_SERVICE_KEY" > service_account.json
 
-      - name: Write Python script to download ZIP
+      - name: Download MarinaSuite.zip from Google Drive
         run: |
-          echo "import json" > gdrive_download.py
-          echo "from google.oauth2 import service_account" >> gdrive_download.py
-          echo "from googleapiclient.discovery import build" >> gdrive_download.py
-          echo "import io" >> gdrive_download.py
-          echo "from googleapiclient.http import MediaIoBaseDownload" >> gdrive_download.py
-          echo "" >> gdrive_download.py
-          echo "creds = service_account.Credentials.from_service_account_file('service_account.json')" >> gdrive_download.py
-          echo "drive = build('drive', 'v3', credentials=creds)" >> gdrive_download.py
-          echo "" >> gdrive_download.py
-          echo "results = drive.files().list(q=\"name='MarinaSuite.zip' and trashed=false\", spaces='drive', fields='files(id, name)').execute()" >> gdrive_download.py
-          echo "files = results.get('files', [])" >> gdrive_download.py
-          echo "if not files:" >> gdrive_download.py
-          echo "    raise Exception('MarinaSuite.zip not found in Google Drive')" >> gdrive_download.py
-          echo "file_id = files[0]['id']" >> gdrive_download.py
-          echo "request = drive.files().get_media(fileId=file_id)" >> gdrive_download.py
-          echo "fh = io.FileIO('marinasuite.zip', 'wb')" >> gdrive_download.py
-          echo "downloader = MediaIoBaseDownload(fh, request)" >> gdrive_download.py
-          echo "done = False" >> gdrive_download.py
-          echo "while not done:" >> gdrive_download.py
-          echo "    status, done = downloader.next_chunk()" >> gdrive_download.py
-          echo "    print(f'Download progress: {int(status.progress() * 100)}%')" >> gdrive_download.py
+          python3 <<EOF
+import json
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
+import io
+from googleapiclient.http import MediaIoBaseDownload
 
-      - name: Run Python Script
-        run: python3 gdrive_download.py
+FOLDER_ID = '1FznsPANU4xNXHIlkdcJh_y-YXEdbG-do'
 
-      - name: Unzip and Sync
+creds = service_account.Credentials.from_service_account_file('service_account.json')
+drive = build('drive', 'v3', credentials=creds)
+
+results = drive.files().list(
+    q=f"name='MarinaSuite.zip' and '{FOLDER_ID}' in parents and trashed=false",
+    spaces='drive',
+    fields='files(id, name)'
+).execute()
+
+files = results.get('files', [])
+if not files:
+    raise Exception("MarinaSuite.zip not found in Google AI Studio folder")
+
+file_id = files[0]['id']
+request = drive.files().get_media(fileId=file_id)
+fh = io.FileIO('marinasuite.zip', 'wb')
+downloader = MediaIoBaseDownload(fh, request)
+
+done = False
+while not done:
+    status, done = downloader.next_chunk()
+    if status:
+        print(f"Download progress: {int(status.progress() * 100)}%")
+EOF
+
+      - name: Unzip Project
         run: |
           rm -rf project && mkdir project
           unzip -o marinasuite.zip -d project
@@ -64,8 +73,5 @@ jobs:
           git config user.name "aistudio-bot"
           git config user.email "bot@aistudio.com"
           git add .
-          git commit -m "Auto-sync from Google Drive [$(date)]" || echo "No changes"
+          git commit -m "Auto-sync from Google AI Studio [$(date)]" || echo "No changes to commit"
           git push
-
-      - name: Clean up temp files
-        run: rm -f marinasuite.zip gdrive_download.py service_account.json
