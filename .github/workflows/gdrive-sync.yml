@@ -26,48 +26,43 @@ jobs:
           GDRIVE_SERVICE_KEY: ${{ secrets.GDRIVE_MARINASUITE_SERVICE_KEY }}
         run: echo "$GDRIVE_SERVICE_KEY" > service_account.json
 
-      - name: Create Python script to download zip from Drive
+      - name: Write Python script to download ZIP
         run: |
-          cat > download_from_gdrive.py << 'EOF'
-import json
-from google.oauth2 import service_account
-from googleapiclient.discovery import build
-import io
-from googleapiclient.http import MediaIoBaseDownload
+          echo "import json" > gdrive_download.py
+          echo "from google.oauth2 import service_account" >> gdrive_download.py
+          echo "from googleapiclient.discovery import build" >> gdrive_download.py
+          echo "import io" >> gdrive_download.py
+          echo "from googleapiclient.http import MediaIoBaseDownload" >> gdrive_download.py
+          echo "" >> gdrive_download.py
+          echo "creds = service_account.Credentials.from_service_account_file('service_account.json')" >> gdrive_download.py
+          echo "drive = build('drive', 'v3', credentials=creds)" >> gdrive_download.py
+          echo "" >> gdrive_download.py
+          echo "results = drive.files().list(q=\"name='Quanzab ERP Lite.zip' and trashed=false\", spaces='drive', fields='files(id, name)').execute()" >> gdrive_download.py
+          echo "files = results.get('files', [])" >> gdrive_download.py
+          echo "if not files:" >> gdrive_download.py
+          echo "    raise Exception('File not found')" >> gdrive_download.py
+          echo "file_id = files[0]['id']" >> gdrive_download.py
+          echo "request = drive.files().get_media(fileId=file_id)" >> gdrive_download.py
+          echo "fh = io.FileIO('quanzab.zip', 'wb')" >> gdrive_download.py
+          echo "downloader = MediaIoBaseDownload(fh, request)" >> gdrive_download.py
+          echo "done = False" >> gdrive_download.py
+          echo "while not done:" >> gdrive_download.py
+          echo "    status, done = downloader.next_chunk()" >> gdrive_download.py
+          echo "    print(f'Download progress: {int(status.progress() * 100)}%')" >> gdrive_download.py
 
-creds = service_account.Credentials.from_service_account_file('service_account.json')
-drive = build('drive', 'v3', credentials=creds)
+      - name: Run Python Script
+        run: python3 gdrive_download.py
 
-results = drive.files().list(q="name='Quanzab ERP Lite.zip' and trashed=false", spaces='drive', fields='files(id, name)').execute()
-files = results.get('files', [])
-
-if not files:
-    raise Exception("Quanzab ERP Lite.zip not found in Google Drive")
-
-file_id = files[0]['id']
-request = drive.files().get_media(fileId=file_id)
-fh = io.FileIO('quanzab.zip', 'wb')
-downloader = MediaIoBaseDownload(fh, request)
-
-done = False
-while not done:
-    status, done = downloader.next_chunk()
-    print(f"Download progress: {int(status.progress() * 100)}%")
-EOF
-
-      - name: Run Python script
-        run: python3 download_from_gdrive.py
-
-      - name: Unzip project
+      - name: Unzip and Sync
         run: |
           rm -rf project && mkdir project
           unzip -o quanzab.zip -d project
           cp -r project/* ./
 
-      - name: Commit and push changes
+      - name: Commit and Push Changes
         run: |
           git config user.name "aistudio-bot"
           git config user.email "bot@aistudio.com"
           git add .
-          git commit -m "Auto-sync from Google Drive [$(date)]" || echo "No changes to commit"
+          git commit -m "Auto-sync from Google Drive [$(date)]" || echo "No changes"
           git push
