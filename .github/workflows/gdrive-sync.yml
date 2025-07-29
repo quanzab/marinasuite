@@ -18,40 +18,51 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
-        run: pip install --upgrade google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib
+      - name: Install Python Google APIs
+        run: pip install google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib
 
-      - name: Download ZIP from Google Drive
+      - name: Save service account key to file
         env:
           GDRIVE_SERVICE_KEY: ${{ secrets.GDRIVE_MARINASUITE_SERVICE_KEY }}
-        run: |
-          echo "$GDRIVE_SERVICE_KEY" > service_account.json
+        run: echo "$GDRIVE_SERVICE_KEY" > service_account.json
 
-          FILE_ID=$(python3 -c "
+      - name: Download quanzab.zip from Google Drive
+        run: |
+          python3 <<EOF
 import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+import io
+from googleapiclient.http import MediaIoBaseDownload
 
 creds = service_account.Credentials.from_service_account_file('service_account.json')
 drive = build('drive', 'v3', credentials=creds)
 
-results = drive.files().list(q=\"name='quanzab.zip' and trashed=false\", spaces='drive', fields='files(id, name)').execute()
-file = results.get('files', [])[0]
-print(file['id'])
-")
+# Search for the file named 'quanzab.zip'
+results = drive.files().list(q="name='quanzab.zip' and trashed=false", spaces='drive', fields='files(id, name)').execute()
+files = results.get('files', [])
 
-          curl -X GET -L \
-          -H \"Authorization: Bearer $(gcloud auth application-default print-access-token)\" \
-          \"https://www.googleapis.com/drive/v3/files/$FILE_ID?alt=media\" \
-          --output quanzab.zip
+if not files:
+    raise Exception("quanzab.zip not found in Google Drive")
 
-      - name: Unzip project
+file_id = files[0]['id']
+request = drive.files().get_media(fileId=file_id)
+fh = io.FileIO('quanzab.zip', 'wb')
+downloader = MediaIoBaseDownload(fh, request)
+
+done = False
+while not done:
+    status, done = downloader.next_chunk()
+    print(f"Download progress: {int(status.progress() * 100)}%")
+EOF
+
+      - name: Unzip Project
         run: |
           rm -rf project && mkdir project
           unzip -o quanzab.zip -d project
           cp -r project/* ./
 
-      - name: Commit and Push
+      - name: Commit and Push Changes
         run: |
           git config user.name "aistudio-bot"
           git config user.email "bot@aistudio.com"
