@@ -26,9 +26,9 @@ jobs:
           GDRIVE_SERVICE_KEY: ${{ secrets.GDRIVE_MARINASUITE_SERVICE_KEY }}
         run: echo "$GDRIVE_SERVICE_KEY" > service_account.json
 
-      - name: Create Python Script to Download File
+      - name: Create Python script to download zip from Drive
         run: |
-          cat <<EOF > download_from_gdrive.py
+          cat > download_from_gdrive.py << 'EOF'
 import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
@@ -38,7 +38,6 @@ from googleapiclient.http import MediaIoBaseDownload
 creds = service_account.Credentials.from_service_account_file('service_account.json')
 drive = build('drive', 'v3', credentials=creds)
 
-# Search for the file named 'Quanzab ERP Lite.zip'
 results = drive.files().list(q="name='Quanzab ERP Lite.zip' and trashed=false", spaces='drive', fields='files(id, name)').execute()
 files = results.get('files', [])
 
@@ -56,16 +55,16 @@ while not done:
     print(f"Download progress: {int(status.progress() * 100)}%")
 EOF
 
-      - name: Run Python Script
+      - name: Run Python script
         run: python3 download_from_gdrive.py
 
-      - name: Unzip Project
+      - name: Unzip project
         run: |
           rm -rf project && mkdir project
           unzip -o quanzab.zip -d project
           cp -r project/* ./
 
-      - name: Commit and Push Changes
+      - name: Commit and push changes
         run: |
           git config user.name "aistudio-bot"
           git config user.email "bot@aistudio.com"
