@@ -1,0 +1,74 @@
+name: Sync MarinaSuite.zip from Google Drive
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Google API Client
+        run: pip install google-api-python-client google-auth google-auth-httplib2 google-auth-oauthlib
+
+      - name: Save service account key to file
+        env:
+          GDRIVE_SERVICE_KEY: ${{ secrets.GDRIVE_SERVICE_KEY }}
+        run: echo "$GDRIVE_SERVICE_KEY" > service_account.json
+
+      - name: Download MarinaSuite.zip from Google Drive
+        run: |
+          python3 <<EOF
+import json, io
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaIoBaseDownload
+
+FOLDER_ID = '1FznsPANU4xNXHIlkdcJh_y-YXEdbG-do'
+FILENAME = 'MarinaSuite.zip'
+
+creds = service_account.Credentials.from_service_account_file('service_account.json')
+service = build('drive', 'v3', credentials=creds)
+
+query = f"name='{FILENAME}' and '{FOLDER_ID}' in parents and trashed=false"
+results = service.files().list(q=query, spaces='drive', fields='files(id, name)').execute()
+files = results.get('files', [])
+
+if not files:
+    raise Exception(f"{FILENAME} not found in folder {FOLDER_ID}")
+
+file_id = files[0]['id']
+request = service.files().get_media(fileId=file_id)
+fh = io.FileIO(FILENAME, 'wb')
+downloader = MediaIoBaseDownload(fh, request)
+
+done = False
+while not done:
+    status, done = downloader.next_chunk()
+    if status:
+        print(f"Download {int(status.progress() * 100)}%")
+EOF
+
+      - name: Unzip ZIP File
+        run: |
+          rm -rf project && mkdir project
+          unzip -o MarinaSuite.zip -d project
+          cp -r project/* ./
+
+      - name: Commit and Push Changes
+        run: |
+          git config user.name "drive-sync-bot"
+          git config user.email "bot@example.com"
+          git add .
+          git commit -m "Auto-sync MarinaSuite from Google Drive"
+          git push || echo "No changes to commit"
