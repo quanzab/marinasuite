@@ -26,7 +26,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Dashboard Analytics**:
     -   [x] Display live data for summary cards and tables.
     -   [x] Add a chart for vessel status distribution.
-    -   [x] Add more detailed charts and graphs for operational insights (e.g., crew status).
+    -   [x] Add more detailed charts and graphs for operational insights (e.g., crew status, rank distribution).
 -   [x] **Advanced AI Features**:
     -   [x] AI-powered crew allocation suggestions (now with AI Tool Use).
     -   [x] AI-powered route optimization suggestions.

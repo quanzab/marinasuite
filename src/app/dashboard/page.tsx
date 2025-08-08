@@ -95,22 +95,22 @@ export default function Dashboard() {
     }));
   }, [vessels]);
 
-  const crewStatusData = useMemo(() => {
-    const statusCounts = crew.reduce((acc, member) => {
-        acc[member.status] = (acc[member.status] || 0) + 1;
-        return acc;
-    }, {} as Record<CrewMember['status'], number>);
+  const crewRankData = useMemo(() => {
+    const rankCounts = crew.reduce((acc, member) => {
+      acc[member.rank] = (acc[member.rank] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
 
-    return Object.entries(statusCounts).map(([status, count]) => ({
-        status,
-        count,
+    return Object.entries(rankCounts).map(([rank, count]) => ({
+      rank,
+      count,
     }));
   }, [crew]);
 
 
   const chartConfig = {
     count: {
-      label: "Vessels",
+      label: "Count",
     },
     "In Service": {
       label: "In Service",
@@ -124,17 +124,25 @@ export default function Dashboard() {
       label: "Docked",
       color: "hsl(var(--chart-5))",
     },
-     "Active": {
-      label: "Active",
-      color: "hsl(var(--chart-2))",
+    "Captain": {
+        label: "Captain",
+        color: "hsl(var(--chart-1))",
     },
-    "On Leave": {
-      label: "On Leave",
-      color: "hsl(var(--chart-4))",
+    "Chief Engineer": {
+        label: "Chief Engineer",
+        color: "hsl(var(--chart-2))",
     },
-    "Inactive": {
-      label: "Inactive",
-      color: "hsl(var(--chart-5))",
+    "First Mate": {
+        label: "First Mate",
+        color: "hsl(var(--chart-3))",
+    },
+    "Able Seaman": {
+        label: "Able Seaman",
+        color: "hsl(var(--chart-4))",
+    },
+    "Deck Cadet": {
+        label: "Deck Cadet",
+        color: "hsl(var(--chart-5))",
     },
   };
 
@@ -263,43 +271,6 @@ export default function Dashboard() {
         <div className="grid gap-4 auto-rows-min xl:col-span-1">
             <Card>
                 <CardHeader>
-                    <CardTitle>Crew Status Distribution</CardTitle>
-                    <CardDescription>Breakdown of crew by current status.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {isLoading ? (
-                    <div className="flex justify-center items-center h-48">
-                      <Skeleton className="w-full h-full" />
-                    </div>
-                  ) : (
-                    <ChartContainer config={chartConfig} className="w-full h-[200px]">
-                        <BarChart
-                            data={crewStatusData}
-                            layout="vertical"
-                            margin={{ left: 10, right: 10, top: 10, bottom: 10 }}
-                            accessibilityLayer
-                        >
-                            <XAxis type="number" hide />
-                            <YAxis
-                                dataKey="status"
-                                type="category"
-                                tickLine={false}
-                                axisLine={false}
-                                tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
-                            />
-                            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-                            <Bar dataKey="count" layout="vertical" radius={5}>
-                                {crewStatusData.map((entry) => (
-                                    <Cell key={entry.status} fill={chartConfig[entry.status as keyof typeof chartConfig]?.color} />
-                                ))}
-                            </Bar>
-                        </BarChart>
-                    </ChartContainer>
-                  )}
-                </CardContent>
-            </Card>
-            <Card>
-                <CardHeader>
                     <CardTitle>Vessel Distribution</CardTitle>
                     <CardDescription>Breakdown of vessels by operational status.</CardDescription>
                 </CardHeader>
@@ -326,10 +297,48 @@ export default function Dashboard() {
                                 strokeWidth={5}
                             >
                                 {vesselStatusData.map((entry) => (
-                                    <Cell key={entry.status} fill={chartConfig[entry.status as keyof typeof chartConfig]?.color} />
+                                    <Cell key={entry.status} fill={chartConfig[entry.status as keyof typeof chartConfig]?.color || '#8884d8'} />
                                 ))}
                             </Pie>
                         </PieChart>
+                    </ChartContainer>
+                  )}
+                </CardContent>
+            </Card>
+             <Card>
+                <CardHeader>
+                    <CardTitle>Crew Rank Distribution</CardTitle>
+                    <CardDescription>Breakdown of crew members by their rank.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {isLoading ? (
+                    <div className="flex justify-center items-center h-48">
+                      <Skeleton className="w-full h-full" />
+                    </div>
+                  ) : (
+                    <ChartContainer config={chartConfig} className="w-full h-[200px]">
+                        <BarChart
+                            data={crewRankData}
+                            layout="vertical"
+                            margin={{ left: 10, right: 10, top: 10, bottom: 10 }}
+                            accessibilityLayer
+                        >
+                            <XAxis type="number" hide />
+                            <YAxis
+                                dataKey="rank"
+                                type="category"
+                                tickLine={false}
+                                axisLine={false}
+                                tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12, width: 80 }}
+                                width={80}
+                            />
+                            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                            <Bar dataKey="count" layout="vertical" radius={5}>
+                                {crewRankData.map((entry) => (
+                                    <Cell key={entry.rank} fill={chartConfig[entry.rank as keyof typeof chartConfig]?.color || '#82ca9d'} />
+                                ))}
+                            </Bar>
+                        </BarChart>
                     </ChartContainer>
                   )}
                 </CardContent>

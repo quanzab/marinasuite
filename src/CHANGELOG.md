@@ -239,3 +239,16 @@
 ### Changed
 
 -   Updated the Shanty AI page UI and server actions to handle the two-step process of generating text and then generating the corresponding audio.
+
+## [2.2.0] - 2024-08-18
+
+### Added
+
+-   **Dashboard Analytics - Crew Rank Distribution**:
+    -   Added a new bar chart to the main dashboard to visualize the distribution of crew members by their rank.
+    -   This provides managers with a quick overview of workforce composition and helps identify potential staffing gaps or surpluses.
+
+### Changed
+
+-   Updated the dashboard grid layout to accommodate the new analytics chart.
+-   Refined the dashboard data fetching logic to include crew rank aggregation.
