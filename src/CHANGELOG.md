@@ -274,3 +274,9 @@
 ### Changed
 -   **Code Quality**: Restructured the Firebase Cloud Functions directory by moving the source code to a dedicated `src` subfolder. This aligns with TypeScript best practices and improves maintainability.
 -   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
+
+## [4.7.0] - 2024-09-17
+
+### Changed
+-   **Code Quality**: Refined the Firebase Cloud Functions configuration by updating the `source` path in `firebase.json` to point directly to the functions project root.
+-   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
