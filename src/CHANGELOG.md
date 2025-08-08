@@ -330,4 +330,9 @@
 -   **Code Quality**: Performed a final code quality enhancement on the `Card` component, using more semantic HTML (`h3`, `p`) for its title and description to improve accessibility.
 -   **Documentation**: Updated all project documentation to reflect that the project is complete and all development work is finished.
 
+## [3.3.0] - 2024-08-29
+
+### Changed
+-   **Code Quality**: Performed a final code quality enhancement on the `Textarea` component, ensuring its responsive text styling matches the standard `Input` component.
+-   **Documentation**: Updated all project documentation to reflect that the project is complete and all development work is finished.
     
