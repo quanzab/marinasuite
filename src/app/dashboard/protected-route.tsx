@@ -2,13 +2,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -16,14 +17,21 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        // If user is authenticated and tries to access login, redirect them
+        if (pathname.startsWith('/login')) {
+            router.push('/dashboard/select-tenant');
+        }
       } else {
-        router.push('/login');
+        // If no user, redirect to login, unless they are already on the login page
+        if (!pathname.startsWith('/login')) {
+            router.push('/login');
+        }
       }
       setIsLoading(false);
     });
 
     return () => unsubscribe();
-  }, [router]);
+  }, [router, pathname]);
 
   if (isLoading) {
     return (
@@ -39,5 +47,17 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     );
   }
 
-  return user ? <>{children}</> : null;
+  // If user is not logged in and not on login page, render nothing while redirect happens
+  if (!user && !pathname.startsWith('/login')) {
+    return null;
+  }
+  
+  // If user is logged in, but not on a dashboard page yet (e.g. at root), they will be redirected
+  // by other logic. The tenant selection is part of the dashboard layout.
+  if (user && pathname === '/') {
+      router.push('/dashboard/select-tenant');
+      return null;
+  }
+
+  return <>{children}</>;
 }

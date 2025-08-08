@@ -307,3 +307,15 @@
     -   Implemented role-based access control to restrict UI actions based on the logged-in user's role.
     -   Created a `useCurrentUser` hook to fetch and manage the current user's data and role.
     -   Action buttons (Add, Edit, Delete, etc.) across the Admin, Certificates, Crew, and Fleet pages are now disabled for non-admin users.
+
+## [2.8.0] - 2024-08-26
+
+### Added
+
+-   **Tenant Selection**:
+    -   Added a tenant selection screen at `/dashboard/select-tenant` to support multi-tenancy.
+    -   Users are now redirected to this page after logging in to select their organization.
+
+### Changed
+
+-   Updated the application's protected route logic to direct users to the tenant selection page first.

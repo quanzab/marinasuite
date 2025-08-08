@@ -41,7 +41,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 ## Future Enhancements & Shelved Tasks
 
 -   [ ] **Tenant Selection**:
-    -   [ ] Create a tenant selection screen after login.
+    -   [x] Create a tenant selection screen after login.
 -   [ ] **Advanced Scheduling**:
     -   [ ] Implement drag-and-drop functionality for crew assignments on the calendar.
 -   [ ] **Advanced Certificate Management**:
