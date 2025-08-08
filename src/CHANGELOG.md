@@ -269,3 +269,9 @@
 ### Fixed
 
 -   **Project Complete**: All major features and enhancements from the blueprint and to-do list are now implemented. The application is considered feature-complete.
+
+## [2.3.1] - 2024-08-20
+
+### Changed
+
+-   **Component Refinement**: Updated the `Button` component to automatically style icons passed as children, ensuring consistent sizing and spacing. This improves the component's reusability and aligns it with best practices.
