@@ -12,6 +12,10 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Certificate Management**: Tracking and renewal reminders for certificates.
 -   **Role-Based Access Control (RBAC)**: Admin panel for managing user permissions.
 -   **Crew Allocation AI**: Intelligent suggestions for crew allocation on routes.
+-   **Route Optimizer AI**: AI-powered suggestions for optimal shipping routes.
+-   **Predictive Maintenance AI**: AI-powered forecasts for vessel maintenance.
+-   **Safety Report Analysis AI**: AI-driven analysis of incident reports.
+-   **AI Shanty Generator**: A creative AI tool to generate sea shanties about vessels.
 -   **Offline Data Caching**: Offline data access and synchronization.
 
 ## 3. Tech Stack

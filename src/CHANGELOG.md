@@ -328,3 +328,12 @@
     -   Added a dedicated "Notifications" page to view a list of all alerts.
     -   Implemented a notifications dropdown in the main header for quick access to recent alerts.
     -   Included a new `NotificationsIcon` for navigation.
+
+## [3.0.0] - 2024-08-28
+
+### Added
+
+-   **AI Shanty Generator**:
+    -   Added a new "Shanty AI" page for generating sea shanties about vessels.
+    -   Created a Genkit flow (`generate-shanty-flow.ts`) to handle the creative text generation.
+    -   Included a new `MusicIcon` for navigation.
