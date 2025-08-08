@@ -280,13 +280,13 @@
 
 ### Changed
 - **UI Personalization**: Made user profile information in the main layout dynamic.
-- **AI Shanty Generator**: Added Markdown support for better text formatting.
+- **AI Shanty Generator**: Added Markdown support for better text formatting and enhanced multi-speaker TTS.
 - **AI Video Generation**: Enhanced the video generator to use an existing image as a starting point.
 - **Component Polish**: Refined the UI component library for better consistency and maintainability.
-- **Multi-speaker TTS**: Upgraded the Shanty AI to use two distinct voices for a call-and-response audio effect.
 
 ### Fixed
 -   Corrected a type mismatch in mock data to ensure strict type safety.
+-   Corrected a styling inconsistency in the Textarea component.
 
 ## [2.6.0] - 2024-08-22
 
