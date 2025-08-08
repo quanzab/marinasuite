@@ -1,3 +1,4 @@
+import { z } from "zod";
 
 export type CrewMember = {
   id: string;
@@ -39,3 +40,11 @@ export type User = {
   role: 'Admin' | 'Manager' | 'Viewer';
   tenant: string;
 };
+
+const scheduleMaintenanceFormSchema = z.object({
+  nextMaintenance: z.date({
+    required_error: "Next maintenance date is required.",
+  }),
+});
+
+export type ScheduleMaintenanceFormValues = z.infer<typeof scheduleMaintenanceFormSchema>;

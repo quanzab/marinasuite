@@ -10,8 +10,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { VesselForm, VesselFormValues } from "./vessel-form";
+import { ScheduleMaintenanceForm } from "./schedule-maintenance-form";
 import { getVessels, addVessel, updateVessel, deleteVessel } from "@/lib/firestore";
-import type { Vessel } from "@/lib/types";
+import type { Vessel, ScheduleMaintenanceFormValues } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
@@ -19,7 +20,8 @@ import { useRouter } from "next/navigation";
 export default function FleetPage() {
   const [vessels, setVessels] = useState<Vessel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isVesselFormOpen, setIsVesselFormOpen] = useState(false);
+  const [isMaintenanceFormOpen, setIsMaintenanceFormOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedVessel, setSelectedVessel] = useState<Vessel | null>(null);
   const { toast } = useToast();
@@ -48,33 +50,38 @@ export default function FleetPage() {
 
   const handleEdit = (vessel: Vessel) => {
     setSelectedVessel(vessel);
-    setIsDialogOpen(true);
+    setIsVesselFormOpen(true);
   };
 
   const handleAdd = () => {
     setSelectedVessel(null);
-    setIsDialogOpen(true);
+    setIsVesselFormOpen(true);
   }
+
+  const handleScheduleMaintenance = (vessel: Vessel) => {
+    setSelectedVessel(vessel);
+    setIsMaintenanceFormOpen(true);
+  };
 
   const handleDelete = async (id: string) => {
     try {
       await deleteVessel(id);
       toast({
         title: "Success",
-        description: "Vessel deleted successfully.",
+        description: "Vessel decommissioned successfully.",
       });
-      fetchVessels(); // Refresh data
+      fetchVessels();
     } catch (error) {
       console.error("Error deleting vessel:", error);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to delete vessel.",
+        description: "Failed to decommission vessel.",
       });
     }
   };
 
-  const handleFormSubmit = async (data: VesselFormValues) => {
+  const handleVesselFormSubmit = async (data: VesselFormValues) => {
     setIsSubmitting(true);
     try {
       if (selectedVessel) {
@@ -90,8 +97,8 @@ export default function FleetPage() {
           description: "Vessel added successfully.",
         });
       }
-      fetchVessels(); // Refresh data
-      setIsDialogOpen(false);
+      fetchVessels();
+      setIsVesselFormOpen(false);
     } catch (error) {
       console.error("Error saving vessel:", error);
       toast({
@@ -103,7 +110,33 @@ export default function FleetPage() {
       setIsSubmitting(false);
     }
   };
-  
+
+  const handleMaintenanceFormSubmit = async (data: ScheduleMaintenanceFormValues) => {
+    if (!selectedVessel) return;
+    setIsSubmitting(true);
+    try {
+      await updateVessel(selectedVessel.id, {
+        nextMaintenance: data.nextMaintenance,
+        status: "In Maintenance",
+      });
+      toast({
+        title: "Success",
+        description: `Maintenance scheduled for ${selectedVessel.name}.`,
+      });
+      fetchVessels();
+      setIsMaintenanceFormOpen(false);
+    } catch (error) {
+      console.error("Error scheduling maintenance:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to schedule maintenance.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const handleViewDetails = (id: string) => {
     router.push(`/dashboard/fleet/${id}`);
   };
@@ -133,10 +166,8 @@ export default function FleetPage() {
         </div>
       </div>
 
-       <Dialog open={isDialogOpen} onOpenChange={(isOpen) => {
-         if (!isSubmitting) {
-           setIsDialogOpen(isOpen);
-         }
+       <Dialog open={isVesselFormOpen} onOpenChange={(isOpen) => {
+         if (!isSubmitting) setIsVesselFormOpen(isOpen);
        }}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -147,7 +178,25 @@ export default function FleetPage() {
           </DialogHeader>
           <VesselForm
             vessel={selectedVessel}
-            onSubmit={handleFormSubmit}
+            onSubmit={handleVesselFormSubmit}
+            isSubmitting={isSubmitting}
+          />
+        </DialogContent>
+      </Dialog>
+      
+       <Dialog open={isMaintenanceFormOpen} onOpenChange={(isOpen) => {
+         if (!isSubmitting) setIsMaintenanceFormOpen(isOpen);
+       }}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Schedule Maintenance</DialogTitle>
+            <DialogDescription>
+              Set the next maintenance date for "{selectedVessel?.name}". The status will be updated to "In Maintenance".
+            </DialogDescription>
+          </DialogHeader>
+          <ScheduleMaintenanceForm
+            vessel={selectedVessel}
+            onSubmit={handleMaintenanceFormSubmit}
             isSubmitting={isSubmitting}
           />
         </DialogContent>
@@ -198,7 +247,7 @@ export default function FleetPage() {
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => handleEdit(vessel)}>Edit</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleViewDetails(vessel.id)}>View Details</DropdownMenuItem>
-                        <DropdownMenuItem>Schedule Maintenance</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleScheduleMaintenance(vessel)}>Schedule Maintenance</DropdownMenuItem>
                         <DropdownMenuItem 
                           className="text-destructive"
                           onClick={() => handleDelete(vessel.id)}

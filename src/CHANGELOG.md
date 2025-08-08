@@ -188,3 +188,12 @@
     -   The profile page shows key details like IMO, type, status, and maintenance schedules.
     -   Added a `getVesselById` function to the Firestore service.
     -   The "View Details" option in the fleet list now links to the corresponding profile page.
+
+## [1.7.0] - 2024-08-15
+
+### Added
+
+-   **Schedule Vessel Maintenance**:
+    -   Added a "Schedule Maintenance" action to the fleet operations page.
+    -   This opens a dialog with a dedicated form to set a vessel's next maintenance date.
+    -   Submitting the form updates the vessel's status to "In Maintenance" and sets the new date in Firestore.
