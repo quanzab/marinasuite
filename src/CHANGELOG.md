@@ -278,3 +278,13 @@
 -   **Reporting**:
     -   Added a "Certificate Status Report" to the reporting page.
     -   This report fetches all certificates from Firestore and presents their status ('Valid', 'Expiring Soon', 'Expired') in a printable format.
+
+## [2.5.0] - 2024-08-23
+
+### Added
+
+-   **Dashboard Analytics**:
+    -   Added a "Crew Status Distribution" bar chart to the main dashboard.
+    -   This chart visualizes the number of crew members by their status ('Active', 'On Leave', 'Inactive').
+
+    

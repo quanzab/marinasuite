@@ -125,7 +125,7 @@ export default function DashboardLayout({
                 <CardHeader className="p-2 pt-0 md:p-4">
                   <div className="flex items-center justify-between">
                     <CardTitle>What's New</CardTitle>
-                    <Badge variant="secondary">v2.2.0</Badge>
+                    <Badge variant="secondary">v2.5.0</Badge>
                   </div>
                   <CardDescription>
                     Check out the latest features and updates.
@@ -234,3 +234,5 @@ export default function DashboardLayout({
     </ProtectedRoute>
   );
 }
+
+    

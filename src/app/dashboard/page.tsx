@@ -8,9 +8,8 @@ import {
   Ship,
   Users,
   FileWarning,
-  PieChartIcon,
 } from "lucide-react"
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, PieChart, Pie, Cell, Tooltip } from 'recharts';
 
 
 import { Badge } from "@/components/ui/badge"
@@ -79,6 +78,19 @@ export default function Dashboard() {
     }));
   }, [vessels]);
 
+  const crewStatusData = useMemo(() => {
+    const statusCounts = crew.reduce((acc, member) => {
+        acc[member.status] = (acc[member.status] || 0) + 1;
+        return acc;
+    }, {} as Record<CrewMember['status'], number>);
+
+    return Object.entries(statusCounts).map(([status, count]) => ({
+        status,
+        count,
+    }));
+  }, [crew]);
+
+
   const chartConfig = {
     count: {
       label: "Vessels",
@@ -93,6 +105,18 @@ export default function Dashboard() {
     },
     "Docked": {
       label: "Docked",
+      color: "hsl(var(--chart-5))",
+    },
+     "Active": {
+      label: "Active",
+      color: "hsl(var(--chart-2))",
+    },
+    "On Leave": {
+      label: "On Leave",
+      color: "hsl(var(--chart-4))",
+    },
+    "Inactive": {
+      label: "Inactive",
       color: "hsl(var(--chart-5))",
     },
   };
@@ -223,43 +247,41 @@ export default function Dashboard() {
         
         <div className="grid gap-4 auto-rows-min xl:col-span-1">
             <Card>
-              <CardHeader>
-                <CardTitle>Fleet Status</CardTitle>
-                <CardDescription>
-                  Live status of all vessels in the fleet.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-8">
-                {isLoading ? (
-                    Array.from({ length: 4 }).map((_, index) => (
-                        <div key={index} className="flex items-center gap-4">
-                            <div className="grid gap-1 flex-1">
-                              <Skeleton className="h-4 w-24" />
-                              <Skeleton className="h-4 w-32" />
-                            </div>
-                            <Skeleton className="h-5 w-20" />
-                        </div>
-                    ))
-                ) : (
-                  vessels.map(vessel => (
-                    <div key={vessel.id} className="flex items-center gap-4">
-                      <div className="grid gap-1">
-                        <p className="text-sm font-medium leading-none">
-                          {vessel.name}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          IMO: {vessel.imo}
-                        </p>
-                      </div>
-                      <div className={`ml-auto font-medium`}>
-                        <Badge variant={vessel.status === 'In Service' ? 'default' : vessel.status === 'In Maintenance' ? 'outline' : 'secondary'}>
-                          {vessel.status}
-                        </Badge>
-                      </div>
+                <CardHeader>
+                    <CardTitle>Crew Status Distribution</CardTitle>
+                    <CardDescription>Breakdown of crew by current status.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {isLoading ? (
+                    <div className="flex justify-center items-center h-48">
+                      <Skeleton className="w-full h-full" />
                     </div>
-                  ))
-                )}
-              </CardContent>
+                  ) : (
+                    <ChartContainer config={chartConfig} className="w-full h-[200px]">
+                        <BarChart
+                            data={crewStatusData}
+                            layout="vertical"
+                            margin={{ left: 10, right: 10, top: 10, bottom: 10 }}
+                            accessibilityLayer
+                        >
+                            <XAxis type="number" hide />
+                            <YAxis
+                                dataKey="status"
+                                type="category"
+                                tickLine={false}
+                                axisLine={false}
+                                tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
+                            />
+                            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+                            <Bar dataKey="count" layout="vertical" radius={5}>
+                                {crewStatusData.map((entry) => (
+                                    <Cell key={entry.status} fill={chartConfig[entry.status as keyof typeof chartConfig]?.color} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ChartContainer>
+                  )}
+                </CardContent>
             </Card>
             <Card>
                 <CardHeader>

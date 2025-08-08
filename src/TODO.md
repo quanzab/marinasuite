@@ -50,4 +50,6 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [ ] **Notifications**:
     -   [ ] Implement in-app and push notifications for important events (e.g., certificate expiry, maintenance reminders).
 -   [ ] **Dashboard Analytics**:
-    -   [ ] Add more detailed charts and graphs for operational insights (e.g., crew turnover rates, vessel performance).
+    -   [x] Add more detailed charts and graphs for operational insights (e.g., crew status, vessel performance).
+
+    
