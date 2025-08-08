@@ -71,7 +71,7 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
 
 
   useEffect(() => {
-    if (params.id) {
+    if (params.id && tenantId) {
       fetchData();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
