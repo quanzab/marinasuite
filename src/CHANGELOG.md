@@ -220,7 +220,6 @@
     -   Refactored the entire Firestore service layer (`firestore.ts`) to be fully multi-tenant aware. All data access functions now require a `tenantId`.
     -   Removed the hardcoded single-tenant ID, enabling true data separation between different organizations.
     -   Implemented a session-based context to manage the currently selected tenant, ensuring all operations are performed within the correct organizational scope.
-    -   Updated all pages and components that fetch data to use the new tenant-aware service functions.
     
 ## [2.1.0] - 2024-08-19
 

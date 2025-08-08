@@ -1,7 +1,7 @@
 // This configuration is safe to be exposed on the client-side.
 // Firebase security rules are used to protect data.
 export const firebaseConfig = {
-  apiKey: "AIzaSyDFfVp53d533n26X8v-5PWH2E6178M-gX4",
+  apiKey: "AIzaSyA_332452-234234-32423423-i4_lE",
   authDomain: "marinasuite-mvp.firebaseapp.com",
   projectId: "marinasuite-mvp",
   storageBucket: "marinasuite-mvp.appspot.com",
