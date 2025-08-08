@@ -269,7 +269,7 @@
 
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `5.8.0` to match the latest changelog entry and reflect project maturity.
--   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+-   **Documentation**: Finalized all documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to mark the project as complete, stable, and ready for deployment.
 
 ## [5.9.0] - 2024-09-18
 

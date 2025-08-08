@@ -78,6 +78,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Project Configuration**:
     -   [x] Removed redundant `package.json` from `src` directory.
     -   [x] Consolidated and removed duplicate documentation files.
+    -   [x] Corrected project name from `nextn` to `marinasuite`.
 
 ## Project Complete
 
