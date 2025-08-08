@@ -11,10 +11,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { getUsers, addUser, updateUser, deleteUser } from "@/lib/firestore";
 import type { User } from "@/lib/types";
-import { UserForm, UserFormValues } from "./user-form";
+import { UserForm } from "./user-form";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import type { UserFormValues } from "@/lib/types";
 
 export default function AdminPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -59,6 +60,7 @@ export default function AdminPage() {
   };
 
   const handleDelete = async (user: User) => {
+    if (!isAdmin) return;
     try {
       await deleteUser(user.id, user.tenant);
       toast({
@@ -77,6 +79,7 @@ export default function AdminPage() {
   };
 
   const handleFormSubmit = async (data: UserFormValues) => {
+    if (!isAdmin) return;
     setIsSubmitting(true);
     try {
       if (selectedUser) {
@@ -134,6 +137,9 @@ export default function AdminPage() {
        <Dialog open={isDialogOpen} onOpenChange={(isOpen) => {
          if (!isSubmitting) {
            setIsDialogOpen(isOpen);
+           if (!isOpen) {
+             setSelectedUser(null);
+           }
          }
        }}>
         <DialogContent className="sm:max-w-[425px]">
@@ -147,6 +153,7 @@ export default function AdminPage() {
             user={selectedUser}
             onSubmit={handleFormSubmit}
             isSubmitting={isSubmitting}
+            isAdmin={isAdmin}
           />
         </DialogContent>
       </Dialog>

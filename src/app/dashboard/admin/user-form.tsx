@@ -16,26 +16,20 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { User } from "@/lib/types"
+import { userFormSchema, type User, type UserFormValues } from "@/lib/types"
+import { useEffect } from "react"
 
-const formSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
-  role: z.enum(["Admin", "Manager", "Viewer"]),
-  tenant: z.string().min(2, { message: "Tenant is required." }),
-})
-
-export type UserFormValues = z.infer<typeof formSchema>
 
 interface UserFormProps {
   user: User | null;
   onSubmit: (data: UserFormValues) => void;
   isSubmitting: boolean;
+  isAdmin: boolean;
 }
 
-export function UserForm({ user, onSubmit, isSubmitting }: UserFormProps) {
+export function UserForm({ user, onSubmit, isSubmitting, isAdmin }: UserFormProps) {
   const form = useForm<UserFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(userFormSchema),
     defaultValues: {
       name: user?.name || "",
       email: user?.email || "",
@@ -43,6 +37,15 @@ export function UserForm({ user, onSubmit, isSubmitting }: UserFormProps) {
       tenant: user?.tenant || "Global Maritime",
     },
   })
+
+  useEffect(() => {
+    form.reset({
+      name: user?.name || "",
+      email: user?.email || "",
+      role: user?.role || "Viewer",
+      tenant: user?.tenant || "Global Maritime",
+    });
+  }, [user, form]);
 
   return (
     <Form {...form}>
@@ -54,7 +57,7 @@ export function UserForm({ user, onSubmit, isSubmitting }: UserFormProps) {
             <FormItem>
               <FormLabel>Full Name</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} />
+                <Input placeholder="John Doe" {...field} disabled={!user === false} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -67,7 +70,7 @@ export function UserForm({ user, onSubmit, isSubmitting }: UserFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="user@example.com" {...field} />
+                <Input type="email" placeholder="user@example.com" {...field} disabled={!user === false} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -79,7 +82,7 @@ export function UserForm({ user, onSubmit, isSubmitting }: UserFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Role</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!isAdmin}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a role" />
@@ -102,13 +105,13 @@ export function UserForm({ user, onSubmit, isSubmitting }: UserFormProps) {
             <FormItem>
               <FormLabel>Tenant</FormLabel>
               <FormControl>
-                <Input placeholder="Global Maritime" {...field} />
+                <Input placeholder="Global Maritime" {...field} disabled={true} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting || !isAdmin}>
           {isSubmitting ? 'Saving...' : (user ? 'Save Changes' : 'Invite User')}
         </Button>
       </form>

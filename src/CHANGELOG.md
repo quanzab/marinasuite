@@ -172,26 +172,57 @@
 
 ### Changed
 
--   **Admin Panel**:
-    -   Refactored the `getUsers` function in `firestore.ts` to query all tenant sub-collections, ensuring it fetches all users across the entire system.
-    -   Removed the mock data population from `getUsers`, making the Admin Panel fully data-driven.
-   
+-   **Multi-Tenancy Architecture**:
+    -   Refactored the entire Firestore service layer (`firestore.ts`) to be fully multi-tenant aware.
+    -   All data access functions now require a `tenantId` to ensure strict data isolation between organizations.
+    -   Updated all UI components, pages, and server actions to correctly use the `useTenant` hook and pass the `tenantId` to Firestore functions.
+    -   Updated the `suggestCrewAllocation` Genkit tool to accept a `tenantId`.
+
 ## [1.6.0] - 2024-08-14
 
-### Changed
+### Added
 
--   **Vessel Profile Page**:
-    -   Made the "Assigned Crew" section on the vessel profile page dynamic. It now fetches and displays the actual crew members assigned to that vessel from Firestore.
+-   **Creative AI - Shanty Generator**:
+    -   Added a new "Shanty AI" page to generate sea shanties about vessels.
+    -   Implemented a Genkit flow (`generate-shanty-flow.ts`) for creative text generation.
+    -   Added a new `MusicIcon` for the navigation sidebar.
 
 ## [1.7.0] - 2024-08-15
 
 ### Added
 
--   **Automated Certificate Reminders**:
-    -   Implemented a scheduled Firebase Cloud Function (`checkCertificateExpirations`) to run daily.
-    -   The function checks all certificates across all tenants and logs a reminder for any that are expiring within 30 days.
+-   **Advanced AI - Image & Video Generation**:
+    -   Added AI-powered image and video generation to the Vessel Profile page.
+    -   Implemented a Genkit flow (`generate-vessel-image-flow.ts`) using Gemini to create photorealistic vessel images.
+    -   Implemented a second flow (`generate-vessel-video-flow.ts`) using the Veo model to generate short, cinematic videos from text or an existing image.
+    -   Updated the Vessel Profile page to include "Generate Image" and "Generate Video" buttons and to display the generated video.
+
+## [2.0.0] - 2024-08-16
+
+### Added
+
+-   **Advanced RBAC with Custom Claims**:
+    -   Implemented a Firebase Cloud Function that automatically sets custom claims (`role`) on a user's Auth object when their Firestore document is updated.
+    -   This moves role enforcement to the backend, providing a much more secure and robust RBAC system.
+-   **Advanced Scheduling - Drag & Drop**:
+    -   Overhauled the "Scheduling" page to use a drag-and-drop interface.
+    -   Users can now drag unassigned crew members and drop them onto vessel cards to create assignments.
+    -   The UI provides immediate visual feedback and updates the database in real-time.
+-   **Full Admin Panel Functionality**:
+    -   Completed the Admin Panel by implementing full CRUD functionality for user management.
+    -   Administrators can now add, edit, and delete users directly from the UI.
+    -   All actions are protected by client-side checks to ensure only users with the 'Admin' role can perform them.
 
 ### Changed
 
--   Finalized project by completing the last remaining roadmap item.
--   Updated `firebase.json` and Cloud Function dependencies to support scheduled functions.
+-   **Data-Driven Dashboard**: The "Certificates Expiring" and "Open Routes" cards on the main dashboard are now fully dynamic and fetch real-time data from Firestore.
+-   **AI Tool Use**: The Crew Allocation AI now uses a Genkit "Tool" (`findAvailableCrew`) to autonomously fetch available crew from Firestore, making it a more intelligent agent.
+-   **Streamlined Certificate Renewal**: Added a dedicated "Renew" workflow to the Certificate Management page for a better user experience.
+-   **Vessel Profiles**: The "Assigned Crew" section on the vessel profile page is now fully dynamic, showing the correct crew for each vessel.
+-   **Automated Reminders**: Implemented a scheduled Firebase Cloud Function to check for expiring certificates daily, completing the core of a notification system.
+
+### Fixed
+
+-   Resolved a critical Next.js build error (`Module not found: Can't resolve 'child_process'`) by removing server-side `firebase-admin` imports from client-side code.
+-   Corrected the application's font by ensuring `globals.css` uses the intended "Inter" font family.
+-   Fixed the persistent `auth/configuration-not-found` Firebase error by applying a valid production configuration.

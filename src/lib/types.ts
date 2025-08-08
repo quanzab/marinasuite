@@ -80,7 +80,7 @@ export const maintenanceLogFormSchema = z.object({
 export type MaintenanceLogFormValues = z.infer<typeof maintenanceLogFormSchema>;
 
 
-const userFormSchema = z.object({
+export const userFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   role: z.enum(["Admin", "Manager", "Viewer"]),
