@@ -313,3 +313,8 @@
 
 ### Changed
 -   **Code Quality**: Performed a final code quality enhancement on the `Sidebar` component, refactoring its sub-menu components for better maintainability and code clarity.
+
+## [3.0.0] - 2024-08-26
+
+### Changed
+-   **Code Quality**: Performed a final code quality enhancement on the `Sidebar` component, refactoring its sub-menu components for better maintainability and code clarity.
