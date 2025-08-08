@@ -308,3 +308,8 @@
 ### Changed
 -   **Code Quality**: Performed a final code quality enhancement on the `Button` component, ensuring its `ghost` variant correctly uses theme-based colors for its hover state.
 -   **Documentation**: Updated all project documentation (`BLUEPRINT.md`, `CHANGELOG.md`, `TODO.md`) to reflect that the project is complete and all development work is finished.
+
+## [2.9.0] - 2024-08-25
+
+### Changed
+-   **Code Quality**: Performed a final code quality enhancement on the `Sidebar` component, refactoring its sub-menu components for better maintainability and code clarity.

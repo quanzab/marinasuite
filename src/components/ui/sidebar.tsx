@@ -692,8 +692,8 @@ const SidebarMenuSub = React.forwardRef<
       ref={ref}
       data-sidebar="menu-sub"
       className={cn(
-        "mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5",
-        "group-data-[collapsible=icon]:mx-0 group-data-[collapsible=icon]:-translate-x-0 group-data-[collapsible=icon]:border-l-0 group-data-[collapsible=icon]:p-0",
+        "relative mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border py-1 pl-2.5",
+        "group-data-[collapsible=icon]:absolute group-data-[collapsible=icon]:left-full group-data-[collapsible=icon]:top-0 group-data-[collapsible=icon]:-mt-1.5 group-data-[collapsible=icon]:ml-2 group-data-[collapsible=icon]:h-auto group-data-[collapsible=icon]:w-48 group-data-[collapsible=icon]:rounded-lg group-data-[collapsible=icon]:border-0 group-data-[collapsible=icon]:bg-background group-data-[collapsible=icon]:p-1 group-data-[collapsible=icon]:shadow-lg group-data-[collapsible=icon]:ring-1 group-data-[collapsible=icon]:ring-border group-data-[collapsible=icon]:data-[state=closed]:hidden",
         className
       )}
       {...props}
@@ -723,7 +723,7 @@ const SidebarMenuSubButton = React.forwardRef<
         "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
         size === "sm" && "text-xs",
         size === "md" && "text-sm",
-        "group-data-[collapsible=icon]:hidden",
+        "group-data-[collapsible=icon]:text-foreground group-data-[collapsible=icon]:hover:bg-accent group-data-[collapsible=icon]:hover:text-accent-foreground group-data-[collapsible=icon]:data-[active=true]:bg-accent group-data-[collapsible=icon]:data-[active=true]:text-accent-foreground",
         className
       )}
       {...props}
