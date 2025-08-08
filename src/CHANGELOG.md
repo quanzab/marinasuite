@@ -220,5 +220,5 @@
 ## [2.5.0] - 2024-09-05
 
 ### Changed
--   **Code Quality**: Performed a final series of code quality enhancements on custom UI components (`Card`, `Input`, `Textarea`, `DropdownMenu`) to ensure consistency, maintainability, and accessibility.
+-   **Code Quality**: Performed a final series of code quality enhancements on custom UI components (`Card`, `Input`, `Textarea`, `DropdownMenu`, `Menubar`) to ensure consistency, maintainability, and accessibility.
 -   **Documentation**: Updated all project documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to reflect that the project is complete and all development work is finished.
