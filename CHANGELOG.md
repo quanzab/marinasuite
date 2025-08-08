@@ -78,3 +78,16 @@
 
 -   Updated Firestore service (`firestore.ts`) to include certificate management functions.
 -   Updated `types.ts` to support both the base `Certificate` type and a `CertificateWithStatus` type for the UI.
+
+## [0.7.0] - 2024-08-05
+
+### Added
+
+-   **Crew Management**:
+    -   Implemented full CRUD functionality for crew members, connecting the UI to Firestore.
+    -   Created a form (`crew-form.tsx`) for adding and editing crew details.
+    -   Replaced mock data on the crew page with live data, skeletons, and toast notifications.
+
+### Changed
+
+-   Updated `firestore.ts` to include crew management functions.

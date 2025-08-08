@@ -16,8 +16,9 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement CRUD functionality for vessels.
     -   [x] Connect the UI to a Firestore database.
     -   [ ] Add forms for managing vessel maintenance schedules.
--   [ ] **Certificate Management**:
-    -   [ ] Implement CRUD functionality for certificates.
+-   [x] **Certificate Management**:
+    -   [x] Implement CRUD functionality for certificates.
+    -   [x] Connect the UI to a Firestore database.
     -   [ ] Add automated reminders for certificate renewals.
 -   [ ] **RBAC and Admin Panel**:
     -   [ ] Implement role-based access control using Firebase Auth custom claims.
