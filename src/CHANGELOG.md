@@ -206,3 +206,13 @@
     -   Implemented full CRUD (Create, Read, Update, Delete) functionality for users in the Admin panel.
     -   Added a form (`user-form.tsx`) for inviting and editing users.
     -   The "Invite User", "Edit Role", and "Remove User" actions are now fully functional and connected to Firestore.
+
+## [1.9.0] - 2024-08-17
+
+### Added
+
+-   **Crew Scheduling UI**:
+    -   Created a new "Scheduling" page to manage crew assignments.
+    -   Added a basic weekly calendar view showing unassigned crew members and a daily schedule grid.
+    -   This lays the foundation for future drag-and-drop scheduling functionality.
+    -   Added a new `SchedulingIcon` for navigation.

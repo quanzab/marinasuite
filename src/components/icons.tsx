@@ -1,3 +1,4 @@
+
 import type { SVGProps } from 'react';
 
 const IconWrapper = ({ children, ...props }: SVGProps<SVGSVGElement> & { children: React.ReactNode }) => (
@@ -142,6 +143,17 @@ export const SafetyIcon = (props: SVGProps<SVGSVGElement>) => (
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
             <path d="m9.5 14.5 5-5"></path>
             <path d="m14.5 14.5-5-5"></path>
+        </g>
+    </IconWrapper>
+);
+
+export const SchedulingIcon = (props: SVGProps<SVGSVGElement>) => (
+    <IconWrapper {...props}>
+        <g fill="url(#glass-gradient)">
+            <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+            <line x1="16" x2="16" y1="2" y2="6" />
+            <line x1="8" x2="8" y1="2" y2="6" />
+            <line x1="3" x2="21" y1="10" y2="10" />
         </g>
     </IconWrapper>
 );

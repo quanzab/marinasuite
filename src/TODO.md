@@ -11,7 +11,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement full CRUD functionality (Create, Read, Update, Delete) for crew members.
     -   [x] Connect the UI to a Firestore database.
     -   [x] Add profile pages with details for certifications and medical records.
-    -   [ ] Implement crew scheduling UI (drag-and-drop).
+    -   [x] Implement crew scheduling UI (drag-and-drop).
 -   [x] **Fleet Operations**:
     -   [x] Implement CRUD functionality for vessels.
     -   [x] Connect the UI to a Firestore database.
