@@ -278,3 +278,7 @@
 ## [2.9.1] - 2024-08-28
 ### Fixed
 - **Code Cleanup**: Removed an obsolete and unused layout file from `src/dashboard/` to maintain a clean codebase.
+
+## [2.9.2] - 2024-08-29
+### Fixed
+- **Authentication Flow**: Corrected the post-login redirect path in `login/page.tsx` to point to `/dashboard/select-tenant`, ensuring user data is loaded correctly by the `useCurrentUser` hook.

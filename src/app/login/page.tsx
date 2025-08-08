@@ -32,7 +32,7 @@ export default function LoginPage() {
         title: 'Login Successful',
         description: 'Welcome back to MarinaSuite!',
       });
-      router.push('/dashboard');
+      router.push('/dashboard/select-tenant');
     } catch (err: any) {
       setError(err.message);
     } finally {
