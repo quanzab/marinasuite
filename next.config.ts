@@ -26,17 +26,12 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-      serverActions: {
-          // Increase timeout for slow server actions like video generation
-          bodySizeLimit: '10mb',
-          // @ts-ignore
-          serverActions: {
-              maxDuration: 120,
-          }
-      }
-  }
+    serverActions: {
+      // Increase timeout for slow server actions like video generation
+      bodySizeLimit: '10mb',
+      maxDuration: 120,
+    },
+  },
 };
 
 export default nextConfig;
-
-    
