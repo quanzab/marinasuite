@@ -48,9 +48,9 @@ export default function ScheduleClient() {
     fetchData();
   }, [fetchData]);
   
-  const handleAssignVessel = async (crewId: string, vesselId: string) => {
+  const handleAssignVessel = async (crewId: string, vesselName: string) => {
     try {
-        await updateCrewMember(crewId, { assignedVessel: vesselId });
+        await updateCrewMember(crewId, { assignedVessel: vesselName });
         toast({
             title: "Success",
             description: "Crew member assigned successfully.",
@@ -71,7 +71,7 @@ export default function ScheduleClient() {
   }
 
   const assignedCrewByVessel = vessels.reduce((acc, vessel) => {
-    acc[vessel.id] = crew.filter(c => c.assignedVessel === vessel.id);
+    acc[vessel.id] = crew.filter(c => c.assignedVessel === vessel.name);
     return acc;
   }, {} as Record<string, CrewMember[]>);
 
@@ -112,7 +112,7 @@ export default function ScheduleClient() {
                          <DropdownMenuLabel>Assign to Vessel</DropdownMenuLabel>
                          <DropdownMenuSeparator />
                          {vessels.map(vessel => (
-                            <DropdownMenuItem key={vessel.id} onClick={() => handleAssignVessel(member.id, vessel.id)}>
+                            <DropdownMenuItem key={vessel.id} onClick={() => handleAssignVessel(member.id, vessel.name)}>
                                 {vessel.name}
                             </DropdownMenuItem>
                          ))}

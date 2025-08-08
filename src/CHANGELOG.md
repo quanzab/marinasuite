@@ -287,4 +287,7 @@
 ### Added
 - **Advanced Scheduling**: Implemented an "Assign to Vessel" action on the scheduling page, allowing managers to directly assign unassigned crew members to a vessel via a dropdown menu.
 
+## [2.9.4] - 2024-08-31
+### Fixed
+- **Scheduling Data Consistency**: Corrected the "Assign to Vessel" action to use the vessel's name instead of its ID, ensuring data consistency with how assigned vessels are displayed.
     
