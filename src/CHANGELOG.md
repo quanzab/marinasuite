@@ -276,3 +276,9 @@
 ### Changed
 -   **UX Refinement**: Streamlined the "Invite User" workflow by making the `name` field optional. This simplifies the process for administrators and allows new users to set their own name upon their first login via the Settings page.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [6.0.0] - 2024-09-19
+
+### Changed
+-   **Configuration**: Consolidated project configuration by removing the redundant `package.json` file from the `src` directory to improve maintainability.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
