@@ -55,6 +55,7 @@ export default function LoginPage() {
           data-ai-hint="cargo ship ocean"
           fill
           style={{objectFit: 'cover'}}
+          quality={100}
           className="opacity-90"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
