@@ -120,4 +120,16 @@
 
 -   Converted the dashboard page to a client component (`'use client'`) to enable data fetching hooks.
 
+## [1.0.0] - 2024-08-08
+
+### Added
+
+-   **Dashboard Chart**:
+    -   Added a pie chart to the main dashboard to visualize the distribution of vessels by their operational status ('In Service', 'In Maintenance', 'Docked').
+    -   The chart is interactive, with a tooltip showing the count for each status.
+
+### Changed
+
+-   Updated the dashboard grid layout to better accommodate the new analytics chart.
+
     

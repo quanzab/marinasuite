@@ -1,14 +1,17 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link"
 import {
   ArrowUpRight,
   Ship,
   Users,
   FileWarning,
+  PieChartIcon,
 } from "lucide-react"
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -31,6 +34,7 @@ import { getCrew, getVessels } from "@/lib/firestore"
 import type { CrewMember, Vessel } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 
 export default function Dashboard() {
@@ -63,9 +67,39 @@ export default function Dashboard() {
 
   const vesselsInService = vessels.filter(v => v.status === 'In Service').length;
 
+  const vesselStatusData = useMemo(() => {
+    const statusCounts = vessels.reduce((acc, vessel) => {
+      acc[vessel.status] = (acc[vessel.status] || 0) + 1;
+      return acc;
+    }, {} as Record<Vessel['status'], number>);
+
+    return Object.entries(statusCounts).map(([status, count]) => ({
+      status,
+      count,
+    }));
+  }, [vessels]);
+
+  const chartConfig = {
+    count: {
+      label: "Vessels",
+    },
+    "In Service": {
+      label: "In Service",
+      color: "hsl(var(--chart-2))",
+    },
+    "In Maintenance": {
+      label: "In Maintenance",
+      color: "hsl(var(--chart-4))",
+    },
+    "Docked": {
+      label: "Docked",
+      color: "hsl(var(--chart-5))",
+    },
+  };
+
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+       <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -186,45 +220,84 @@ export default function Dashboard() {
             </Table>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Fleet Status</CardTitle>
-            <CardDescription>
-              Live status of all vessels in the fleet.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-8">
-             {isLoading ? (
-                Array.from({ length: 4 }).map((_, index) => (
-                    <div key={index} className="flex items-center gap-4">
-                        <div className="grid gap-1 flex-1">
-                           <Skeleton className="h-4 w-24" />
-                           <Skeleton className="h-4 w-32" />
+        
+        <div className="grid gap-4 auto-rows-min xl:col-span-1">
+            <Card>
+              <CardHeader>
+                <CardTitle>Fleet Status</CardTitle>
+                <CardDescription>
+                  Live status of all vessels in the fleet.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="grid gap-8">
+                {isLoading ? (
+                    Array.from({ length: 4 }).map((_, index) => (
+                        <div key={index} className="flex items-center gap-4">
+                            <div className="grid gap-1 flex-1">
+                              <Skeleton className="h-4 w-24" />
+                              <Skeleton className="h-4 w-32" />
+                            </div>
+                            <Skeleton className="h-5 w-20" />
                         </div>
-                        <Skeleton className="h-5 w-20" />
+                    ))
+                ) : (
+                  vessels.map(vessel => (
+                    <div key={vessel.id} className="flex items-center gap-4">
+                      <div className="grid gap-1">
+                        <p className="text-sm font-medium leading-none">
+                          {vessel.name}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          IMO: {vessel.imo}
+                        </p>
+                      </div>
+                      <div className={`ml-auto font-medium`}>
+                        <Badge variant={vessel.status === 'In Service' ? 'default' : vessel.status === 'In Maintenance' ? 'outline' : 'secondary'}>
+                          {vessel.status}
+                        </Badge>
+                      </div>
                     </div>
-                ))
-            ) : (
-              vessels.map(vessel => (
-                <div key={vessel.id} className="flex items-center gap-4">
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      {vessel.name}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      IMO: {vessel.imo}
-                    </p>
-                  </div>
-                  <div className={`ml-auto font-medium`}>
-                    <Badge variant={vessel.status === 'In Service' ? 'default' : vessel.status === 'In Maintenance' ? 'outline' : 'secondary'}>
-                      {vessel.status}
-                    </Badge>
-                  </div>
-                </div>
-              ))
-            )}
-          </CardContent>
-        </Card>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Vessel Distribution</CardTitle>
+                    <CardDescription>Breakdown of vessels by operational status.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {isLoading ? (
+                    <div className="flex justify-center items-center h-48">
+                      <Skeleton className="w-40 h-40 rounded-full" />
+                    </div>
+                  ) : (
+                    <ChartContainer
+                        config={chartConfig}
+                        className="mx-auto aspect-square max-h-[250px]"
+                    >
+                        <PieChart>
+                            <ChartTooltip
+                                cursor={false}
+                                content={<ChartTooltipContent hideLabel />}
+                            />
+                            <Pie
+                                data={vesselStatusData}
+                                dataKey="count"
+                                nameKey="status"
+                                innerRadius={60}
+                                strokeWidth={5}
+                            >
+                                {vesselStatusData.map((entry) => (
+                                    <Cell key={entry.status} fill={chartConfig[entry.status as keyof typeof chartConfig]?.color} />
+                                ))}
+                            </Pie>
+                        </PieChart>
+                    </ChartContainer>
+                  )}
+                </CardContent>
+            </Card>
+        </div>
       </div>
     </>
   )

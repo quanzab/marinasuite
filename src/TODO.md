@@ -26,11 +26,14 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [ ] **Offline Data Caching**:
     -   [ ] Set up Firestore offline persistence for key data collections.
     -   [ ] Ensure seamless data synchronization when network connectivity is restored.
+-   [x] **Dashboard Analytics**:
+    -   [x] Display live data for summary cards and tables.
+    -   [x] Add a chart for vessel status distribution.
+    -   [ ] Add more detailed charts and graphs for operational insights.
+
 
 ## Future Enhancements
 
--   [ ] **Dashboard Analytics**:
-    -   [ ] Add more detailed charts and graphs for operational insights.
 -   [ ] **Notifications**:
     -   [ ] Implement in-app and push notifications for important events (e.g., certificate expiry).
 -   [ ] **Reporting**:
@@ -38,3 +41,5 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [ ] **Advanced AI Features**:
     -   [ ] AI-powered route optimization suggestions.
     -   [ ] Predictive maintenance alerts for vessels.
+
+    
