@@ -34,8 +34,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
 
 ## Future Enhancements & Shelved Tasks
 
--   [ ] **Authentication & Onboarding**: (Shelved)
-    -   [ ] Re-implement Firebase Authentication for secure user login.
+-   [x] **Authentication & Onboarding**: (Re-implemented)
+    -   [x] Re-implement Firebase Authentication for secure user login.
     -   [ ] Create a tenant selection screen after login.
 -   [ ] **Advanced Scheduling**:
     -   [ ] Implement drag-and-drop functionality for crew assignments on the calendar.

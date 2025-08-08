@@ -232,3 +232,17 @@
 ### Project Status
 
 -   This version marks the completion of the core features outlined for the MarinaSuite MVP. The application now has a solid foundation for all major modules, including multiple AI-powered assistants and a functional scheduling interface. Future development will focus on enhancements, deeper integration, and shelved features like authentication and RBAC.
+
+## [2.1.0] - 2024-08-19
+
+### Added
+
+-   **Firebase Authentication**:
+    -   Re-implemented Firebase Authentication for secure user login.
+    -   Created a dedicated login page at `/login` with email/password authentication.
+    -   Added route protection to ensure only authenticated users can access the dashboard.
+    -   Included a logout button in the user profile dropdown.
+
+### Changed
+
+-   The application entry point now redirects to `/login` instead of `/dashboard`.
