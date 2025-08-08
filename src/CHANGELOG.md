@@ -268,3 +268,9 @@
 
 ### Changed
 -   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
+
+## [4.6.0] - 2024-09-16
+
+### Changed
+-   **Code Quality**: Restructured the Firebase Cloud Functions directory by moving the source code to a dedicated `src` subfolder. This aligns with TypeScript best practices and improves maintainability.
+-   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
