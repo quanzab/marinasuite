@@ -71,6 +71,9 @@ export default function DashboardLayout({
 
   const handleLogout = async () => {
     try {
+      if (!auth) {
+        throw new Error("Firebase auth is not initialized");
+      }
       await signOut(auth);
       toast({
         title: 'Logged Out',
