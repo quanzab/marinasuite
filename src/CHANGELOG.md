@@ -254,3 +254,13 @@
     -   Created a new `inventory-form.tsx` component to handle adding and editing items.
     -   Added `addInventoryItem`, `updateInventoryItem`, and `deleteInventoryItem` functions to the Firestore service.
 -   **Documentation**: Updated `TODO.md` to reflect the completion of the inventory feature.
+
+## [5.7.0] - 2024-09-15
+
+### Added
+-   **Route Management**:
+    -   New "Routes" page at `/dashboard/routes` to manage shipping routes.
+    -   Implemented full CRUD functionality with a dialog form.
+    -   Added `subscribeToRoutes`, `addRoute`, `updateRoute`, and `deleteRoute` to the Firestore service for real-time data management.
+    -   Added a navigation link to the new page in the main layout.
+-   **Documentation**: Updated `BLUEPRINT.md` and `TODO.md` to reflect the new module.
