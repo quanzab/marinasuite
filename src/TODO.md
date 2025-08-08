@@ -64,10 +64,11 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Make user profile information in the main layout dynamic.
     -   [x] Add a user settings page to allow users to update their own profile.
 -   [x] **Inventory Management**:
-    -   [x] Implement a module to track spare parts and supplies.
--   [x] **Code Quality**:
+    -   [x] Implement a module to track spare parts and supplies with full CRUD.
+-   [x] **Code Quality & Finalization**:
     -   [x] Perform final code review and polish, including fixing type mismatches in mock data and ensuring UI component consistency.
     -   [x] Perform final configuration cleanup to ensure all settings are up-to-date and streamlined.
+    -   [x] Add build configuration for Firebase Cloud Functions.
 
 ## Project Complete
 

@@ -257,3 +257,14 @@
 
 ### Changed
 -   Updated `types.ts` to include Zod validation schema for the inventory form.
+
+## [4.5.0] - 2024-09-15
+
+### Added
+-   **Firebase Functions Build**:
+    -   Added a dedicated `package.json` and `tsconfig.json` to the `src/lib/firebase/functions` directory to manage dependencies and build configuration.
+    -   Updated the root `firebase.json` to point to the correct functions source directory.
+    -   Updated `.gitignore` to exclude build artifacts and `node_modules` from the functions directory.
+
+### Changed
+-   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
