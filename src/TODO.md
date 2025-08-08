@@ -23,9 +23,10 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [ ] **RBAC and Admin Panel**:
     -   [ ] Implement role-based access control using Firebase Auth custom claims.
     -   [ ] Allow admins to invite users and manage roles/tenants.
+    -   [x] Display live user data on the admin page.
 -   [x] **Offline Data Caching**:
     -   [x] Set up Firestore offline persistence for key data collections.
-    -   [ ] Ensure seamless data synchronization when network connectivity is restored.
+    -   [x] Ensure seamless data synchronization when network connectivity is restored.
 -   [x] **Dashboard Analytics**:
     -   [x] Display live data for summary cards and tables.
     -   [x] Add a chart for vessel status distribution.

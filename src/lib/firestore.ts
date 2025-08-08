@@ -1,6 +1,6 @@
 import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
-import type { CrewMember, Vessel, Certificate } from './types';
+import type { CrewMember, Vessel, Certificate, User } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
@@ -13,6 +13,7 @@ const TENANT_ID = 'Global Maritime';
 const crewCollectionRef = collection(db, 'orgs', TENANT_ID, 'crew');
 const vesselsCollectionRef = collection(db, 'orgs', TENANT_ID, 'vessels');
 const certificatesCollectionRef = collection(db, 'orgs', TENANT_ID, 'certificates');
+const usersCollectionRef = collection(db, 'orgs', TENANT_ID, 'users');
 
 // ====== CREW ======
 
@@ -143,4 +144,27 @@ export const updateCertificate = async (id: string, certificateData: Partial<Cer
 export const deleteCertificate = async (id: string) => {
     const certDoc = doc(db, 'orgs', TENANT_ID, 'certificates', id);
     await deleteDoc(certDoc);
+};
+
+
+// ====== USERS ======
+
+// READ
+export const getUsers = async (): Promise<User[]> => {
+  const snapshot = await getDocs(usersCollectionRef);
+  // If no users, populate with mock data for demo purposes
+  if (snapshot.empty) {
+    const mockUsers = [
+        { name: 'Admin User', email: 'admin@marinasuite.com', role: 'Admin', tenant: 'Global Maritime' },
+        { name: 'Manager User', email: 'manager@marinasuite.com', role: 'Manager', tenant: 'Global Maritime' },
+        { name: 'Viewer User', email: 'viewer@marinasuite.com', role: 'Viewer', tenant: 'Coastal Shipping' },
+        { name: 'Alice Admin', email: 'alice@marinasuite.com', role: 'Admin', tenant: 'Coastal Shipping' },
+    ];
+    for (const user of mockUsers) {
+        await addDoc(usersCollectionRef, user);
+    }
+    const newSnapshot = await getDocs(usersCollectionRef);
+    return newSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
+  }
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
 };
