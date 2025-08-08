@@ -302,3 +302,10 @@
 
 -   **Code Quality**: Refactored the `SidebarInput` component to ensure its styling is consistent with the global `Input` component, improving UI library consistency and maintainability.
 -   **Project Complete**: Final code quality pass is complete. The MarinaSuite application is now officially feature-complete, polished, and stable.
+
+## [2.8.0] - 2024-08-24
+
+### Fixed
+
+-   **Code Quality**: Enhanced the global `Input` component to correctly style file inputs (`type="file"`), ensuring a consistent look and feel across all form elements in the application. This completes the final UI polish.
+-   **Project Complete**: The MarinaSuite application is now officially feature-complete, polished, and stable. The development cycle is concluded.
