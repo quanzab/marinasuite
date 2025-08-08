@@ -309,3 +309,9 @@
 -   **Firestore Service**: Added `subscribeToNotifications` and `markNotificationAsRead` functions to interact with the new collection.
 -   **Cloud Function Enhancement**: The `checkCertificateExpirations` function now writes to the database instead of just logging to the console.
 -   **Types**: Added a `Notification` type to `types.ts`.
+
+## [5.2.0] - 2024-09-22
+
+### Changed
+-   **Configuration**: Removed the redundant root `firebase.json` file to streamline the project's configuration, as all necessary rules and settings are defined elsewhere.
+-   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
