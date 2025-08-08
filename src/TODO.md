@@ -13,7 +13,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Fleet Operations**:
     -   [x] Implement CRUD functionality for vessels.
     -   [x] Connect the UI to a Firestore database.
-    -   [x] Add profile pages for vessels with dynamic crew lists.
+    -   [x] Add profile pages for vessels with dynamic crew and inventory lists.
     -   [x] Add forms for managing vessel maintenance schedules.
 -   [x] **Certificate Management**:
     -   [x] Implement CRUD functionality for certificates.
@@ -77,3 +77,5 @@ This document outlines the remaining tasks and future enhancements for the Marin
 ## Project Complete
 
 All planned features and enhancements have been successfully implemented. The MarinaSuite application is now considered feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+    

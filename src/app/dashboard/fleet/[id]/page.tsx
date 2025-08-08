@@ -5,8 +5,8 @@ import { useEffect, useState, useTransition } from 'react';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { getVesselById, getCrew } from '@/lib/firestore';
-import type { Vessel, CrewMember, MaintenanceLogFormValues } from '@/lib/types';
+import { getVesselById, getCrew, subscribeToInventory } from '@/lib/firestore';
+import type { Vessel, CrewMember, MaintenanceLogFormValues, InventoryItem } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Ship, Tag, Wrench, Calendar, Users, Wand2, Loader2, User, PlusCircle, Video, Bot } from 'lucide-react';
 import Image from 'next/image';
@@ -20,6 +20,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { MaintenanceLogForm } from './maintenance-log-form';
 import { format } from 'date-fns';
 import { useTenant } from '@/hooks/use-tenant';
+import { BoxIcon } from '@/components/icons';
 
 const getAvatarFallback = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
@@ -29,6 +30,7 @@ const getAvatarFallback = (name: string) => {
 export default function VesselProfilePage({ params }: { params: { id: string } }) {
   const [vessel, setVessel] = useState<Vessel | null>(null);
   const [assignedCrew, setAssignedCrew] = useState<CrewMember[]>([]);
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isGeneratingImage, startImageTransition] = useTransition();
@@ -48,13 +50,13 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
     if (!tenantId) return;
     setIsLoading(true);
     try {
-      const [fetchedVessel, allCrew] = await Promise.all([
-          getVesselById(tenantId, params.id),
-          getCrew(tenantId)
-      ]);
+      const fetchedVessel = await getVesselById(tenantId, params.id);
       
       if (fetchedVessel) {
         setVessel(fetchedVessel);
+        const [allCrew] = await Promise.all([
+          getCrew(tenantId)
+        ]);
         const crewForVessel = allCrew.filter(c => c.assignedVessel === fetchedVessel.name);
         setAssignedCrew(crewForVessel);
       } else {
@@ -72,9 +74,22 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   useEffect(() => {
     if (params.id && tenantId) {
       fetchData();
+      
+      const unsubscribe = subscribeToInventory(tenantId, (inventoryData) => {
+        setInventory(inventoryData);
+      }, (err) => {
+        console.error("Failed to subscribe to inventory:", err);
+      });
+
+      return () => {
+        unsubscribe.then(unsub => unsub());
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id, tenantId]);
+  
+  const vesselInventory = inventory.filter(item => item.location === vessel?.name);
+
 
   const handleGenerateImage = () => {
     if (!tenantId) return;
@@ -256,8 +271,8 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card className="md:col-span-1">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Users className="h-5 w-5 text-primary" />
@@ -286,7 +301,7 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
                 )}
             </CardContent>
         </Card>
-         <Card>
+        <Card className="md:col-span-1">
             <CardHeader>
                 <div className="flex justify-between items-start">
                     <div className="space-y-1.5">
@@ -326,6 +341,32 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
                   </ul>
                 ) : (
                   <p className="text-sm text-muted-foreground">No maintenance history recorded.</p>
+                )}
+            </CardContent>
+        </Card>
+         <Card className="md:col-span-1">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                    <BoxIcon className="h-5 w-5 text-primary" />
+                    On-board Inventory
+                </CardTitle>
+                <CardDescription>Supplies and parts assigned to this vessel.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                {vesselInventory.length > 0 ? (
+                  <div className="space-y-3">
+                    {vesselInventory.map(item => (
+                      <div key={item.id} className="flex items-center justify-between gap-3 p-2 rounded hover:bg-muted">
+                        <div>
+                          <p className="text-sm font-medium">{item.name}</p>
+                          <p className="text-xs text-muted-foreground">{item.category}</p>
+                        </div>
+                        <Badge variant="secondary">{item.quantity}</Badge>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No inventory assigned to this vessel.</p>
                 )}
             </CardContent>
         </Card>
@@ -389,7 +430,7 @@ function VesselProfileSkeleton() {
                 </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-3">
                 <Card>
                     <CardHeader>
                         <CardTitle><Skeleton className="h-6 w-40" /></CardTitle>
@@ -421,7 +462,18 @@ function VesselProfileSkeleton() {
                         <Skeleton className="h-4 w-full" />
                     </CardContent>
                 </Card>
+                 <Card>
+                    <CardHeader>
+                         <CardTitle><Skeleton className="h-6 w-40" /></CardTitle>
+                        <CardDescription><Skeleton className="h-4 w-48" /></CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Skeleton className="h-4 w-full" />
+                    </CardContent>
+                </Card>
             </div>
         </div>
     );
 }
+
+    

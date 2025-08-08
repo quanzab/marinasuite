@@ -335,3 +335,12 @@
 ### Changed
 -   **UX**: Improved data consistency by converting the "Vessel Type" and "Crew Rank" free-text inputs into dropdowns with predefined options in their respective forms.
 -   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
+
+## [5.6.0] - 2024-09-26
+
+### Changed
+-   **Vessel Profile**: The vessel profile page now displays a real-time list of inventory items assigned to that specific vessel. This provides a more integrated view of on-board supplies.
+-   **Icons**: Added a new `BoxIcon` for representing inventory.
+-   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
+
+    
