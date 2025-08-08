@@ -1,10 +1,11 @@
 
 import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
-import type { CrewMember, Vessel, User } from './types';
+import type { User, CrewMember, Vessel, Certificate } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
+import type { UserFormValues } from '@/app/dashboard/admin/user-form';
 import { format } from 'date-fns';
 
 
@@ -181,4 +182,21 @@ export const getUsers = async (): Promise<User[]> => {
     return newSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
   }
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
+};
+
+// CREATE
+export const addUser = async (userData: UserFormValues) => {
+    await addDoc(usersCollectionRef, userData);
+};
+
+// UPDATE
+export const updateUser = async (id: string, userData: Partial<UserFormValues>) => {
+  const userDoc = doc(db, 'orgs', TENANT_ID, 'users', id);
+  await updateDoc(userDoc, userData);
+};
+
+// DELETE
+export const deleteUser = async (id: string) => {
+  const userDoc = doc(db, 'orgs', TENANT_ID, 'users', id);
+  await deleteDoc(userDoc);
 };

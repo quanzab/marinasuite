@@ -22,6 +22,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Connect the UI to a Firestore database.
     -   [ ] Add automated reminders for certificate renewals.
 -   [ ] **RBAC and Admin Panel**:
+    -   [x] Implement CRUD functionality for user management.
     -   [ ] Implement role-based access control using Firebase Auth custom claims.
     -   [ ] Allow admins to invite users and manage roles/tenants.
     -   [x] Display live user data on the admin page.

@@ -8,14 +8,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { getUsers } from "@/lib/firestore";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { getUsers, addUser, updateUser, deleteUser } from "@/lib/firestore";
 import type { User } from "@/lib/types";
+import { UserForm, UserFormValues } from "./user-form";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function AdminPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const { toast } = useToast();
 
   const fetchUsers = useCallback(async () => {
@@ -39,6 +44,65 @@ export default function AdminPage() {
     fetchUsers();
   }, [fetchUsers]);
 
+  const handleEdit = (user: User) => {
+    setSelectedUser(user);
+    setIsDialogOpen(true);
+  };
+
+  const handleAdd = () => {
+    setSelectedUser(null);
+    setIsDialogOpen(true);
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteUser(id);
+      toast({
+        title: "Success",
+        description: "User removed successfully.",
+      });
+      fetchUsers();
+    } catch (error) {
+      console.error("Error removing user:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to remove user.",
+      });
+    }
+  };
+
+  const handleFormSubmit = async (data: UserFormValues) => {
+    setIsSubmitting(true);
+    try {
+      if (selectedUser) {
+        await updateUser(selectedUser.id, data);
+        toast({
+          title: "Success",
+          description: "User updated successfully.",
+        });
+      } else {
+        await addUser(data);
+        toast({
+          title: "Success",
+          description: "User invited successfully.",
+        });
+      }
+      fetchUsers();
+      setIsDialogOpen(false);
+    } catch (error) {
+      console.error("Error saving user:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to save user details.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+
   const renderSkeleton = () => (
     Array.from({ length: 4 }).map((_, index) => (
       <TableRow key={index}>
@@ -56,12 +120,33 @@ export default function AdminPage() {
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-semibold md:text-3xl">Admin Panel</h1>
         <div className="ml-auto flex items-center gap-2">
-          <Button disabled>
+          <Button onClick={handleAdd}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Invite User
           </Button>
         </div>
       </div>
+
+       <Dialog open={isDialogOpen} onOpenChange={(isOpen) => {
+         if (!isSubmitting) {
+           setIsDialogOpen(isOpen);
+         }
+       }}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{selectedUser ? 'Edit User' : 'Invite User'}</DialogTitle>
+            <DialogDescription>
+              {selectedUser ? 'Update the details for this user.' : 'Enter the details for the new user.'}
+            </DialogDescription>
+          </DialogHeader>
+          <UserForm
+            user={selectedUser}
+            onSubmit={handleFormSubmit}
+            isSubmitting={isSubmitting}
+          />
+        </DialogContent>
+      </Dialog>
+
       <Card>
         <CardHeader>
           <CardTitle>User Management</CardTitle>
@@ -103,9 +188,14 @@ export default function AdminPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem disabled>Edit Role</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEdit(user)}>Edit Role</DropdownMenuItem>
                         <DropdownMenuItem disabled>Change Tenant</DropdownMenuItem>
-                        <DropdownMenuItem disabled className="text-destructive">Remove User</DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="text-destructive"
+                          onClick={() => handleDelete(user.id)}
+                        >
+                          Remove User
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

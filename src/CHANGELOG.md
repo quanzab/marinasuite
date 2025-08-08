@@ -197,3 +197,12 @@
     -   Added a "Schedule Maintenance" action to the fleet operations page.
     -   This opens a dialog with a dedicated form to set a vessel's next maintenance date.
     -   Submitting the form updates the vessel's status to "In Maintenance" and sets the new date in Firestore.
+    
+## [1.8.0] - 2024-08-16
+
+### Added
+
+-   **Admin User Management**:
+    -   Implemented full CRUD (Create, Read, Update, Delete) functionality for users in the Admin panel.
+    -   Added a form (`user-form.tsx`) for inviting and editing users.
+    -   The "Invite User", "Edit Role", and "Remove User" actions are now fully functional and connected to Firestore.
