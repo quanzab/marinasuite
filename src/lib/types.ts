@@ -113,3 +113,11 @@ export const assignCrewFormSchema = z.object({
   vesselName: z.string().min(1, { message: "Please select a vessel." }),
 });
 export type AssignCrewFormValues = z.infer<typeof assignCrewFormSchema>;
+
+export const inventoryFormSchema = z.object({
+  name: z.string().min(2, { message: "Item name must be at least 2 characters." }),
+  category: z.string().min(2, { message: "Category is required." }),
+  quantity: z.coerce.number().min(0, { message: "Quantity cannot be negative." }),
+  location: z.string().min(2, { message: "Location is required." }),
+});
+export type InventoryFormValues = z.infer<typeof inventoryFormSchema>;

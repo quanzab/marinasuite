@@ -8,6 +8,7 @@ import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
 import type { UserFormValues, UpdateUserFormValues } from '@/app/dashboard/settings/page';
 import { format } from 'date-fns';
+import type { InventoryFormValues } from '@/app/dashboard/inventory/inventory-form';
 
 // ====== REAL-TIME SUBSCRIPTIONS ======
 
@@ -324,4 +325,27 @@ export const getRoutes = async (tenantId: string): Promise<Route[]> => {
   // For this demo, we will return an empty array as a clean starting state. 
   // In a real app, this would query a 'routes' collection similar to the others.
   return Promise.resolve([]);
+};
+
+// ====== INVENTORY ======
+
+// CREATE
+export const addInventoryItem = async (tenantId: string, itemData: InventoryFormValues) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const inventoryCollectionRef = collection(db, 'orgs', tenantId, 'inventory');
+    await addDoc(inventoryCollectionRef, itemData);
+};
+
+// UPDATE
+export const updateInventoryItem = async (tenantId: string, id: string, itemData: Partial<InventoryFormValues>) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const itemDoc = doc(db, 'orgs', tenantId, 'inventory', id);
+    await updateDoc(itemDoc, itemData);
+};
+
+// DELETE
+export const deleteInventoryItem = async (tenantId: string, id: string) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const itemDoc = doc(db, 'orgs', tenantId, 'inventory', id);
+    await deleteDoc(itemDoc);
 };
