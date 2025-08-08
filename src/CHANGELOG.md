@@ -244,3 +244,18 @@
     -   Added a new "Shanty AI" page for generating sea shanties about vessels.
     -   Genkit flow (`generate-shanty-flow.ts`) to compose lyrics based on the vessel's name.
     -   New `MusicIcon` for navigation.
+
+## [2.4.0] - 2024-08-22
+
+### Added
+
+-   **Creative AI Tools - Image & Video Generation**:
+    -   Added AI-powered image generation for vessels from the profile page.
+    -   Added AI-powered video generation, allowing users to create short clips of their vessels.
+    -   New Genkit flows (`generate-vessel-image-flow.ts`, `generate-vessel-video-flow.ts`) to handle multi-modal generation.
+    -   Updated the vessel profile page to include generation buttons and display the results.
+
+### Changed
+
+-   Updated `firestore.ts` to save `imageUrl` and `videoUrl` to vessel documents.
+-   Increased server action timeout in `next.config.ts` to accommodate slow video generation.
