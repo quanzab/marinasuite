@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import { differenceInDays, parseISO } from 'date-fns';
 
 admin.initializeApp();
 
@@ -46,3 +47,48 @@ export const setCustomUserClaims = functions.firestore
       return null;
     }
   });
+
+
+// Scheduled function to check for expiring certificates and send notifications.
+// This function will run once a day.
+export const checkCertificateExpirations = functions.pubsub
+    .schedule("every 24 hours")
+    .onRun(async (context) => {
+        console.log("Running daily check for expiring certificates...");
+        const db = admin.firestore();
+        const today = new Date();
+
+        try {
+            const orgsSnapshot = await db.collection('orgs').get();
+            
+            for (const orgDoc of orgsSnapshot.docs) {
+                const tenantId = orgDoc.id;
+                console.log(`Checking tenant: ${tenantId}`);
+
+                const certificatesSnapshot = await db.collection(`orgs/${tenantId}/certificates`).get();
+
+                if (certificatesSnapshot.empty) {
+                    console.log(`No certificates found for tenant: ${tenantId}`);
+                    continue;
+                }
+
+                certificatesSnapshot.forEach(certDoc => {
+                    const certificate = certDoc.data();
+                    const expiryDate = parseISO(certificate.expiryDate);
+                    const daysUntilExpiry = differenceInDays(expiryDate, today);
+
+                    if (daysUntilExpiry > 0 && daysUntilExpiry <= 30) {
+                        // In a real application, you would send an email or push notification here.
+                        // For this demo, we will just log it to the Cloud Functions logs.
+                        console.log(`REMINDER: Certificate "${certificate.name}" for tenant ${tenantId} is expiring in ${daysUntilExpiry} days.`);
+                    }
+                });
+            }
+
+            console.log("Certificate expiration check completed successfully.");
+            return null;
+        } catch (error) {
+            console.error("Error checking certificate expirations:", error);
+            return null;
+        }
+    });

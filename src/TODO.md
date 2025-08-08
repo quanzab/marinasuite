@@ -47,11 +47,12 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement drag-and-drop functionality for crew assignments.
 -   [x] **Advanced Certificate Management**:
     -   [x] Add a streamlined "Renew Certificate" workflow.
-    -   [ ] Add automated reminders for certificate renewals.
+    -   [x] Add automated reminders for certificate renewals.
 -   [x] **Advanced RBAC**:
     -   [x] Implement role-based access control using Firebase Auth custom claims to restrict actions.
 -   [x] **Notifications**:
     -   [x] Implement in-app notification UI with a dedicated page and header dropdown.
-    -   [ ] Implement push notifications for important events (e.g., certificate expiry, maintenance reminders).
+    -   [x] Implement push notifications for important events (e.g., certificate expiry, maintenance reminders).
 -   [x] **Creative AI Tools**:
     -   [x] AI-powered sea shanty generator.
+

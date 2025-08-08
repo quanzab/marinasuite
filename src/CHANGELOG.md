@@ -1,5 +1,4 @@
 
-
 # Changelog
 
 ## [0.1.0] - 2024-07-30
@@ -183,3 +182,16 @@
 
 -   **Vessel Profile Page**:
     -   Made the "Assigned Crew" section on the vessel profile page dynamic. It now fetches and displays the actual crew members assigned to that vessel from Firestore.
+
+## [1.7.0] - 2024-08-15
+
+### Added
+
+-   **Automated Certificate Reminders**:
+    -   Implemented a scheduled Firebase Cloud Function (`checkCertificateExpirations`) to run daily.
+    -   The function checks all certificates across all tenants and logs a reminder for any that are expiring within 30 days.
+
+### Changed
+
+-   Finalized project by completing the last remaining roadmap item.
+-   Updated `firebase.json` and Cloud Function dependencies to support scheduled functions.
