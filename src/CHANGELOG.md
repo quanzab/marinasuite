@@ -168,9 +168,9 @@
     -   Enabled Firestore's offline persistence in `firebase.ts`.
     -   The application now caches data locally, allowing users to view and modify data even when offline. Changes are synced automatically upon reconnection.
 
-## [3.8.0] - 2024-09-04
+## [3.9.0] - 2024-09-05
 
 ### Changed
--   **Code Quality**: Performed a final code quality enhancement on the `Sidebar` component, refactoring its sub-menu components for better maintainability and code clarity.
+-   **Code Quality**: Performed a final code quality enhancement on the `Input` component, ensuring its responsive text styling is consistent across all input types.
 -   **Documentation**: Updated all project documentation to reflect that the project is complete and all development work is finished.
     
