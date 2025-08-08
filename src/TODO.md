@@ -48,7 +48,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement a full weekly calendar view for assignments.
 -   [x] **Advanced Certificate Management**:
     -   [x] Add a streamlined "Renew Certificate" workflow.
-    -   [x] Add automated reminders for certificate renewals. (In Progress via Notifications)
+    -   [ ] Add automated reminders for certificate renewals. (In Progress via Notifications)
 -   [x] **Advanced RBAC**:
     -   [x] Implement role-based access control using Firebase Auth custom claims to restrict actions.
 -   [x] **Notifications**:

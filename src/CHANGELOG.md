@@ -221,3 +221,13 @@
     -   Refactored the entire Firestore service layer (`firestore.ts`) to be fully multi-tenant aware. All data access functions now require a `tenantId`.
     -   Removed the hardcoded single-tenant ID, enabling true data separation between different organizations.
     -   Implemented a session-based context to manage the currently selected tenant, ensuring all operations are performed within the correct organizational scope.
+    -   Updated all relevant UI pages and AI flows to correctly use the `tenantId`.
+
+## [2.1.0] - 2024-08-19
+
+### Added
+
+-   **Certificate Renewal Workflow**:
+    -   Added a dedicated "Renew" action to the certificate management page.
+    -   Created a new, simplified form (`renew-form.tsx`) for setting a new expiry date.
+    -   This provides a more streamlined and intuitive user experience for a common administrative task.
