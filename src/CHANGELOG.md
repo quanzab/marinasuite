@@ -1,4 +1,5 @@
 
+
 # Changelog
 
 ## [0.1.0] - 2024-07-30
@@ -234,3 +235,13 @@
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `4.2.0` to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to mark the project as complete, stable, and ready for deployment.
+
+## [4.3.0] - 2024-09-13
+
+### Added
+-   **Inventory Management**:
+    -   New "Inventory" page to track spare parts and supplies across the fleet.
+    -   Added a real-time `subscribeToInventory` function in the Firestore service.
+    -   New `InventoryIcon` and navigation link in the main layout.
+    -   Added `InventoryItem` to `types.ts`.
+-   **Documentation**: Updated `BLUEPRINT.md` and `TODO.md` to include the new inventory module.

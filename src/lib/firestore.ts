@@ -2,7 +2,7 @@
 
 import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion, onSnapshot } from 'firebase/firestore';
-import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route } from './types';
+import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route, InventoryItem } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
@@ -70,6 +70,27 @@ export const subscribeToCertificates = async (
     callback(certificateData);
   }, (error) => {
     console.error("Error subscribing to certificates:", error);
+    onError(error);
+  });
+  return unsubscribe;
+};
+
+// SUBSCRIBE to Inventory
+export const subscribeToInventory = async (
+  tenantId: string,
+  callback: (inventory: InventoryItem[]) => void,
+  onError: (error: Error) => void
+) => {
+  if (!tenantId) {
+    onError(new Error("Tenant ID is required."));
+    return () => {};
+  }
+  const inventoryCollectionRef = collection(db, 'orgs', tenantId, 'inventory');
+  const unsubscribe = onSnapshot(inventoryCollectionRef, (snapshot) => {
+    const inventoryData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as InventoryItem));
+    callback(inventoryData);
+  }, (error) => {
+    console.error("Error subscribing to inventory:", error);
     onError(error);
   });
   return unsubscribe;

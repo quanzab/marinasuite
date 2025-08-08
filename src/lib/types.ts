@@ -63,6 +63,14 @@ export type Route = {
     status: 'Open' | 'In Progress' | 'Completed';
 }
 
+export type InventoryItem = {
+    id: string;
+    name: string;
+    category: string;
+    quantity: number;
+    location: string; // Could be a vessel name or a warehouse
+};
+
 
 export const scheduleMaintenanceFormSchema = z.object({
   nextMaintenance: z.date({

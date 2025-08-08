@@ -208,3 +208,16 @@ export const SettingsIcon = (props: SVGProps<SVGSVGElement>) => (
     </g>
   </IconWrapper>
 );
+
+export const InventoryIcon = (props: SVGProps<SVGSVGElement>) => (
+    <IconWrapper {...props}>
+        <g fill="url(#glass-gradient)">
+            <path d="M21 8V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v1" />
+            <path d="M3 14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2" />
+            <path d="M8 18h8" />
+            <path d="M12 12v6" />
+            <path d="M2 12h20" />
+            <path d="m7 12 1-7h8l1 7" />
+        </g>
+    </IconWrapper>
+);

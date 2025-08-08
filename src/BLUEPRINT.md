@@ -11,6 +11,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Crew Management**: CRUD operations for crew profiles, certifications, and medical records.
 -   **Fleet Operations**: Vessel data management and maintenance scheduling.
 -   **Certificate Management**: Tracking and renewal reminders for certificates.
+-   **Inventory Management**: Tracking of spare parts, supplies, and other on-board items.
 -   **Role-Based Access Control (RBAC)**: Admin panel for managing user permissions, enforced via Firebase custom claims.
 -   **Crew Allocation AI**: Intelligent suggestions for crew allocation on routes, using AI tools to find available crew.
 -   **Route Optimizer AI**: AI-powered suggestions for optimal shipping routes.
@@ -45,6 +46,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 │   │   ├── crew/
 │   │   ├── fleet/
 │   │   ├── certificates/
+│   │   ├── inventory/
 │   │   ├── crew-ai/
 │   │   └── admin/
 │   ├── login/
