@@ -65,6 +65,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Code Quality**:
     -   [x] Perform final code review and polish, including fixing type mismatches in mock data and ensuring UI component consistency.
     -   [x] Perform final configuration cleanup to ensure all settings are up-to-date and streamlined.
+-   [x] **Data Refinement**:
+    -   [x] Update `getRoutes` function to remove mock data and provide a clean initial state.
 
 ## Project Complete
 

@@ -1,4 +1,5 @@
 
+
 import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion, onSnapshot } from 'firebase/firestore';
 import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route } from './types';
@@ -299,13 +300,7 @@ export const deleteUser = async (id: string, tenantId: string) => {
 // READ (all)
 export const getRoutes = async (tenantId: string): Promise<Route[]> => {
   if (!tenantId) return [];
-  // For this demo, we'll just return a mock list. 
+  // For this demo, we will return an empty array as a clean starting state. 
   // In a real app, this would query a 'routes' collection similar to the others.
-  const mockRoutes: Route[] = [
-      { id: 'R001', startPort: 'Singapore', endPort: 'Rotterdam', vessel: 'Ocean Explorer', status: 'Open' },
-      { id: 'R002', startPort: 'Shanghai', endPort: 'Los Angeles', vessel: 'Sea Serpent', status: 'In Progress' },
-      { id: 'R003', startPort: 'Dubai', endPort: 'New York', vessel: 'Arctic Pioneer', status: 'Open' },
-      { id: 'R004', startPort: 'Hamburg', endPort: 'Singapore', vessel: 'Coastal Voyager', status: 'Open' },
-  ];
-  return Promise.resolve(mockRoutes.slice(0, Math.floor(Math.random() * 5))); // return random number of routes
+  return Promise.resolve([]);
 };
