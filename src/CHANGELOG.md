@@ -253,3 +253,8 @@
 -   **Code Quality**: Final refinement of `firebase.json` by removing the unnecessary `functions` configuration block to streamline project configuration.
 -   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
 
+## [3.1.0] - 2024-09-11
+
+### Changed
+-   **Code Quality**: Final refinement of `package.json` by removing the unused `next-themes` dependency to streamline the project configuration and rely on the custom `ThemeProvider` implementation.
+-   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
