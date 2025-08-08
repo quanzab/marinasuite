@@ -14,6 +14,7 @@ import { getCrew, addCrewMember, updateCrewMember, deleteCrewMember } from "@/li
 import type { CrewMember } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
 
 export default function CrewPage() {
   const [crew, setCrew] = useState<CrewMember[]>([]);
@@ -22,6 +23,7 @@ export default function CrewPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedCrew, setSelectedCrew] = useState<CrewMember | null>(null);
   const { toast } = useToast();
+  const router = useRouter();
 
   const fetchCrew = useCallback(async () => {
     setIsLoading(true);
@@ -103,6 +105,11 @@ export default function CrewPage() {
       setIsSubmitting(false);
     }
   };
+  
+  const handleViewDetails = (id: string) => {
+    router.push(`/dashboard/crew/${id}`);
+  };
+
 
   const renderSkeleton = () => (
     Array.from({ length: 5 }).map((_, index) => (
@@ -190,7 +197,7 @@ export default function CrewPage() {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => handleEdit(member)}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>View Details</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleViewDetails(member.id)}>View Details</DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-destructive"
                           onClick={() => handleDelete(member.id)}

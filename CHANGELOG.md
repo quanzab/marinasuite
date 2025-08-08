@@ -91,3 +91,17 @@
 ### Changed
 
 -   Updated `firestore.ts` to include crew management functions.
+
+## [0.8.0] - 2024-08-06
+
+### Added
+
+-   **Crew Profile Pages**:
+    -   Created a dynamic route (`/dashboard/crew/[id]`) to display detailed profiles for each crew member.
+    -   The profile page shows key details like status, assigned vessel, certifications, and medical records.
+    -   Added a `getCrewMemberById` function to the Firestore service.
+    -   The "View Details" option in the crew list now links to the corresponding profile page.
+
+### Changed
+
+-   Updated `lib/firestore.ts` to include sample data for `certifications` and `medicalRecords` when creating a new crew member to better demonstrate profile pages.

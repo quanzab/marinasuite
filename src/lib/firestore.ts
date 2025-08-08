@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 import type { CrewMember, Vessel, Certificate } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
@@ -16,11 +16,24 @@ const certificatesCollectionRef = collection(db, 'orgs', TENANT_ID, 'certificate
 
 // ====== CREW ======
 
-// READ
+// READ (all)
 export const getCrew = async (): Promise<CrewMember[]> => {
   const snapshot = await getDocs(crewCollectionRef);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as CrewMember));
 };
+
+// READ (single)
+export const getCrewMemberById = async (id: string): Promise<CrewMember | null> => {
+  const crewDocRef = doc(db, 'orgs', TENANT_ID, 'crew', id);
+  const docSnap = await getDoc(crewDocRef);
+
+  if (docSnap.exists()) {
+    return { id: docSnap.id, ...docSnap.data() } as CrewMember;
+  } else {
+    return null;
+  }
+};
+
 
 // CREATE
 export const addCrewMember = async (crewData: CrewFormValues) => {
@@ -30,8 +43,8 @@ export const addCrewMember = async (crewData: CrewFormValues) => {
         rank,
         status,
         assignedVessel: null,
-        certifications: [],
-        medicalRecords: "No records yet."
+        certifications: ['Basic Safety Training', 'Advanced Fire Fighting'],
+        medicalRecords: "Fit for duty. Last check-up: 2023-10-15."
     });
 };
 
@@ -77,7 +90,7 @@ export const updateVessel = async (id: string, vesselData: Partial<VesselFormVal
       const { nextMaintenance, ...rest } = vesselData;
       const formattedData = {
           ...rest,
-          nextMaintenance: format(nextMaintenance, 'yyyy-MM-dd')
+          nextMaintenance: format(new Date(nextMaintenance), 'yyyy-MM-dd')
       };
       await updateDoc(vesselDoc, formattedData);
   } else {
@@ -117,10 +130,10 @@ export const updateCertificate = async (id: string, certificateData: Partial<Cer
     const dataToUpdate: Record<string, any> = { ...certificateData };
 
     if (certificateData.issueDate) {
-        dataToUpdate.issueDate = format(certificateData.issueDate, 'yyyy-MM-dd');
+        dataToUpdate.issueDate = format(new Date(certificateData.issueDate), 'yyyy-MM-dd');
     }
     if (certificateData.expiryDate) {
-        dataToUpdate.expiryDate = format(certificateData.expiryDate, 'yyyy-MM-dd');
+        dataToUpdate.expiryDate = format(new Date(certificateData.expiryDate), 'yyyy-MM-dd');
     }
 
     await updateDoc(certDoc, dataToUpdate);
