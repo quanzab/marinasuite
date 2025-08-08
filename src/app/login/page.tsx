@@ -56,12 +56,10 @@ export default function LoginPage() {
           fill
           style={{objectFit: 'cover'}}
           quality={100}
-          className="opacity-90"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
-        <div className="absolute bottom-8 left-8 text-primary-foreground">
+        <div className="absolute bottom-8 left-8 text-white">
           <h2 className="text-4xl font-bold">MarinaSuite</h2>
-          <p className="text-lg mt-2">Your all-in-one solution for maritime management.</p>
+          <p className="text-lg mt-2 drop-shadow-md">Your all-in-one solution for maritime management.</p>
         </div>
       </div>
       <div className="flex items-center justify-center py-12">
