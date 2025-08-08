@@ -25,9 +25,6 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      if (!auth) {
-        throw new Error("Firebase auth is not initialized");
-      }
       // For this demo, we'll use a pre-existing test user.
       // In a real app, you would implement user creation.
       await signInWithEmailAndPassword(auth, email, password);
