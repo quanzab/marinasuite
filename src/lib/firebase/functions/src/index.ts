@@ -3,6 +3,7 @@ import * as admin from "firebase-admin";
 import { differenceInDays, parseISO } from 'date-fns';
 
 admin.initializeApp();
+const db = admin.firestore();
 
 // Cloud Function to set custom claims when a user's role is created or updated in Firestore.
 export const setCustomUserClaims = functions.firestore
@@ -49,13 +50,11 @@ export const setCustomUserClaims = functions.firestore
   });
 
 
-// Scheduled function to check for expiring certificates and send notifications.
-// This function will run once a day.
+// Scheduled function to check for expiring certificates and create persistent notifications.
 export const checkCertificateExpirations = functions.pubsub
     .schedule("every 24 hours")
     .onRun(async (context) => {
         console.log("Running daily check for expiring certificates...");
-        const db = admin.firestore();
         const today = new Date();
 
         try {
@@ -68,21 +67,40 @@ export const checkCertificateExpirations = functions.pubsub
                 const certificatesSnapshot = await db.collection(`orgs/${tenantId}/certificates`).get();
 
                 if (certificatesSnapshot.empty) {
-                    console.log(`No certificates found for tenant: ${tenantId}`);
                     continue;
                 }
 
-                certificatesSnapshot.forEach(certDoc => {
+                for (const certDoc of certificatesSnapshot.docs) {
                     const certificate = certDoc.data();
                     const expiryDate = parseISO(certificate.expiryDate);
                     const daysUntilExpiry = differenceInDays(expiryDate, today);
 
-                    if (daysUntilExpiry > 0 && daysUntilExpiry <= 30) {
-                        // In a real application, you would send an email or push notification here.
-                        // For this demo, we will just log it to the Cloud Functions logs.
-                        console.log(`REMINDER: Certificate "${certificate.name}" for tenant ${tenantId} is expiring in ${daysUntilExpiry} days.`);
+                    const shouldNotify = (daysUntilExpiry >= 0 && daysUntilExpiry <= 30) || daysUntilExpiry < 0;
+
+                    if (shouldNotify) {
+                        const notificationsRef = db.collection(`orgs/${tenantId}/notifications`);
+                        const existingNotifQuery = notificationsRef.where('relatedId', '==', certDoc.id);
+                        const existingNotifSnapshot = await existingNotifQuery.get();
+
+                        if (existingNotifSnapshot.empty) {
+                             const type = daysUntilExpiry < 0 ? 'Certificate Expired' : 'Certificate Expiring Soon';
+                             const description = daysUntilExpiry < 0 
+                                ? `Certificate "${certificate.name}" expired ${Math.abs(daysUntilExpiry)} days ago.`
+                                : `Certificate "${certificate.name}" will expire in ${daysUntilExpiry} days.`;
+
+                            const notification = {
+                                title: type,
+                                description: description,
+                                type: 'Certificate',
+                                relatedId: certDoc.id,
+                                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+                                isRead: false,
+                            };
+                            await notificationsRef.add(notification);
+                            console.log(`Created notification for certificate: ${certificate.name}`);
+                        }
                     }
-                });
+                }
             }
 
             console.log("Certificate expiration check completed successfully.");

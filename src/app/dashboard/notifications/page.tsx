@@ -3,43 +3,54 @@
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { FileWarning, Wrench } from "lucide-react";
-import { getCertificateNotifications } from '@/lib/notifications';
-import type { CertificateWithStatus } from '@/lib/types';
+import { Button } from "@/components/ui/button";
+import { FileWarning, Check } from "lucide-react";
+import { subscribeToNotifications, markNotificationAsRead } from '@/lib/firestore';
+import type { Notification } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatDistanceToNow } from 'date-fns';
 import { useTenant } from '@/hooks/use-tenant';
+import { useToast } from '@/hooks/use-toast';
 
 
 export default function NotificationsPage() {
-    const [notifications, setNotifications] = useState<CertificateWithStatus[]>([]);
+    const [notifications, setNotifications] = useState<Notification[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { tenantId } = useTenant();
+    const { toast } = useToast();
 
     useEffect(() => {
-        async function fetchNotifications() {
-            if (!tenantId) return;
-            setIsLoading(true);
-            const certs = await getCertificateNotifications(tenantId);
-            setNotifications(certs);
+        if (!tenantId) return;
+        setIsLoading(true);
+        const unsubscribe = subscribeToNotifications(tenantId, (notifs) => {
+            setNotifications(notifs);
             setIsLoading(false);
-        }
-        fetchNotifications();
-    }, [tenantId]);
+        }, (error) => {
+            console.error("Failed to subscribe to notifications:", error);
+            toast({ variant: 'destructive', title: 'Error', description: 'Could not load notifications.' });
+            setIsLoading(false);
+        });
 
-    const getIcon = (status: 'Expired' | 'Expiring Soon' | 'Valid') => {
-        if (status === 'Expired') {
+        return () => {
+            unsubscribe.then(unsub => unsub());
+        }
+    }, [tenantId, toast]);
+
+    const handleMarkAsRead = async (id: string) => {
+        if (!tenantId) return;
+        try {
+            await markNotificationAsRead(tenantId, id);
+            toast({ title: "Success", description: "Notification marked as read." });
+        } catch (error) {
+            toast({ variant: 'destructive', title: "Error", description: "Failed to mark notification as read." });
+        }
+    };
+
+    const getIcon = (type: string) => {
+        if (type.includes('Expired')) {
             return <FileWarning className="h-6 w-6 text-red-500" />;
         }
         return <FileWarning className="h-6 w-6 text-yellow-500" />;
-    };
-
-    const getDescription = (cert: CertificateWithStatus) => {
-        if (cert.status === 'Expired') {
-            return `The "${cert.name}" certificate expired ${Math.abs(cert.daysUntilExpiry)} days ago. Immediate action is required.`;
-        }
-        return `The "${cert.name}" certificate is set to expire in ${cert.daysUntilExpiry} days. Please take action to renew it.`;
     };
 
 
@@ -80,22 +91,29 @@ export default function NotificationsPage() {
                     <li key={notification.id}>
                         <div className="relative pb-8">
                         {index !== notifications.length - 1 ? (
-                            <span className="absolute left-5 top-5 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
+                            <span className="absolute left-5 top-5 -ml-px h-full w-0.5 bg-muted" aria-hidden="true" />
                         ) : null}
                         <div className="relative flex items-start space-x-4">
                             <div>
-                            <span className={`relative flex h-10 w-10 items-center justify-center rounded-full bg-primary/10`}>
-                                {getIcon(notification.status)}
+                            <span className={`relative flex h-10 w-10 items-center justify-center rounded-full ${notification.isRead ? 'bg-muted' : 'bg-primary/10'}`}>
+                                {getIcon(notification.title)}
                             </span>
                             </div>
-                            <div className="min-w-0 flex-1 py-1.5">
-                            <div className="text-sm text-gray-500">
-                                <span className="font-medium text-foreground">{notification.status === 'Expired' ? 'Certificate Expired' : 'Certificate Expiring Soon'}</span>
+                            <div className={`min-w-0 flex-1 py-1.5 ${notification.isRead ? 'opacity-60' : ''}`}>
+                            <div className="text-sm text-muted-foreground">
+                                <span className="font-medium text-foreground">{notification.title}</span>
                             </div>
-                            <p className="mt-1 text-sm text-muted-foreground">{getDescription(notification)}</p>
-                            <p className="mt-1 text-xs text-muted-foreground">{formatDistanceToNow(new Date(notification.issueDate), { addSuffix: true })}</p>
+                            <p className="mt-1 text-sm text-muted-foreground">{notification.description}</p>
+                             <p className="mt-1 text-xs text-muted-foreground">
+                                {notification.createdAt ? formatDistanceToNow(new Date(notification.createdAt.seconds * 1000), { addSuffix: true }) : 'Just now'}
+                            </p>
                             </div>
-                            <Badge variant="destructive" className="mt-2">New</Badge>
+                           {!notification.isRead && (
+                                <Button variant="ghost" size="sm" onClick={() => handleMarkAsRead(notification.id)}>
+                                    <Check className="h-4 w-4 mr-2" />
+                                    Mark as Read
+                                </Button>
+                           )}
                         </div>
                         </div>
                     </li>

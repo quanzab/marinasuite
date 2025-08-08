@@ -71,6 +71,19 @@ export type InventoryItem = {
     location: string; // Could be a vessel name or a warehouse
 };
 
+export type Notification = {
+    id: string;
+    title: string;
+    description: string;
+    type: 'Certificate' | 'Maintenance' | 'System';
+    relatedId: string;
+    createdAt: {
+        seconds: number;
+        nanoseconds: number;
+    };
+    isRead: boolean;
+};
+
 
 export const scheduleMaintenanceFormSchema = z.object({
   nextMaintenance: z.date({

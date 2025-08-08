@@ -298,3 +298,14 @@
 ### Changed
 -   **Configuration**: Removed the unused `preinstall` script from `package.json` to streamline the project's dependencies and finalize its configuration.
 -   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
+
+## [5.1.0] - 2024-09-21
+
+### Changed
+-   **Notifications**: Refactored the notifications system to be backend-driven. A new scheduled Cloud Function now runs daily to check for expiring certificates and creates persistent notification documents in Firestore, ensuring alerts are reliable and never missed.
+-   **Real-Time Alerts**: The UI now subscribes to the new `notifications` collection, displaying real-time alerts and allowing users to mark them as read.
+
+### Added
+-   **Firestore Service**: Added `subscribeToNotifications` and `markNotificationAsRead` functions to interact with the new collection.
+-   **Cloud Function Enhancement**: The `checkCertificateExpirations` function now writes to the database instead of just logging to the console.
+-   **Types**: Added a `Notification` type to `types.ts`.

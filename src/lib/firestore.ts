@@ -1,8 +1,8 @@
 
 
 import { db } from './firebase';
-import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion, onSnapshot } from 'firebase/firestore';
-import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route, InventoryItem } from './types';
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion, onSnapshot, orderBy } from 'firebase/firestore';
+import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route, InventoryItem, Notification } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
@@ -92,6 +92,29 @@ export const subscribeToInventory = async (
     callback(inventoryData);
   }, (error) => {
     console.error("Error subscribing to inventory:", error);
+    onError(error);
+  });
+  return unsubscribe;
+};
+
+// SUBSCRIBE to Notifications
+export const subscribeToNotifications = async (
+  tenantId: string,
+  callback: (notifications: Notification[]) => void,
+  onError: (error: Error) => void
+) => {
+  if (!tenantId) {
+    onError(new Error("Tenant ID is required."));
+    return () => {};
+  }
+  const notificationsCollectionRef = collection(db, 'orgs', tenantId, 'notifications');
+  const q = query(notificationsCollectionRef, orderBy('createdAt', 'desc'));
+
+  const unsubscribe = onSnapshot(q, (snapshot) => {
+    const notificationData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Notification));
+    callback(notificationData);
+  }, (error) => {
+    console.error("Error subscribing to notifications:", error);
     onError(error);
   });
   return unsubscribe;
@@ -348,4 +371,14 @@ export const deleteInventoryItem = async (tenantId: string, id: string) => {
     if (!tenantId) throw new Error("Tenant ID is required.");
     const itemDoc = doc(db, 'orgs', tenantId, 'inventory', id);
     await deleteDoc(itemDoc);
+};
+
+
+// ====== NOTIFICATIONS ======
+
+// UPDATE
+export const markNotificationAsRead = async (tenantId: string, id: string) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const notificationDoc = doc(db, 'orgs', tenantId, 'notifications', id);
+    await updateDoc(notificationDoc, { isRead: true });
 };

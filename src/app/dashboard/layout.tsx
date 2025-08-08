@@ -55,8 +55,8 @@ import ProtectedRoute from './protected-route';
 import { getAuth, signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import { getCertificateNotifications } from '@/lib/notifications';
-import type { CertificateWithStatus } from '@/lib/types';
+import { subscribeToNotifications } from '@/lib/firestore';
+import type { Notification } from '@/lib/types';
 import { useTenant } from '@/hooks/use-tenant';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -72,10 +72,11 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [notifications, setNotifications] = useState<CertificateWithStatus[]>([]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isLoadingNotifications, setIsLoadingNotifications] = useState(true);
   const { tenantId } = useTenant();
   const { user, isLoading: isUserLoading } = useCurrentUser();
+  const unreadCount = notifications.filter(n => !n.isRead).length;
 
 
   const navLinks = [
@@ -102,15 +103,22 @@ export default function DashboardLayout({
   const { toast } = useToast();
 
   useEffect(() => {
-    async function fetchNotifications() {
-      if (!tenantId) return;
-      setIsLoadingNotifications(true);
-      const certs = await getCertificateNotifications(tenantId);
-      setNotifications(certs);
+    if (!tenantId) return;
+
+    setIsLoadingNotifications(true);
+    const unsubscribe = subscribeToNotifications(tenantId, (notifs) => {
+      setNotifications(notifs);
       setIsLoadingNotifications(false);
+    }, (error) => {
+      console.error("Failed to subscribe to notifications", error);
+      toast({ variant: 'destructive', title: 'Error', description: 'Could not load notifications.' });
+      setIsLoadingNotifications(false);
+    });
+
+    return () => {
+        unsubscribe.then(unsub => unsub());
     }
-    fetchNotifications();
-  }, [tenantId]);
+  }, [tenantId, toast]);
 
   const handleSignOut = async () => {
     try {
@@ -166,7 +174,7 @@ export default function DashboardLayout({
                 <CardHeader className="p-2 pt-0 md:p-4">
                   <div className="flex items-center justify-between">
                     <CardTitle>What's New</CardTitle>
-                    <Badge variant="secondary">v4.3.0</Badge>
+                    <Badge variant="secondary">v5.1.0</Badge>
                   </div>
                   <CardDescription>
                     Check out the latest features and updates.
@@ -248,9 +256,9 @@ export default function DashboardLayout({
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="relative">
                   <Bell className="h-5 w-5" />
-                   {notifications.length > 0 && (
+                   {unreadCount > 0 && (
                      <Badge className="absolute -top-1 -right-1 h-4 w-4 justify-center p-0 text-xs" variant="destructive">
-                       {notifications.length}
+                       {unreadCount}
                      </Badge>
                    )}
                   <span className="sr-only">Toggle notifications</span>
@@ -261,15 +269,15 @@ export default function DashboardLayout({
                 <DropdownMenuSeparator />
                  {isLoadingNotifications ? (
                     <DropdownMenuItem>Loading...</DropdownMenuItem>
-                 ) : notifications.length > 0 ? (
-                    notifications.slice(0, 3).map(cert => (
-                      <DropdownMenuItem key={cert.id} asChild>
+                 ) : notifications.filter(n => !n.isRead).length > 0 ? (
+                    notifications.filter(n => !n.isRead).slice(0, 3).map(notif => (
+                      <DropdownMenuItem key={notif.id} asChild>
                         <Link href="/dashboard/notifications" className="flex flex-col items-start gap-1">
                           <p className="font-medium text-destructive">
-                             {cert.status === 'Expired' ? 'Certificate Expired' : 'Certificate Expiring'}
+                             {notif.title}
                           </p>
                           <p className="text-xs text-muted-foreground whitespace-normal">
-                              "{cert.name}" {cert.status === 'Expired' ? 'expired' : `expires in ${cert.daysUntilExpiry} days`}.
+                              {notif.description}
                           </p>
                         </Link>
                       </DropdownMenuItem>

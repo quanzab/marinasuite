@@ -24,7 +24,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Advanced Scheduling**: Drag-and-drop and direct assignment of crew to vessels.
 -   **Reporting**: Generation and printing of key operational reports.
 -   **User Settings**: A dedicated page for users to manage their own profile information.
--   **Notifications**: Automated alerts for expiring certificates.
+-   **Notifications**: Automated, persistent alerts for expiring certificates, driven by a scheduled Cloud Function.
 
 ## 3. Tech Stack
 

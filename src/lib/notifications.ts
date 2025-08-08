@@ -5,15 +5,6 @@ import { getCertificates } from './firestore';
 import type { CertificateWithStatus } from './types';
 import { differenceInDays } from 'date-fns';
 
-export type Notification = {
-    id: string;
-    type: 'Certificate' | 'Maintenance';
-    icon: React.ReactNode;
-    title: string;
-    description: string;
-    date: Date;
-    read: boolean;
-};
 
 function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring Soon' | 'Expired', daysUntilExpiry: number } {
   const today = new Date();
