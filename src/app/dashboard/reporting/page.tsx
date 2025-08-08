@@ -1,15 +1,32 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Printer } from 'lucide-react';
-import { getCrew, getVessels } from '@/lib/firestore';
-import type { CrewMember, Vessel } from '@/lib/types';
+import { getCrew, getVessels, getCertificates } from '@/lib/firestore';
+import type { Certificate, CertificateWithStatus, CrewMember, Vessel } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
+import { differenceInDays } from 'date-fns';
+import { Badge } from '@/components/ui/badge';
+
+function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring Soon' | 'Expired', daysUntilExpiry: number } {
+  const today = new Date();
+  const expiry = new Date(expiryDate);
+  const daysUntilExpiry = differenceInDays(expiry, today);
+
+  if (daysUntilExpiry < 0) {
+    return { status: 'Expired', daysUntilExpiry };
+  }
+  if (daysUntilExpiry <= 30) {
+    return { status: 'Expiring Soon', daysUntilExpiry };
+  }
+  return { status: 'Valid', daysUntilExpiry };
+}
+
 
 function CrewManifestReport() {
   const [crew, setCrew] = useState<CrewMember[]>([]);
@@ -195,6 +212,111 @@ function VesselStatusReport() {
     );
 }
 
+function CertificateStatusReport() {
+    const [certificates, setCertificates] = useState<Certificate[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const { toast } = useToast();
+
+    const fetchCertificates = useCallback(async () => {
+        setIsLoading(true);
+        try {
+            const certificateData = await getCertificates();
+            setCertificates(certificateData);
+        } catch (error) {
+            console.error('Error fetching certificate data for report:', error);
+            toast({
+                variant: 'destructive',
+                title: 'Error',
+                description: 'Failed to fetch data for certificate status report.',
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    }, [toast]);
+
+    useEffect(() => {
+        fetchCertificates();
+    }, [fetchCertificates]);
+    
+    const certificatesWithStatus: CertificateWithStatus[] = useMemo(() => {
+        return certificates.map(cert => {
+            const { status, daysUntilExpiry } = getCertificateStatus(cert.expiryDate);
+            return { ...cert, status, daysUntilExpiry };
+        });
+    }, [certificates]);
+
+
+    const handlePrint = () => {
+        const printContents = document.getElementById('certificate-status-report')?.innerHTML;
+        const originalContents = document.body.innerHTML;
+        if (printContents) {
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+            window.location.reload();
+        }
+    };
+
+    return (
+        <Card id="certificate-status-report" className="print:shadow-none print:border-none">
+            <CardHeader>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <CardTitle>Certificate Status Report</CardTitle>
+                        <CardDescription>An overview of all certificates and their validity.</CardDescription>
+                    </div>
+                    <Button onClick={handlePrint} className="print:hidden">
+                        <Printer className="mr-2 h-4 w-4" />
+                        Print Report
+                    </Button>
+                </div>
+            </CardHeader>
+            <CardContent>
+                {isLoading ? (
+                    <div className="space-y-2">
+                        <Skeleton className="h-8 w-full" />
+                        <Skeleton className="h-8 w-full" />
+                        <Skeleton className="h-8 w-full" />
+                    </div>
+                ) : (
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>Certificate Name</TableHead>
+                                <TableHead>Issued By</TableHead>
+                                <TableHead>Expiry Date</TableHead>
+                                <TableHead>Status</TableHead>
+                                <TableHead>Expires In</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {certificatesWithStatus.map((cert) => (
+                                <TableRow key={cert.id}>
+                                    <TableCell className="font-medium">{cert.name}</TableCell>
+                                    <TableCell>{cert.issuedBy}</TableCell>
+                                    <TableCell>{cert.expiryDate}</TableCell>
+                                    <TableCell>
+                                        <Badge variant={cert.status === 'Valid' ? 'default' : cert.status === 'Expiring Soon' ? 'outline' : 'destructive'}>
+                                            {cert.status}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>{cert.daysUntilExpiry > 0 ? `${cert.daysUntilExpiry} days` : 'Expired'}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                )}
+                {certificates.length === 0 && !isLoading && (
+                    <div className="text-center py-10 text-muted-foreground">
+                        No certificates found.
+                    </div>
+                )}
+            </CardContent>
+        </Card>
+    );
+}
+
+
 
 export default function ReportingPage() {
   return (
@@ -209,6 +331,7 @@ export default function ReportingPage() {
       <div className="grid gap-6">
         <CrewManifestReport />
         <VesselStatusReport />
+        <CertificateStatusReport />
       </div>
 
       <style jsx global>{`

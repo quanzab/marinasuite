@@ -166,7 +166,6 @@
 -   **Offline Data Caching**:
     -   Enabled Firestore's offline persistence in `firebase.ts`.
     -   The application now caches data locally, allowing users to view and modify data even when offline. Changes are synced automatically upon reconnection.
-
 ## [1.5.0] - 2024-08-13
 
 ### Added
@@ -271,3 +270,11 @@
 ### Changed
 
 -   Refactored the Reporting page to better accommodate multiple reports.
+
+## [2.4.0] - 2024-08-22
+
+### Added
+
+-   **Reporting**:
+    -   Added a "Certificate Status Report" to the reporting page.
+    -   This report fetches all certificates from Firestore and presents their status ('Valid', 'Expiring Soon', 'Expired') in a printable format.
