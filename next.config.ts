@@ -26,7 +26,6 @@ const nextConfig: NextConfig = {
   },
   serverActions: {
     // Increase timeout for slow server actions like video generation
-    bodySizeLimit: '10mb',
     maxDuration: 120,
   },
 };

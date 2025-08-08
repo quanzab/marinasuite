@@ -304,3 +304,9 @@
 ### Changed
 -   **Code Quality**: Final refinement of `package.json` by removing the unnecessary `type` field to streamline project configuration.
 -   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [4.0.0] - 2024-09-20
+
+### Changed
+-   **Code Quality**: Final refinement of `next.config.ts` by removing the unnecessary `bodySizeLimit` field from the `serverActions` object to streamline project configuration.
+-   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
