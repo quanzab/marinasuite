@@ -681,10 +681,10 @@ const SidebarMenuSkeleton = React.forwardRef<
 SidebarMenuSkeleton.displayName = "SidebarMenuSkeleton"
 
 const SidebarMenuSub = React.forwardRef<
-  HTMLUListElement,
-  React.ComponentProps<"ul">
+  HTMLLIElement,
+  React.ComponentProps<"li">
 >(({ className, ...props }, ref) => (
-  <ul
+  <li
     ref={ref}
     data-sidebar="menu-sub"
     className={cn(
@@ -696,12 +696,6 @@ const SidebarMenuSub = React.forwardRef<
   />
 ))
 SidebarMenuSub.displayName = "SidebarMenuSub"
-
-const SidebarMenuSubItem = React.forwardRef<
-  HTMLLIElement,
-  React.ComponentProps<"li">
->(({ ...props }, ref) => <li ref={ref} {...props} />)
-SidebarMenuSubItem.displayName = "SidebarMenuSubItem"
 
 const SidebarMenuSubButton = React.forwardRef<
   HTMLAnchorElement,
@@ -752,7 +746,6 @@ export {
   SidebarMenuSkeleton,
   SidebarMenuSub,
   SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarProvider,
   SidebarRail,
   SidebarSeparator,

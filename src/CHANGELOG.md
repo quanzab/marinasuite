@@ -269,6 +269,26 @@
 
 -   Refactored the Scheduling page to include a new `UnassignedCrew` component and an `AssignDialog` component.
 
-### Fixed
+## [2.4.0] - 2024-08-20
 
--   **Project Complete**: All major features and enhancements from the blueprint and to-do list are now implemented. The application is considered feature-complete.
+### Changed
+
+-   **Real-Time Data**:
+    -   Implemented real-time data updates using Firestore listeners (`onSnapshot`) for a more dynamic UI across key pages (Crew, Fleet, Certificates, Dashboard).
+
+## [2.5.0] - 2024-08-21
+
+### Changed
+- **UI Personalization**: Made user profile information in the main layout dynamic.
+- **AI Shanty Generator**: Added Markdown support for better text formatting.
+- **AI Video Generation**: Enhanced the video generator to use an existing image as a starting point.
+- **Component Polish**: Refined the UI component library for better consistency and maintainability.
+- **Multi-speaker TTS**: Upgraded the Shanty AI to use two distinct voices for a call-and-response audio effect.
+
+### Fixed
+-   Corrected a type mismatch in mock data to ensure strict type safety.
+
+## [2.6.0] - 2024-08-22
+
+### Changed
+-   **Code Quality**: Performed final code review and polish, including refactoring the Sidebar component for better consistency and maintainability. The project is now considered complete.
