@@ -310,3 +310,9 @@
 ### Changed
 -   **Code Quality**: Final refinement of `next.config.ts` by removing the unnecessary `bodySizeLimit` field from the `serverActions` object to streamline project configuration.
 -   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [4.1.0] - 2024-09-21
+
+### Changed
+-   **Code Quality**: Final refinement of `package.json` to synchronize the `version` number with the changelog, ensuring perfect consistency across all project metadata.
+-   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
