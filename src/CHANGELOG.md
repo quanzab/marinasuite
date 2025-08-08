@@ -236,3 +236,48 @@
 
 -   Corrected a bug where the "Unassigned Crew" list was not filtering correctly.
 -   Fixed an issue in the crew assignment logic to ensure the vessel's name, not its ID, is used for the assignment, improving data consistency.
+
+## [2.3.0] - 2024-08-21
+
+### Added
+
+-   **Creative AI Tools - Shanty Generator**:
+    -   Added a new "Shanty AI" page for generating sea shanties about vessels.
+    -   Genkit flow (`generate-shanty-flow.ts`) to compose lyrics based on the vessel's name.
+    -   New `MusicIcon` for navigation.
+
+## [2.4.0] - 2024-08-22
+
+### Added
+
+-   **Creative AI Tools - Image Generator**:
+    -   Added an AI-powered image generator to the vessel profile page.
+    -   New Genkit flow (`generate-vessel-image-flow.ts`) to create a photorealistic image of a vessel.
+    -   Server action to connect the UI to the image generation flow and update the vessel's `imageUrl` in Firestore.
+
+## [2.5.0] - 2024-08-23
+
+### Changed
+
+-   **Enhanced Shanty Generator**:
+    -   Upgraded the Shanty AI flow to include Text-to-Speech (TTS) generation.
+    -   The flow now returns an audio data URI in addition to the lyrics.
+    -   The UI on the Shanty AI page now includes an audio player to listen to the generated shanty.
+
+## [2.6.0] - 2024-08-24
+
+### Added
+
+-   **Creative AI Tools - Video Generator**:
+    -   Added an AI-powered video generator to the vessel profile page using the Veo model.
+    -   New Genkit flow (`generate-vessel-video-flow.ts`) to create a short, animated video of a vessel.
+    -   Server action handles the asynchronous video generation and updates the vessel in Firestore.
+
+## [2.7.0] - 2024-08-25
+
+### Fixed
+
+-   **Critical Authentication Flow**:
+    -   Fixed a persistent login issue by refactoring the post-authentication redirect logic.
+    -   Streamlined the root page (`/`) to act as a proper auth gate, redirecting users to login or tenant selection.
+    -   Ensured the login page correctly navigates to tenant selection upon success.

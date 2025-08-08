@@ -17,10 +17,15 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
       const isAuthed = !!user;
       setIsAuthenticated(isAuthed);
 
+      if (pathname === '/') {
+        // The root page will handle its own redirection.
+        return;
+      }
+      
       if (!isAuthed && !pathname.startsWith('/login')) {
-        router.push('/login');
+        router.replace('/login');
       } else if (isAuthed && pathname.startsWith('/login')) {
-        router.push('/dashboard');
+        router.replace('/dashboard/select-tenant');
       }
     });
 
@@ -42,22 +47,5 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     );
   }
 
-  // If the user is authenticated, or is on the login page, show the children.
-  // The redirect logic inside useEffect will handle routing them away from login if needed.
-  if (isAuthenticated || pathname.startsWith('/login')) {
-      // At the root, decide where to go.
-      if (pathname === '/') {
-          if (isAuthenticated) {
-              router.push('/dashboard');
-          } else {
-              router.push('/login');
-          }
-          return null;
-      }
-      return <>{children}</>;
-  }
-
-
-  // If not authenticated and not on login page, render nothing while redirecting.
-  return null;
+  return <>{children}</>;
 }

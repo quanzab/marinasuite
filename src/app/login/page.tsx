@@ -33,7 +33,7 @@ export default function LoginPage() {
         description: 'Welcome back! Redirecting...',
       });
       // Redirect to a page that will then handle tenant selection.
-      router.push('/dashboard'); 
+      router.push('/dashboard/select-tenant'); 
     } catch (err: any) {
       let errorMessage = 'An unexpected error occurred. Please try again.';
       if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
