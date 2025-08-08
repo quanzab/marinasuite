@@ -69,6 +69,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Update `getRoutes` function to remove mock data and provide a clean initial state.
 -   [x] **Code Cleanup**:
     -   [x] Remove unused mock data file (`lib/data.ts`).
+-   [x] **Version Synchronization**:
+    -   [x] Synchronize the `package.json` version with the `CHANGELOG.md`.
 
 ## Project Complete
 

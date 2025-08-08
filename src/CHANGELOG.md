@@ -268,5 +268,11 @@
 ## [3.3.0] - 2024-09-13
 
 ### Changed
--   **Code Quality**: Removed the unused mock data file (`lib/data.ts`) to streamline the project and remove unnecessary code.
+-   **Code Cleanup**: Removed the unused mock data file (`lib/data.ts`) to streamline the project and remove unnecessary code.
+-   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [3.4.0] - 2024-09-14
+
+### Changed
+-   **Code Quality**: Final refinement of `package.json` by synchronizing the version number with the `CHANGELOG.md` to ensure project consistency.
 -   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
