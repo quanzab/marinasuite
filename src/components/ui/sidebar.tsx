@@ -663,13 +663,43 @@ const SidebarMenuSkeleton = React.forwardRef<
 SidebarMenuSkeleton.displayName = "SidebarMenuSkeleton"
 
 const SidebarMenuSub = React.forwardRef<
+  HTMLLIElement,
+  React.ComponentProps<"li"> & {
+    asChild?: boolean;
+    size?: "sm" | "md";
+    isActive?: boolean;
+  }
+>(({ asChild, size = "md", isActive, className, ...props }, ref) => {
+  const Comp = asChild ? Slot : "li";
+  return (
+    <Comp
+      ref={ref}
+      data-sidebar="menu-sub"
+      data-size={size}
+      data-active={isActive}
+      className={cn(
+        "relative flex h-7 min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
+        "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
+        size === "sm" && "text-xs",
+        size === "md" && "text-sm",
+        "group-data-[collapsible=icon]:text-foreground group-data-[collapsible=icon]:hover:bg-accent group-data-[collapsible=icon]:hover:text-accent-foreground group-data-[collapsible=icon]:data-[active=true]:bg-accent group-data-[collapsible=icon]:data-[active=true]:text-accent-foreground",
+        className
+      )}
+      {...props}
+    />
+  );
+});
+SidebarMenuSub.displayName = "SidebarMenuSub";
+
+
+const SidebarMenuSubContent = React.forwardRef<
   HTMLUListElement,
   React.ComponentProps<"ul">
 >(({ className, ...props }, ref) => {
   return (
     <ul
       ref={ref}
-      data-sidebar="menu-sub"
+      data-sidebar="menu-sub-content"
       className={cn(
         "relative mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border py-1 pl-2.5",
         "group-data-[collapsible=icon]:absolute group-data-[collapsible=icon]:left-full group-data-[collapsible=icon]:top-0 group-data-[collapsible=icon]:-mt-1.5 group-data-[collapsible=icon]:ml-2 group-data-[collapsible=icon]:h-auto group-data-[collapsible=icon]:w-48 group-data-[collapsible=icon]:rounded-lg group-data-[collapsible=icon]:border-0 group-data-[collapsible=icon]:bg-background group-data-[collapsible=icon]:p-1 group-data-[collapsible=icon]:shadow-lg group-data-[collapsible=icon]:ring-1 group-data-[collapsible=icon]:ring-border group-data-[collapsible=icon]:data-[state=closed]:hidden",
@@ -679,37 +709,7 @@ const SidebarMenuSub = React.forwardRef<
     />
   )
 })
-SidebarMenuSub.displayName = "SidebarMenuSub"
-
-const SidebarMenuSubButton = React.forwardRef<
-  HTMLAnchorElement,
-  React.ComponentProps<"a"> & {
-    asChild?: boolean
-    size?: "sm" | "md"
-    isActive?: boolean
-  }
->(({ asChild = false, size = "md", isActive, className, ...props }, ref) => {
-  const Comp = asChild ? Slot : "a"
-
-  return (
-    <Comp
-      ref={ref}
-      data-sidebar="menu-sub-button"
-      data-size={size}
-      data-active={isActive}
-      className={cn(
-        "flex h-7 min-w-0 items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
-        "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
-        size === "sm" && "text-xs",
-        size === "md" && "text-sm",
-        "group-data-[collapsible=icon]:text-foreground group-data-[collapsible=icon]:hover:bg-accent group-data-[collapsible=icon]:hover:text-accent-foreground group-data-[collapsible=icon]:data-[active=true]:bg-accent group-data-[collapsible=icon]:data-[active=true]:text-accent-foreground",
-        className
-      )}
-      {...props}
-    />
-  )
-})
-SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
+SidebarMenuSubContent.displayName = "SidebarMenuSubContent"
 
 export {
   Sidebar,
@@ -728,10 +728,12 @@ export {
   SidebarMenuItem,
   SidebarMenuSkeleton,
   SidebarMenuSub,
-  SidebarMenuSubButton,
+  SidebarMenuSubContent,
   SidebarProvider,
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
   useSidebar,
 }
+
+    
