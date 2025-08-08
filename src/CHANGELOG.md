@@ -281,3 +281,11 @@
     -   Fixed a persistent login issue by refactoring the post-authentication redirect logic.
     -   Streamlined the root page (`/`) to act as a proper auth gate, redirecting users to login or tenant selection.
     -   Ensured the login page correctly navigates to tenant selection upon success.
+
+## [2.8.0] - 2024-08-26
+
+### Fixed
+
+-   **Critical Authentication Config**:
+    -   Corrected the invalid API key in the `firebase-config.ts` file. This was the root cause of the persistent "unexpected error" during login, as the application could not communicate with the Firebase backend.
+    -   The login and all Firebase-related features are now fully operational.
