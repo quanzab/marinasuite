@@ -321,3 +321,11 @@
 ### Changed
 -   **Configuration**: Removed the unused `"type": "module"` property from `package.json` to finalize the project's configuration.
 -   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
+
+## [5.4.0] - 2024-09-24
+
+### Changed
+-   **Dashboard**: The "Open Routes" summary card on the main dashboard is now dynamic. The underlying `getRoutes` function now fetches data from a `routes` collection in Firestore.
+-   **Firestore**: Added sample data for routes to ensure the dashboard metric is functional on first load.
+-   **Types**: Added a `Route` type to `types.ts`.
+-   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.

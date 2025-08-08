@@ -69,6 +69,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Perform final code review and polish, including fixing type mismatches in mock data and ensuring UI component consistency.
     -   [x] Perform final configuration cleanup to ensure all settings are up-to-date and streamlined.
     -   [x] Add build configuration for Firebase Cloud Functions.
+-   [x] **Dynamic Routes Metric**:
+    -   [x] Implement a `routes` collection in Firestore to make the "Open Routes" dashboard card fully dynamic.
 
 ## Project Complete
 

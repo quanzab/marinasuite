@@ -345,10 +345,32 @@ export const deleteUser = async (id: string, tenantId: string) => {
 // READ (all)
 export const getRoutes = async (tenantId: string): Promise<Route[]> => {
   if (!tenantId) return [];
-  // For this demo, we will return an empty array as a clean starting state. 
-  // In a real app, this would query a 'routes' collection similar to the others.
-  return Promise.resolve([]);
+  
+  // In a real app, this would query a 'routes' collection. 
+  // For this demo, we'll return a static list of sample data.
+  // This makes the "Open Routes" dashboard card dynamic.
+  const sampleRoutes: Route[] = [
+      { id: 'route1', startPort: 'Singapore', endPort: 'Rotterdam', vessel: 'Ocean Explorer', status: 'Open' },
+      { id: 'route2', startPort: 'Shanghai', endPort: 'Los Angeles', vessel: 'Pacific Voyager', status: 'In Progress' },
+      { id: 'route3', startPort: 'New York', endPort: 'Hamburg', vessel: 'Atlantic Sprinter', status: 'Open' },
+  ];
+  
+  // Add these to firestore for one tenant only to avoid duplication
+  if (tenantId === "Global Maritime") {
+      const routesCollectionRef = collection(db, 'orgs', tenantId, 'routes');
+      const snapshot = await getDocs(routesCollectionRef);
+      if (snapshot.empty) {
+          for (const route of sampleRoutes) {
+              await addDoc(routesCollectionRef, route);
+          }
+      }
+  }
+  
+  const routesCollectionRef = collection(db, 'orgs', tenantId, 'routes');
+  const snapshot = await getDocs(routesCollectionRef);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Route));
 };
+
 
 // ====== INVENTORY ======
 
