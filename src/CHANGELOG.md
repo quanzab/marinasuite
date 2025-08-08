@@ -315,3 +315,9 @@
 ### Changed
 -   **Configuration**: Removed the redundant root `firebase.json` file to streamline the project's configuration, as all necessary rules and settings are defined elsewhere.
 -   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
+
+## [5.3.0] - 2024-09-23
+
+### Changed
+-   **Configuration**: Removed the unused `"type": "module"` property from `package.json` to finalize the project's configuration.
+-   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
