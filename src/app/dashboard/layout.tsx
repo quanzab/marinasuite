@@ -7,7 +7,7 @@ import {
   Search,
   LogOut,
   Bell,
-  FileWarning
+  FileWarning,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -56,6 +56,13 @@ import { useToast } from '@/hooks/use-toast';
 import { getCertificateNotifications } from '@/lib/notifications';
 import type { CertificateWithStatus } from '@/lib/types';
 import { useTenant } from '@/hooks/use-tenant';
+import { useCurrentUser } from '@/hooks/use-current-user';
+import { Skeleton } from '@/components/ui/skeleton';
+
+const getAvatarFallback = (name?: string) => {
+    if (!name) return "U";
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+}
 
 
 export default function DashboardLayout({
@@ -66,6 +73,8 @@ export default function DashboardLayout({
   const [notifications, setNotifications] = useState<CertificateWithStatus[]>([]);
   const [isLoadingNotifications, setIsLoadingNotifications] = useState(true);
   const { tenantId } = useTenant();
+  const { user, isLoading: isUserLoading } = useCurrentUser();
+
 
   const navLinks = [
     { href: '/dashboard', label: 'Dashboard', icon: DashboardIcon },
@@ -153,7 +162,7 @@ export default function DashboardLayout({
                 <CardHeader className="p-2 pt-0 md:p-4">
                   <div className="flex items-center justify-between">
                     <CardTitle>What's New</CardTitle>
-                    <Badge variant="secondary">v2.3.0</Badge>
+                    <Badge variant="secondary">v2.5.0</Badge>
                   </div>
                   <CardDescription>
                     Check out the latest features and updates.
@@ -274,16 +283,20 @@ export default function DashboardLayout({
             </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
+                {isUserLoading ? (
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                ) : (
                 <Button variant="secondary" size="icon" className="rounded-full">
                   <Avatar>
-                    <AvatarImage src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="@admin" />
-                    <AvatarFallback>AU</AvatarFallback>
+                    <AvatarImage src={`https://i.pravatar.cc/150?u=${user?.email}`} alt={user?.name} />
+                    <AvatarFallback>{getAvatarFallback(user?.name)}</AvatarFallback>
                   </Avatar>
                   <span className="sr-only">Toggle user menu</span>
                 </Button>
+                )}
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Admin User</DropdownMenuLabel>
+                <DropdownMenuLabel>{user?.name || 'User'}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>Settings</DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>

@@ -281,3 +281,11 @@
     -   Enhanced the AI Shanty Generator to use a multi-speaker TTS model.
     -   The Genkit flow now formats the lyrics with `Speaker1` and `Speaker2` prefixes to create a dynamic call-and-response audio output.
     -   The audio generation flow is now configured with two distinct voices (`Calypso` and `Triton`) for a more engaging listening experience.
+    
+## [2.5.0] - 2024-08-21
+
+### Changed
+
+-   **UI Personalization**: The user dropdown menu in the main dashboard layout is now dynamic. It displays the current user's name and generates an avatar fallback from their initials, providing a more personalized experience.
+-   **Project Complete**: All planned features and enhancements are now complete.
+

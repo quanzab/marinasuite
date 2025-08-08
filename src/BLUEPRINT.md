@@ -72,3 +72,4 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 ## 6. Development Roadmap
 
 See `TODO.md` for the development roadmap. Project is feature-complete.
+
