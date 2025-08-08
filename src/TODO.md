@@ -12,8 +12,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Fleet Operations**:
     -   [x] Implement CRUD functionality for vessels.
     -   [x] Connect the UI to a Firestore database.
-    -   [x] Add profile pages for vessels.
-    -   [x] Add forms for managing vessel maintenance schedules.
+    -   [x] Add profile pages for vessels with dynamic crew lists.
+    -   [ ] Add forms for managing vessel maintenance schedules. (In Progress - History needed)
 -   [x] **Certificate Management**:
     -   [x] Implement CRUD functionality for certificates.
     -   [x] Connect the UI to a Firestore database.
@@ -59,5 +59,6 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] AI-powered vessel image generator.
 
     
+
 
 

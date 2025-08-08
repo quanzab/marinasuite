@@ -319,3 +319,7 @@
 ### Changed
 - Updated the `generate-shanty-flow.ts` to include audio generation and conversion.
 - Added the `wav` package for handling audio data.
+
+## [3.3.0] - 2024-09-04
+### Changed
+- **Vessel Profile Enhancement**: The "Assigned Crew" card on the vessel profile page now dynamically fetches and displays the list of crew members assigned to that specific vessel, replacing the previous placeholder text.

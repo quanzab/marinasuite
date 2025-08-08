@@ -5,18 +5,26 @@ import { useEffect, useState, useTransition } from 'react';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { getVesselById } from '@/lib/firestore';
-import type { Vessel } from '@/lib/types';
+import { getVesselById, getCrew } from '@/lib/firestore';
+import type { Vessel, CrewMember } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Ship, Tag, Wrench, Calendar, Users, Wand2, Loader2 } from 'lucide-react';
+import { Ship, Tag, Wrench, Calendar, Users, Wand2, Loader2, User } from 'lucide-react';
 import Image from 'next/image';
 import { generateNewImageAction } from './actions';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Link from 'next/link';
+
+const getAvatarFallback = (name: string) => {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+}
+
 
 export default function VesselProfilePage({ params }: { params: { id: string } }) {
   const [vessel, setVessel] = useState<Vessel | null>(null);
+  const [assignedCrew, setAssignedCrew] = useState<CrewMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isGenerating, startTransition] = useTransition();
@@ -25,12 +33,18 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   const isManagerOrAdmin = currentUser?.role === 'Admin' || currentUser?.role === 'Manager';
 
 
-  const fetchVessel = async () => {
+  const fetchData = async () => {
     setIsLoading(true);
     try {
-      const fetchedVessel = await getVesselById(params.id);
+      const [fetchedVessel, allCrew] = await Promise.all([
+          getVesselById(params.id),
+          getCrew()
+      ]);
+      
       if (fetchedVessel) {
         setVessel(fetchedVessel);
+        const crewForVessel = allCrew.filter(c => c.assignedVessel === fetchedVessel.name);
+        setAssignedCrew(crewForVessel);
       } else {
         setError('Vessel not found.');
       }
@@ -45,7 +59,7 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
 
   useEffect(() => {
     if (params.id) {
-      fetchVessel();
+      fetchData();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
@@ -160,7 +174,24 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
                 <CardDescription>Crew members currently assigned to this vessel.</CardDescription>
             </CardHeader>
             <CardContent>
-                <p className="text-sm text-muted-foreground">Crew assignment feature coming soon.</p>
+                {assignedCrew.length > 0 ? (
+                  <div className="space-y-3">
+                    {assignedCrew.map(member => (
+                      <Link href={`/dashboard/crew/${member.id}`} key={member.id} className="flex items-center gap-3 hover:bg-muted p-2 rounded-lg">
+                         <Avatar className="h-9 w-9">
+                            <AvatarImage src={`https://i.pravatar.cc/150?u=${member.id}`} />
+                            <AvatarFallback>{getAvatarFallback(member.name)}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="text-sm font-medium">{member.name}</p>
+                          <p className="text-xs text-muted-foreground">{member.rank}</p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No crew members assigned.</p>
+                )}
             </CardContent>
         </Card>
          <Card>
@@ -231,8 +262,21 @@ function VesselProfileSkeleton() {
                         <CardTitle><Skeleton className="h-6 w-40" /></CardTitle>
                         <CardDescription><Skeleton className="h-4 w-48" /></CardDescription>
                     </CardHeader>
-                    <CardContent>
-                        <Skeleton className="h-4 w-full" />
+                     <CardContent className="space-y-3">
+                        <div className="flex items-center gap-3">
+                            <Skeleton className="h-9 w-9 rounded-full" />
+                            <div className="space-y-1">
+                                <Skeleton className="h-4 w-24" />
+                                <Skeleton className="h-3 w-16" />
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <Skeleton className="h-9 w-9 rounded-full" />
+                            <div className="space-y-1">
+                                <Skeleton className="h-4 w-24" />
+                                <Skeleton className="h-3 w-16" />
+                            </div>
+                        </div>
                     </CardContent>
                 </Card>
                 <Card>
