@@ -17,12 +17,12 @@ export const mockVessels: Vessel[] = [
 ];
 
 export const mockCertificates: Certificate[] = [
-  { id: 'CERT01', name: 'Master Mariner', issuedBy: 'Maritime Authority', issueDate: '2020-05-20', expiryDate: '2025-05-19', daysUntilExpiry: 350, status: 'Valid' },
-  { id: 'CERT02', name: 'STCW Basic Safety', issuedBy: 'Training Center', issueDate: '2022-08-10', expiryDate: '2027-08-09', daysUntilExpiry: 1150, status: 'Valid' },
-  { id: 'CERT03', name: 'GMDSS GOC', issuedBy: 'Communications Board', issueDate: '2019-11-30', expiryDate: '2024-11-29', daysUntilExpiry: 160, status: 'Valid' },
-  { id: 'CERT04', name: 'Medical First Aid', issuedBy: 'Red Cross', issueDate: '2023-01-15', expiryDate: '2025-01-14', daysUntilExpiry: 200, status: 'Valid' },
-  { id: 'CERT05', name: 'Ship Security Officer', issuedBy: 'Homeland Security', issueDate: '2021-07-22', expiryDate: '2024-07-21', daysUntilExpiry: 29, status: 'Expiring Soon' },
-  { id: 'CERT06', name: 'ECDIS Generic', issuedBy: 'Tech Solutions', issueDate: '2018-06-01', expiryDate: '2023-05-31', daysUntilExpiry: -40, status: 'Expired' },
+  { id: 'CERT01', name: 'Master Mariner', issuedBy: 'Maritime Authority', issueDate: '2020-05-20', expiryDate: '2025-05-19' },
+  { id: 'CERT02', name: 'STCW Basic Safety', issuedBy: 'Training Center', issueDate: '2022-08-10', expiryDate: '2027-08-09' },
+  { id: 'CERT03', name: 'GMDSS GOC', issuedBy: 'Communications Board', issueDate: '2019-11-30', expiryDate: '2024-11-29' },
+  { id: 'CERT04', name: 'Medical First Aid', issuedBy: 'Red Cross', issueDate: '2023-01-15', expiryDate: '2025-01-14' },
+  { id: 'CERT05', name: 'Ship Security Officer', issuedBy: 'Homeland Security', issueDate: '2021-07-22', expiryDate: '2024-07-21' },
+  { id: 'CERT06', name: 'ECDIS Generic', issuedBy: 'Tech Solutions', issueDate: '2018-06-01', expiryDate: '2023-05-31' },
 ];
 
 export const mockUsers: User[] = [

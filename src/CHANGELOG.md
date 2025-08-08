@@ -289,3 +289,10 @@
 -   **UI Personalization**: The user dropdown menu in the main dashboard layout is now dynamic. It displays the current user's name and generates an avatar fallback from their initials, providing a more personalized experience.
 -   **Project Complete**: All planned features and enhancements are now complete.
 
+## [2.6.0] - 2024-08-22
+
+### Fixed
+
+-   **Code Quality**: Corrected a type mismatch in the mock data (`lib/data.ts`) for certificates. The `status` and `daysUntilExpiry` fields, which are calculated properties, were removed from the base mock object to align with the strict `Certificate` type definition. This ensures type safety and prevents potential runtime errors.
+-   **Project Complete**: Final polish and code review complete. The MarinaSuite application is now officially feature-complete and stable.
+
