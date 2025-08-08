@@ -59,7 +59,7 @@ export async function getCrewSuggestion(
             vesselRequirements: vesselRequirements[selectedVessel.type] || ['STCW', 'Basic Safety Training'],
         };
 
-        const result = await suggestCrewAllocation(input);
+        const result = await suggestCrewAllocation(input, tenantId);
         return { data: result, error: null, message: "Suggestion received." };
     } catch (e) {
         const error = e instanceof Error ? e.message : "An unknown error occurred.";

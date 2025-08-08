@@ -62,5 +62,3 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] AI-powered sea shanty generator.
     -   [x] AI-powered vessel image generator.
     -   [x] AI-powered vessel video generator.
-
-    

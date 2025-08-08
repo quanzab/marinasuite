@@ -57,11 +57,9 @@ export type SuggestCrewAllocationOutput = z.infer<
 >;
 
 export async function suggestCrewAllocation(
-  input: SuggestCrewAllocationInput
+  input: SuggestCrewAllocationInput,
+  tenantId: string,
 ): Promise<SuggestCrewAllocationOutput> {
-  // We need to pass the tenantId to the tool, but we don't want to expose it in the public-facing schema.
-  // This is a placeholder for getting the tenant context on the server.
-  const tenantId = "Global Maritime"; 
   
   const suggestCrewAllocationFlow = ai.defineFlow(
     {
