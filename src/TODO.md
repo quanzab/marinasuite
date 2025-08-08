@@ -48,6 +48,6 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Add a streamlined "Renew Certificate" workflow.
     -   [ ] Add automated reminders for certificate renewals.
 -   [ ] **Advanced RBAC**:
-    -   [ ] Implement role-based access control using Firebase Auth custom claims to restrict actions.
+    -   [x] Implement role-based access control using Firebase Auth custom claims to restrict actions.
 -   [ ] **Notifications**:
     -   [ ] Implement in-app and push notifications for important events (e.g., certificate expiry, maintenance reminders).

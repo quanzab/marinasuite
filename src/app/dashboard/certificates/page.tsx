@@ -16,7 +16,7 @@ import { getCertificates, addCertificate, updateCertificate, deleteCertificate }
 import type { Certificate, CertificateWithStatus, RenewCertificateFormValues } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
-import { format } from "date-fns";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring Soon' | 'Expired', daysUntilExpiry: number } {
   const today = new Date();
@@ -41,6 +41,9 @@ export default function CertificatesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
   const { toast } = useToast();
+  const { user: currentUser, isLoading: isUserLoading } = useCurrentUser();
+  const isManagerOrAdmin = currentUser?.role === 'Admin' || currentUser?.role === 'Manager';
+
 
   const fetchCertificates = useCallback(async () => {
     setIsLoading(true);
@@ -179,7 +182,7 @@ export default function CertificatesPage() {
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-semibold md:text-3xl">Certificate Management</h1>
         <div className="ml-auto flex items-center gap-2">
-          <Button onClick={handleAdd}>
+          <Button onClick={handleAdd} disabled={!isManagerOrAdmin || isUserLoading}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Add Certificate
           </Button>
@@ -258,7 +261,7 @@ export default function CertificatesPage() {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button aria-haspopup="true" size="icon" variant="ghost">
+                        <Button aria-haspopup="true" size="icon" variant="ghost" disabled={!isManagerOrAdmin || isUserLoading}>
                           <MoreHorizontal className="h-4 w-4" />
                           <span className="sr-only">Toggle menu</span>
                         </Button>

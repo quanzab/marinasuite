@@ -41,6 +41,11 @@ export type User = {
   tenant: string;
 };
 
+export type CurrentUser = User & {
+    uid: string;
+}
+
+
 const scheduleMaintenanceFormSchema = z.object({
   nextMaintenance: z.date({
     required_error: "Next maintenance date is required.",

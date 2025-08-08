@@ -16,6 +16,7 @@ import type { Vessel, ScheduleMaintenanceFormValues } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export default function FleetPage() {
   const [vessels, setVessels] = useState<Vessel[]>([]);
@@ -26,6 +27,8 @@ export default function FleetPage() {
   const [selectedVessel, setSelectedVessel] = useState<Vessel | null>(null);
   const { toast } = useToast();
   const router = useRouter();
+  const { user: currentUser, isLoading: isUserLoading } = useCurrentUser();
+  const isManagerOrAdmin = currentUser?.role === 'Admin' || currentUser?.role === 'Manager';
 
   const fetchVessels = useCallback(async () => {
     setIsLoading(true);
@@ -159,7 +162,7 @@ export default function FleetPage() {
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-semibold md:text-3xl">Fleet Operations</h1>
         <div className="ml-auto flex items-center gap-2">
-          <Button onClick={handleAdd}>
+          <Button onClick={handleAdd} disabled={!isManagerOrAdmin || isUserLoading}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Add Vessel
           </Button>
@@ -238,7 +241,7 @@ export default function FleetPage() {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button aria-haspopup="true" size="icon" variant="ghost">
+                        <Button aria-haspopup="true" size="icon" variant="ghost" disabled={!isManagerOrAdmin || isUserLoading}>
                           <MoreHorizontal className="h-4 w-4" />
                           <span className="sr-only">Toggle menu</span>
                         </Button>

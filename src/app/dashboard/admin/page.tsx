@@ -14,6 +14,7 @@ import type { User } from "@/lib/types";
 import { UserForm, UserFormValues } from "./user-form";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export default function AdminPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -22,6 +23,9 @@ export default function AdminPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const { toast } = useToast();
+  const { user: currentUser, isLoading: isUserLoading } = useCurrentUser();
+  const isAdmin = currentUser?.role === 'Admin';
+
 
   const fetchUsers = useCallback(async () => {
     setIsLoading(true);
@@ -120,7 +124,7 @@ export default function AdminPage() {
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-semibold md:text-3xl">Admin Panel</h1>
         <div className="ml-auto flex items-center gap-2">
-          <Button onClick={handleAdd}>
+          <Button onClick={handleAdd} disabled={!isAdmin || isUserLoading}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Invite User
           </Button>
@@ -181,7 +185,7 @@ export default function AdminPage() {
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button aria-haspopup="true" size="icon" variant="ghost">
+                        <Button aria-haspopup="true" size="icon" variant="ghost" disabled={!isAdmin || isUserLoading}>
                           <MoreHorizontal className="h-4 w-4" />
                           <span className="sr-only">Toggle menu</span>
                         </Button>
