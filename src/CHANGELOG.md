@@ -275,3 +275,14 @@
 ### Changed
 
 -   **Component Refinement**: Updated the `Button` component to automatically style icons passed as children, ensuring consistent sizing and spacing. This improves the component's reusability and aligns it with best practices.
+
+## [2.4.0] - 2024-08-21
+
+### Added
+
+-   **Real-Time Data Updates**: Implemented real-time data synchronization using Firestore's `onSnapshot` listeners for the Crew, Fleet, Certificates, and Dashboard pages. The UI now updates automatically when data changes in the backend, providing a more dynamic and responsive user experience.
+
+### Changed
+
+-   Refactored `firestore.ts` to include `subscribeTo` functions that manage real-time listeners.
+-   Updated all relevant pages to use the new subscription-based data fetching hooks instead of one-time fetches.

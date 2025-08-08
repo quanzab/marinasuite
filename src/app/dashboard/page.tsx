@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from "react";
@@ -30,7 +29,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getCrew, getVessels, getRoutes } from "@/lib/firestore"
+import { getRoutes, subscribeToCrew, subscribeToVessels } from "@/lib/firestore"
 import { getCertificateNotifications } from "@/lib/notifications";
 import type { CertificateWithStatus, CrewMember, Vessel, Route } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -48,20 +47,23 @@ export default function Dashboard() {
   const { toast } = useToast();
   const { tenantId } = useTenant();
 
-  const fetchData = useCallback(async () => {
-    if (!tenantId) return;
+  const fetchData = useCallback(async (tenantId: string) => {
     setIsLoading(true);
     try {
-      const [crewData, vesselData, certNotifications, routeData] = await Promise.all([
-          getCrew(tenantId), 
-          getVessels(tenantId),
+      const [certNotifications, routeData] = await Promise.all([
           getCertificateNotifications(tenantId),
           getRoutes(tenantId)
-        ]);
-      setCrew(crewData);
-      setVessels(vesselData);
+      ]);
       setExpiringCertificates(certNotifications);
       setRoutes(routeData);
+
+      const unsubCrew = await subscribeToCrew(tenantId, setCrew);
+      const unsubVessels = await subscribeToVessels(tenantId, setVessels);
+
+      return () => {
+        unsubCrew();
+        unsubVessels();
+      };
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
        toast({
@@ -69,14 +71,20 @@ export default function Dashboard() {
         title: "Error",
         description: "Failed to fetch dashboard data.",
       });
+      return () => {};
     } finally {
       setIsLoading(false);
     }
-  }, [toast, tenantId]);
+  }, [toast]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (tenantId) {
+      const unsubscribePromise = fetchData(tenantId);
+      return () => {
+        unsubscribePromise.then(unsub => unsub());
+      };
+    }
+  }, [tenantId, fetchData]);
 
   const vesselsInService = vessels.filter(v => v.status === 'In Service').length;
   const expiringSoonCount = expiringCertificates.filter(c => c.status === 'Expiring Soon').length;

@@ -57,6 +57,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] AI-powered sea shanty generator.
     -   [x] AI-powered image and video generation for vessels.
     -   [x] AI-powered Text-to-Speech for shanties.
+-   [x] **Real-Time Data**:
+    -   [x] Implement real-time data updates using Firestore listeners (`onSnapshot`) for a more dynamic UI.
 
 ## Project Complete
 

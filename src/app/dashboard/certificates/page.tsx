@@ -12,7 +12,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CertificateForm, CertificateFormValues } from "./certificate-form";
 import { RenewCertificateForm } from "./renew-form";
-import { getCertificates, addCertificate, updateCertificate, deleteCertificate } from "@/lib/firestore";
+import { subscribeToCertificates, addCertificate, updateCertificate, deleteCertificate } from "@/lib/firestore";
 import type { Certificate, CertificateWithStatus, RenewCertificateFormValues } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -47,27 +47,33 @@ export default function CertificatesPage() {
   const { tenantId } = useTenant();
 
 
-  const fetchCertificates = useCallback(async () => {
-    if (!tenantId) return;
+  const fetchCertificates = useCallback(async (tenantId: string) => {
     setIsLoading(true);
-    try {
-      const certificateData = await getCertificates(tenantId);
+    const unsubscribe = await subscribeToCertificates(tenantId, (certificateData) => {
       setCertificates(certificateData);
-    } catch (error) {
+      setIsLoading(false);
+    }, (error) => {
       console.error("Error fetching certificates:", error);
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to fetch certificate data.",
       });
-    } finally {
       setIsLoading(false);
-    }
-  }, [toast, tenantId]);
+    });
+
+    return unsubscribe;
+  }, [toast]);
+
 
   useEffect(() => {
-    fetchCertificates();
-  }, [fetchCertificates]);
+    if (tenantId) {
+      const unsubscribePromise = fetchCertificates(tenantId);
+      return () => {
+        unsubscribePromise.then(unsub => unsub());
+      };
+    }
+  }, [tenantId, fetchCertificates]);
 
   const certificatesWithStatus: CertificateWithStatus[] = useMemo(() => {
     return certificates.map(cert => {
@@ -100,7 +106,6 @@ export default function CertificatesPage() {
         title: "Success",
         description: "Certificate deleted successfully.",
       });
-      fetchCertificates();
     } catch (error) {
       console.error("Error deleting certificate:", error);
       toast({
@@ -128,7 +133,6 @@ export default function CertificatesPage() {
           description: "Certificate added successfully.",
         });
       }
-      fetchCertificates();
       setIsFormDialogOpen(false);
     } catch (error) {
       console.error("Error saving certificate:", error);
@@ -154,7 +158,6 @@ export default function CertificatesPage() {
         title: "Success",
         description: "Certificate renewed successfully.",
       });
-      fetchCertificates();
       setIsRenewDialogOpen(false);
     } catch (error) {
       console.error("Error renewing certificate:", error);

@@ -10,7 +10,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CrewForm, CrewFormValues } from "./crew-form";
-import { getCrew, addCrewMember, updateCrewMember, deleteCrewMember } from "@/lib/firestore";
+import { subscribeToCrew, addCrewMember, updateCrewMember, deleteCrewMember } from "@/lib/firestore";
 import type { CrewMember } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -31,27 +31,31 @@ export default function CrewPage() {
   const { tenantId } = useTenant();
 
 
-  const fetchCrew = useCallback(async () => {
-    if (!tenantId) return;
+  const fetchCrew = useCallback(async (tenantId: string) => {
     setIsLoading(true);
-    try {
-      const crewData = await getCrew(tenantId);
+    const unsubscribe = await subscribeToCrew(tenantId, (crewData) => {
       setCrew(crewData);
-    } catch (error) {
+      setIsLoading(false);
+    }, (error) => {
       console.error("Error fetching crew:", error);
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to fetch crew data.",
       });
-    } finally {
       setIsLoading(false);
-    }
-  }, [toast, tenantId]);
+    });
+    return unsubscribe;
+  }, [toast]);
 
   useEffect(() => {
-    fetchCrew();
-  }, [fetchCrew]);
+    if (tenantId) {
+      const unsubscribePromise = fetchCrew(tenantId);
+      return () => {
+        unsubscribePromise.then(unsub => unsub());
+      };
+    }
+  }, [tenantId, fetchCrew]);
 
   const handleEdit = (crewMember: CrewMember) => {
     setSelectedCrew(crewMember);
@@ -71,7 +75,6 @@ export default function CrewPage() {
         title: "Success",
         description: "Crew member deleted successfully.",
       });
-      fetchCrew(); // Refresh data
     } catch (error) {
       console.error("Error deleting crew member:", error);
       toast({
@@ -101,7 +104,6 @@ export default function CrewPage() {
           description: "Crew member added successfully.",
         });
       }
-      fetchCrew(); // Refresh data
       setIsDialogOpen(false);
     } catch (error) {
       console.error("Error saving crew member:", error);

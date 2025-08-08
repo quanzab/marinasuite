@@ -1,7 +1,6 @@
 
-
 import { db } from './firebase';
-import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion, onSnapshot } from 'firebase/firestore';
 import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
@@ -9,7 +8,74 @@ import type { CertificateFormValues } from '@/app/dashboard/certificates/certifi
 import type { UserFormValues } from '@/app/dashboard/admin/user-form';
 import { format } from 'date-fns';
 
-// ====== CREW ======
+// ====== REAL-TIME SUBSCRIPTIONS ======
+
+// SUBSCRIBE to Crew
+export const subscribeToCrew = async (
+  tenantId: string, 
+  callback: (crew: CrewMember[]) => void, 
+  onError: (error: Error) => void
+) => {
+  if (!tenantId) {
+    onError(new Error("Tenant ID is required."));
+    return () => {}; // Return an empty unsubscribe function
+  }
+  const crewCollectionRef = collection(db, 'orgs', tenantId, 'crew');
+  const unsubscribe = onSnapshot(crewCollectionRef, (snapshot) => {
+    const crewData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as CrewMember));
+    callback(crewData);
+  }, (error) => {
+    console.error("Error subscribing to crew:", error);
+    onError(error);
+  });
+  return unsubscribe;
+};
+
+// SUBSCRIBE to Vessels
+export const subscribeToVessels = async (
+  tenantId: string, 
+  callback: (vessels: Vessel[]) => void,
+  onError?: (error: Error) => void
+) => {
+  if (!tenantId) {
+    onError?.(new Error("Tenant ID is required."));
+    return () => {};
+  }
+  const vesselsCollectionRef = collection(db, 'orgs', tenantId, 'vessels');
+  const unsubscribe = onSnapshot(vesselsCollectionRef, (snapshot) => {
+    const vesselData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Vessel));
+    callback(vesselData);
+  }, (error) => {
+    console.error("Error subscribing to vessels:", error);
+    onError?.(error);
+  });
+  return unsubscribe;
+};
+
+
+// SUBSCRIBE to Certificates
+export const subscribeToCertificates = async (
+  tenantId: string,
+  callback: (certificates: Certificate[]) => void,
+  onError: (error: Error) => void
+) => {
+  if (!tenantId) {
+    onError(new Error("Tenant ID is required."));
+    return () => {};
+  }
+  const certificatesCollectionRef = collection(db, 'orgs', tenantId, 'certificates');
+  const unsubscribe = onSnapshot(certificatesCollectionRef, (snapshot) => {
+    const certificateData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Certificate));
+    callback(certificateData);
+  }, (error) => {
+    console.error("Error subscribing to certificates:", error);
+    onError(error);
+  });
+  return unsubscribe;
+};
+
+
+// ====== ONE-TIME FETCHES ======
 
 // READ (all)
 export const getCrew = async (tenantId: string): Promise<CrewMember[]> => {

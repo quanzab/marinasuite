@@ -11,7 +11,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { VesselForm, VesselFormValues } from "./vessel-form";
 import { ScheduleMaintenanceForm } from "./schedule-maintenance-form";
-import { getVessels, addVessel, updateVessel, deleteVessel } from "@/lib/firestore";
+import { subscribeToVessels, addVessel, updateVessel, deleteVessel } from "@/lib/firestore";
 import type { Vessel, ScheduleMaintenanceFormValues } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -32,27 +32,32 @@ export default function FleetPage() {
   const isManagerOrAdmin = currentUser?.role === 'Admin' || currentUser?.role === 'Manager';
   const { tenantId } = useTenant();
 
-  const fetchVessels = useCallback(async () => {
-    if (!tenantId) return;
+  const fetchVessels = useCallback(async (tenantId: string) => {
     setIsLoading(true);
-    try {
-      const vesselData = await getVessels(tenantId);
+    const unsubscribe = await subscribeToVessels(tenantId, (vesselData) => {
       setVessels(vesselData);
-    } catch (error) {
+      setIsLoading(false);
+    }, (error) => {
       console.error("Error fetching vessels:", error);
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to fetch vessel data.",
       });
-    } finally {
       setIsLoading(false);
-    }
-  }, [toast, tenantId]);
+    });
+    return unsubscribe;
+  }, [toast]);
 
   useEffect(() => {
-    fetchVessels();
-  }, [fetchVessels]);
+    if (tenantId) {
+      const unsubscribePromise = fetchVessels(tenantId);
+      return () => {
+        unsubscribePromise.then(unsub => unsub());
+      };
+    }
+  }, [tenantId, fetchVessels]);
+
 
   const handleEdit = (vessel: Vessel) => {
     setSelectedVessel(vessel);
@@ -77,7 +82,6 @@ export default function FleetPage() {
         title: "Success",
         description: "Vessel decommissioned successfully.",
       });
-      fetchVessels();
     } catch (error) {
       console.error("Error deleting vessel:", error);
       toast({
@@ -105,7 +109,6 @@ export default function FleetPage() {
           description: "Vessel added successfully.",
         });
       }
-      fetchVessels();
       setIsVesselFormOpen(false);
     } catch (error) {
       console.error("Error saving vessel:", error);
@@ -131,7 +134,6 @@ export default function FleetPage() {
         title: "Success",
         description: `Maintenance scheduled for ${selectedVessel.name}.`,
       });
-      fetchVessels();
       setIsMaintenanceFormOpen(false);
     } catch (error) {
       console.error("Error scheduling maintenance:", error);
