@@ -164,14 +164,14 @@ export default function DashboardLayout({
                 <CardHeader className="p-2 pt-0 md:p-4">
                   <div className="flex items-center justify-between">
                     <CardTitle>What's New</CardTitle>
-                    <Badge variant="secondary">v2.8.0</Badge>
+                    <Badge variant="secondary">v4.2.0</Badge>
                   </div>
                   <CardDescription>
                     Check out the latest features and updates.
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                  <Link href="/CHANGELOG.md" target="_blank">
+                  <Link href="/src/CHANGELOG.md" target="_blank">
                     <Button size="sm" className="w-full">
                       <WhatsNewIcon className="mr-2" />
                       View Changelog

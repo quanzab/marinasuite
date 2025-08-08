@@ -2,6 +2,10 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
+  serverActions: {
+    // Increase timeout for slow server actions like video generation
+    maxDuration: 120,
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -18,15 +22,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'img.freepik.com',
+        hostname: 'i.pravatar.cc',
         port: '',
         pathname: '/**',
       },
     ],
-  },
-  serverActions: {
-    // Increase timeout for slow server actions like video generation
-    maxDuration: 120,
   },
 };
 
