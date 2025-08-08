@@ -22,6 +22,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Offline Data Caching**: Offline data access and synchronization.
 -   **Advanced Scheduling**: Drag-and-drop and direct assignment of crew to vessels.
 -   **Reporting**: Generation and printing of key operational reports.
+-   **User Settings**: A dedicated page for users to manage their own profile information.
 
 ## 3. Tech Stack
 

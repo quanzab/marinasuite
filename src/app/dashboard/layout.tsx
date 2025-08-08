@@ -44,7 +44,8 @@ import {
   SchedulingIcon,
   ReportingIcon,
   NotificationsIcon,
-  MusicIcon
+  MusicIcon,
+  SettingsIcon,
 } from '@/components/icons';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -92,6 +93,7 @@ export default function DashboardLayout({
     { type: 'separator', label: 'Settings' },
     { href: '/dashboard/admin', label: 'Admin', icon: AdminIcon },
     { href: '/dashboard/notifications', label: 'Notifications', icon: NotificationsIcon },
+    { href: '/dashboard/settings', label: 'Settings', icon: SettingsIcon },
   ];
   const auth = getAuth();
   const router = useRouter();
@@ -162,7 +164,7 @@ export default function DashboardLayout({
                 <CardHeader className="p-2 pt-0 md:p-4">
                   <div className="flex items-center justify-between">
                     <CardTitle>What's New</CardTitle>
-                    <Badge variant="secondary">v2.3.0</Badge>
+                    <Badge variant="secondary">v2.7.0</Badge>
                   </div>
                   <CardDescription>
                     Check out the latest features and updates.
@@ -298,7 +300,9 @@ export default function DashboardLayout({
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>{user?.name || 'User'}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                    <Link href="/dashboard/settings">Settings</Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>

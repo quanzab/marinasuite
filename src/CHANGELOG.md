@@ -292,3 +292,13 @@
 
 ### Changed
 -   **Code Quality**: Performed final code review and polish, including refactoring the Sidebar component for better consistency and maintainability. The project is now considered complete.
+
+## [2.7.0] - 2024-08-23
+
+### Added
+- **User Profile Settings**: Implemented a new "Settings" page where users can view and update their own profile information, such as their name.
+
+### Changed
+- Updated the main layout to link to the new Settings page from the sidebar and user profile dropdown.
+- Added a new `updateUserProfile` function to the Firestore service layer.
+- Added a new `SettingsIcon`.

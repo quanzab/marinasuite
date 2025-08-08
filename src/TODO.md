@@ -61,6 +61,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement real-time data updates using Firestore listeners (`onSnapshot`) for a more dynamic UI.
 -   [x] **UI Personalization**:
     -   [x] Make user profile information in the main layout dynamic.
+    -   [x] Add a user settings page to allow users to update their own profile.
 -   [x] **Code Quality**:
     -   [x] Perform final code review and polish, including fixing type mismatches in mock data and ensuring UI component consistency.
 

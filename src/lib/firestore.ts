@@ -5,7 +5,7 @@ import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route } 
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
-import type { UserFormValues } from '@/app/dashboard/admin/user-form';
+import type { UserFormValues, UpdateUserFormValues } from '@/app/dashboard/settings/page';
 import { format } from 'date-fns';
 
 // ====== REAL-TIME SUBSCRIPTIONS ======
@@ -276,6 +276,14 @@ export const updateUser = async (id: string, userData: Partial<UserFormValues>) 
   const userDoc = doc(db, 'orgs', userData.tenant, 'users', id);
   await updateDoc(userDoc, userData);
 };
+
+// UPDATE (Profile)
+export const updateUserProfile = async (tenantId: string, userId: string, data: UpdateUserFormValues) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const userDoc = doc(db, 'orgs', tenantId, 'users', userId);
+    await updateDoc(userDoc, data);
+};
+
 
 // DELETE
 export const deleteUser = async (id: string, tenantId: string) => {
