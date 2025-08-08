@@ -105,3 +105,19 @@
 ### Changed
 
 -   Updated `lib/firestore.ts` to include sample data for `certifications` and `medicalRecords` when creating a new crew member to better demonstrate profile pages.
+
+## [0.9.0] - 2024-08-07
+
+### Added
+
+-   **Dashboard Analytics**:
+    -   Connected the main dashboard to Firestore to display live data.
+    -   Summary cards for 'Total Crew' and 'Vessels In Service' are now dynamic.
+    -   The 'Recent Crew Members' table and 'Fleet Status' list now show real-time information.
+    -   Added loading skeletons for a better user experience while data is being fetched.
+
+### Changed
+
+-   Converted the dashboard page to a client component (`'use client'`) to enable data fetching hooks.
+
+    
