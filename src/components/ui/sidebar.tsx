@@ -664,32 +664,16 @@ SidebarMenuSkeleton.displayName = "SidebarMenuSkeleton"
 
 const SidebarMenuSub = React.forwardRef<
   HTMLLIElement,
-  React.ComponentProps<"li"> & {
-    asChild?: boolean;
-    size?: "sm" | "md";
-    isActive?: boolean;
-  }
->(({ asChild, size = "md", isActive, className, ...props }, ref) => {
-  const Comp = asChild ? Slot : "li";
-  return (
-    <Comp
-      ref={ref}
-      data-sidebar="menu-sub"
-      data-size={size}
-      data-active={isActive}
-      className={cn(
-        "relative flex h-7 min-w-0 cursor-pointer items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground outline-none ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground",
-        "data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground",
-        size === "sm" && "text-xs",
-        size === "md" && "text-sm",
-        "group-data-[collapsible=icon]:text-foreground group-data-[collapsible=icon]:hover:bg-accent group-data-[collapsible=icon]:hover:text-accent-foreground group-data-[collapsible=icon]:data-[active=true]:bg-accent group-data-[collapsible=icon]:data-[active=true]:text-accent-foreground",
-        className
-      )}
-      {...props}
-    />
-  );
-});
-SidebarMenuSub.displayName = "SidebarMenuSub";
+  React.ComponentProps<"li">
+>(({ className, ...props }, ref) => (
+  <li
+    ref={ref}
+    data-sidebar="menu-sub"
+    className={cn("relative", className)}
+    {...props}
+  />
+))
+SidebarMenuSub.displayName = "SidebarMenuSub"
 
 
 const SidebarMenuSubContent = React.forwardRef<
@@ -735,5 +719,4 @@ export {
   SidebarTrigger,
   useSidebar,
 }
-
     
