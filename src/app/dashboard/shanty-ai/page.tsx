@@ -2,7 +2,7 @@
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
-import { Bot, Loader2, Music, Ship } from "lucide-react";
+import { Bot, Loader2, Music, Ship, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -62,7 +62,7 @@ export default function ShantyAiPage() {
         <h1 className="text-2xl font-semibold md:text-3xl">AI Shanty Generator</h1>
       </div>
       <p className="text-muted-foreground">
-        Select a vessel and let the AI compose a traditional sea shanty in its honor.
+        Select a vessel and let the AI compose and sing a traditional sea shanty in its honor.
       </p>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -121,6 +121,14 @@ export default function ShantyAiPage() {
                   </div>
               </CardHeader>
               <CardContent>
+                  {state.data.audioDataUri && (
+                      <div className="mb-6">
+                         <audio controls className="w-full">
+                            <source src={state.data.audioDataUri} type="audio/wav" />
+                            Your browser does not support the audio element.
+                        </audio>
+                      </div>
+                  )}
                   <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap">
                       <Markdown>{state.data.shanty}</Markdown>
                   </div>

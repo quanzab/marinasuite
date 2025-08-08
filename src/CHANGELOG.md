@@ -309,3 +309,13 @@
     - Created a new Genkit flow (`generate-vessel-image-flow.ts`) for the image generation logic.
     - Implemented a "Generate Image" button on the vessel profile page that triggers the AI and updates the image.
 - **Vessel Image Storage**: Added `imageUrl` field to the `Vessel` type and Firestore documents to store the generated image URLs.
+
+## [3.2.0] - 2024-09-03
+### Added
+- **AI Shanty Audio Generation**:
+    - Enhanced the AI Shanty Generator with Text-to-Speech (TTS) functionality.
+    - The Genkit flow now converts the generated lyrics into an audio file.
+    - The "Shanty AI" page now includes an audio player to listen to the shanty.
+### Changed
+- Updated the `generate-shanty-flow.ts` to include audio generation and conversion.
+- Added the `wav` package for handling audio data.

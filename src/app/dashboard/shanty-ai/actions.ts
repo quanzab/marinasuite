@@ -45,6 +45,7 @@ export async function getShanty(
 
         return { data: result, error: null, message: "Shanty generated." };
     } catch (e) {
+        console.error(e);
         const error = e instanceof Error ? e.message : "An unknown error occurred.";
         return { data: null, error, message: "Failed to generate shanty." };
     }
