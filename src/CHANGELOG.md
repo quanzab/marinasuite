@@ -276,3 +276,9 @@
 ### Changed
 -   **Code Quality**: Final refinement of `package.json` by synchronizing the version number with the `CHANGELOG.md` to ensure project consistency.
 -   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [3.5.0] - 2024-09-15
+
+### Changed
+-   **Code Quality**: Final refinement of `package.json` by removing the `postinstall` script to streamline project configuration.
+-   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
