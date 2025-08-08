@@ -287,3 +287,8 @@
 ### Changed
 -   **Project Cleanup**: Removed obsolete root-level documentation files (`BLUEPRINT.md`, `CHANGELOG.md`, `TODO.md`) to eliminate redundancy and streamline the project structure.
 -   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+## [3.7.0] - 2024-09-17
+
+### Changed
+-   **Code Quality**: Final refinement of the `Input` component to remove an unused style class and ensure perfect alignment with base styles.
+-   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.

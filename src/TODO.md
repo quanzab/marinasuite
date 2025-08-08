@@ -71,6 +71,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Remove unused mock data file (`lib/data.ts`).
 -   [x] **Version Synchronization**:
     -   [x] Synchronize the `package.json` version with the `CHANGELOG.md`.
+-   [x] **Project Cleanup**:
+    -   [x] Remove obsolete root-level documentation files to streamline the project structure.
 
 ## Project Complete
 
