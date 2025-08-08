@@ -291,3 +291,13 @@
 ### Fixed
 - **Scheduling Data Consistency**: Corrected the "Assign to Vessel" action to use the vessel's name instead of its ID, ensuring data consistency with how assigned vessels are displayed.
     
+## [3.0.0] - 2024-09-01
+### Added
+- **Drag-and-Drop Scheduling**:
+  - Implemented a fully interactive drag-and-drop interface on the scheduling page using `dnd-kit`.
+  - Users can now drag crew members from the "Unassigned" list and drop them onto a vessel to assign them.
+  - Crew members can also be dragged from one vessel to another, or back to the "Unassigned" list.
+  - The UI provides clear visual feedback during drag operations.
+### Changed
+- Refactored the `schedule-client.tsx` component to support the new interactive functionality.
+- Removed the previous dropdown-based assignment in favor of the drag-and-drop system.
