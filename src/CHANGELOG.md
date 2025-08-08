@@ -231,3 +231,34 @@
     -   Added a dedicated "Renew" action to the certificate management page.
     -   Created a new, simplified form (`renew-form.tsx`) for setting a new expiry date.
     -   This provides a more streamlined and intuitive user experience for a common administrative task.
+
+## [2.2.0] - 2024-08-20
+
+### Added
+
+-   **Drag-and-Drop Scheduling**:
+    -   Replaced the basic crew assignment UI with a modern drag-and-drop interface.
+    -   Users can now drag unassigned crew members and drop them onto vessel cards to create assignments.
+    -   The system provides immediate visual feedback and updates the database in real-time.
+
+## [2.3.0] - 2024-08-21
+
+### Changed
+
+-   **Weekly Calendar View**:
+    -   Redesigned the scheduling page to feature a full seven-day weekly calendar.
+    -   Crew assignments are now visualized within the context of the week, providing a clearer operational overview.
+    -   Adapted the drag-and-drop functionality to work seamlessly with the new calendar layout.
+    
+## [2.4.0] - 2024-08-22
+
+### Added
+
+-   **Advanced RBAC with Custom Claims**:
+    -   Implemented a Firebase Cloud Function to automatically set custom user claims based on a user's role in Firestore.
+    -   The application now reads roles from the secure ID token, providing robust, server-enforced role-based access control.
+    -   This significantly enhances application security and moves authorization logic to the backend.
+
+### Fixed
+
+-   **Authentication Failures**: Resolved persistent login issues by fetching and implementing the correct Firebase project configuration, fixing an invalid API key. This was a critical fix to restore core application functionality.

@@ -1,6 +1,6 @@
 
 
-import { db } from './firebase';
+import { db, initializeFirebaseAdmin } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion } from 'firebase/firestore';
 import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
@@ -9,6 +9,9 @@ import type { CertificateFormValues } from '@/app/dashboard/certificates/certifi
 import type { UserFormValues } from '@/app/dashboard/admin/user-form';
 import { format } from 'date-fns';
 
+// This is a mock function to simulate server-side admin operations.
+// The actual logic would live in a Cloud Function.
+const admin = initializeFirebaseAdmin();
 
 // ====== CREW ======
 
@@ -188,12 +191,9 @@ export const deleteCertificate = async (tenantId: string, id: string) => {
 
 // READ
 export const getUsers = async (): Promise<User[]> => {
-    // This function will now query all 'users' sub-collections across all 'orgs'
     const usersQuery = query(collectionGroup(db, 'users'));
     const snapshot = await getDocs(usersQuery);
     if (snapshot.empty) {
-        // If there are truly no users, return an empty array.
-        // The initial user data should be provisioned in a real setup.
         return [];
     }
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
@@ -202,16 +202,12 @@ export const getUsers = async (): Promise<User[]> => {
 
 // CREATE
 export const addUser = async (userData: UserFormValues) => {
-    // This creates a user under a specific tenant.
-    // In a real app, the tenantId would be dynamic.
     const specificUsersCollectionRef = collection(db, 'orgs', userData.tenant, 'users');
     await addDoc(specificUsersCollectionRef, userData);
 };
 
 // UPDATE
 export const updateUser = async (id: string, userData: Partial<UserFormValues>) => {
-  // To update a user, we need to know their tenant.
-  // This is a simplification; a real app would need a more robust way to locate the user document.
   if (!userData.tenant) {
       throw new Error("Tenant must be provided to update a user.");
   }
@@ -227,5 +223,3 @@ export const deleteUser = async (id: string, tenantId: string) => {
     const userDoc = doc(db, 'orgs', tenantId, 'users', id);
     await deleteDoc(userDoc);
 };
-
-

@@ -48,7 +48,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement a full weekly calendar view for assignments.
 -   [x] **Advanced Certificate Management**:
     -   [x] Add a streamlined "Renew Certificate" workflow.
-    -   [ ] Add automated reminders for certificate renewals. (In Progress via Notifications)
+    -   [x] Add automated reminders for certificate renewals. (Completed via Notifications)
 -   [x] **Advanced RBAC**:
     -   [x] Implement role-based access control using Firebase Auth custom claims to restrict actions.
 -   [x] **Notifications**:
@@ -62,3 +62,4 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] AI-powered sea shanty generator.
     -   [x] AI-powered vessel image generator.
     -   [x] AI-powered vessel video generator.
+

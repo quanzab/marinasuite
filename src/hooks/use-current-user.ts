@@ -14,11 +14,13 @@ export function useCurrentUser() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
       if (firebaseUser) {
-        // For the demo, we'll create a default user object based on the authenticated Firebase User.
-        // This ensures the app can proceed even if the Firestore user record doesn't exist yet.
-        // A real-world app would have more robust logic to sync Firestore records.
         
-        let foundUser: CurrentUser | null = null;
+        // When auth state changes, force a token refresh to get latest custom claims.
+        const idTokenResult = await firebaseUser.getIdTokenResult(true);
+        const claims = idTokenResult.claims;
+        const userRole = claims.role || 'Viewer'; // Default to 'Viewer' if no role claim
+
+        let foundUser: Omit<CurrentUser, 'role' | 'uid'> | null = null;
         try {
             const orgsSnapshot = await getDocs(collection(db, 'orgs'));
             for (const orgDoc of orgsSnapshot.docs) {
@@ -30,10 +32,8 @@ export function useCurrentUser() {
                     const userData = userSnapshot.docs[0].data();
                     foundUser = {
                         id: userSnapshot.docs[0].id,
-                        uid: firebaseUser.uid,
                         email: firebaseUser.email!,
                         name: userData.name || firebaseUser.displayName || 'Admin User',
-                        role: userData.role || 'Admin',
                         tenant: userData.tenant,
                     };
                     break;
@@ -44,17 +44,20 @@ export function useCurrentUser() {
         }
         
         if (foundUser) {
-            setUser(foundUser);
+            setUser({
+              ...foundUser,
+              uid: firebaseUser.uid,
+              role: userRole,
+            });
         } else {
-            // If no user is found in the DB, create a default admin user object to allow login.
-            // This is a fallback for the demo environment.
+            // Fallback for demo environment if user not in Firestore
             setUser({
               uid: firebaseUser.uid,
               email: firebaseUser.email!,
               name: firebaseUser.displayName || 'Admin User',
-              role: 'Admin',
+              role: userRole,
               tenant: 'Global Maritime', // Default tenant
-              id: firebaseUser.uid, // Use uid as id if not in DB
+              id: firebaseUser.uid, 
             });
         }
       } else {
