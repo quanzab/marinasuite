@@ -140,3 +140,12 @@
     -   New "Route AI" page for generating optimal shipping route suggestions.
     -   Genkit flow (`suggest-route-flow.ts`) to process route requests based on start/end ports and vessel type.
     -   New `RouteIcon` for navigation.
+
+## [1.2.0] - 2024-08-10
+
+### Added
+
+-   **Predictive Maintenance AI**:
+    -   New "Maintenance AI" page for generating predictive maintenance forecasts for vessels.
+    -   Genkit flow (`predictive-maintenance-flow.ts`) to analyze vessel data and suggest proactive maintenance.
+    -   New `MaintenanceIcon` for navigation.

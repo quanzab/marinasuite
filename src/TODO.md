@@ -33,7 +33,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Advanced AI Features**:
     -   [x] AI-powered crew allocation suggestions.
     -   [x] AI-powered route optimization suggestions.
-    -   [ ] Predictive maintenance alerts for vessels.
+    -   [x] Predictive maintenance alerts for vessels.
 
 
 ## Future Enhancements
