@@ -5,6 +5,7 @@
     "indexes": "firestore.indexes.json"
   },
   "functions": {
-    "source": "src/lib/firebase/functions"
+    "source": "src/lib/firebase/functions",
+    "runtime": "nodejs20"
   }
 }

@@ -286,3 +286,9 @@
 ### Changed
 -   **Configuration**: Removed the unused `next-auth` dependency from `package.json` to streamline the project's dependencies.
 -   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
+
+## [4.9.0] - 2024-09-19
+
+### Changed
+-   **Configuration**: Refined the Firebase Cloud Functions configuration by explicitly setting the runtime to `nodejs20` in `firebase.json`.
+-   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
