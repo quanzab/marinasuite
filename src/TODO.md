@@ -56,3 +56,4 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Creative AI Tools**:
     -   [x] AI-powered sea shanty generator.
     -   [x] AI-powered image and video generation for vessels.
+    -   [x] AI-powered Text-to-Speech for shanties.

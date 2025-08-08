@@ -226,3 +226,16 @@
 -   Resolved a critical Next.js build error (`Module not found: Can't resolve 'child_process'`) by removing server-side `firebase-admin` imports from client-side code.
 -   Corrected the application's font by ensuring `globals.css` uses the intended "Inter" font family.
 -   Fixed the persistent `auth/configuration-not-found` Firebase error by applying a valid production configuration.
+
+## [2.1.0] - 2024-08-17
+
+### Added
+
+-   **AI Text-to-Speech for Shanty Generator**:
+    -   Added a new "Listen" feature to the AI Shanty Generator.
+    -   Implemented a new Genkit flow (`generate-shanty-audio-flow.ts`) that uses a Gemini TTS model to convert the generated shanty text into playable audio.
+    -   The Shanty AI page now includes an audio player to listen to the generated shanty, providing a multi-modal user experience.
+
+### Changed
+
+-   Updated the Shanty AI page UI and server actions to handle the two-step process of generating text and then generating the corresponding audio.

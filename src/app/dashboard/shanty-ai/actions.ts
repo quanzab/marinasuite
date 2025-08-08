@@ -3,6 +3,7 @@
 
 import { z } from "zod";
 import { generateShanty, GenerateShantyOutput } from "@/ai/flows/generate-shanty-flow";
+import { generateShantyAudio } from "@/ai/flows/generate-shanty-audio-flow";
 import { getVessels } from "@/lib/firestore";
 import { useTenant } from "@/hooks/use-tenant";
 
@@ -15,6 +16,7 @@ type State = {
     data: GenerateShantyOutput | null;
     error: string | null;
     message: string;
+    audioDataUri: string | null;
 };
 
 export async function getShanty(
@@ -31,6 +33,7 @@ export async function getShanty(
             data: null,
             error: JSON.stringify(validatedFields.error.flatten().fieldErrors),
             message: "Validation failed.",
+            audioDataUri: null,
         };
     }
 
@@ -41,17 +44,31 @@ export async function getShanty(
         const selectedVessel = allVessels.find(v => v.id === vesselId);
 
         if (!selectedVessel) {
-            return { data: null, error: "Selected vessel not found.", message: "Error" };
+            return { data: null, error: "Selected vessel not found.", message: "Error", audioDataUri: null };
         }
 
-        const result = await generateShanty({
+        const textResult = await generateShanty({
             vesselName: selectedVessel.name,
         });
 
-        return { data: result, error: null, message: "Shanty generated." };
+        // Immediately return the text result to show the user
+        // We trigger the audio generation but don't wait for it here
+        // The client will poll or a more advanced solution would be used in a real app
+        const audioPromise = generateShantyAudio({ shantyText: textResult.shanty });
+        
+        // In this simplified example, we'll await both.
+        // In a real-world app, you might return the text first and then stream/load the audio.
+        const audioResult = await audioPromise;
+
+        return { 
+            data: textResult, 
+            error: null, 
+            message: "Shanty and audio generated.",
+            audioDataUri: audioResult.audioDataUri
+        };
     } catch (e) {
         console.error(e);
         const error = e instanceof Error ? e.message : "An unknown error occurred.";
-        return { data: null, error, message: "Failed to generate shanty." };
+        return { data: null, error, message: "Failed to generate shanty.", audioDataUri: null };
     }
 }

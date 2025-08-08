@@ -2,7 +2,7 @@
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
-import { Bot, Loader2, Music, Ship } from "lucide-react";
+import { Bot, Loader2, Music, Ship, Volume2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -37,7 +37,7 @@ function SubmitButton() {
 }
 
 export default function ShantyAiPage() {
-  const initialState = { data: null, error: null, message: "" };
+  const initialState = { data: null, error: null, message: "", audioDataUri: null };
   const [state, formAction] = useFormState(getShanty, initialState);
   const [vessels, setVessels] = useState<Vessel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -65,7 +65,7 @@ export default function ShantyAiPage() {
         <h1 className="text-2xl font-semibold md:text-3xl">AI Shanty Generator</h1>
       </div>
       <p className="text-muted-foreground">
-        Select a vessel and let the AI compose a traditional sea shanty in its honor.
+        Select a vessel and let the AI compose a traditional sea shanty in its honor. Then, listen to the result!
       </p>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -128,6 +128,21 @@ export default function ShantyAiPage() {
                   <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap">
                       <Markdown>{state.data.shanty}</Markdown>
                   </div>
+                   {state.audioDataUri ? (
+                      <div className="mt-6">
+                          <audio controls className="w-full">
+                              <source src={state.audioDataUri} type="audio/wav" />
+                              Your browser does not support the audio element.
+                          </audio>
+                      </div>
+                  ) : (
+                      state.message === "Shanty generated." && (
+                        <div className="mt-6 flex items-center justify-center gap-2 text-muted-foreground">
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Generating audio...</span>
+                        </div>
+                      )
+                  )}
               </CardContent>
           </Card>
         ) : (

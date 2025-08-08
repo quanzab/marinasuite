@@ -16,7 +16,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Route Optimizer AI**: AI-powered suggestions for optimal shipping routes.
 -   **Predictive Maintenance AI**: AI-powered forecasts for vessel maintenance.
 -   **Safety Report Analysis AI**: AI-driven analysis of incident reports.
--   **AI Shanty Generator**: A creative AI tool to generate sea shanties about vessels.
+-   **AI Shanty Generator**: A creative AI tool to generate sea shanties about vessels, complete with Text-to-Speech audio output.
 -   **AI Image/Video Generator**: AI tools to generate images and videos of vessels.
 -   **Offline Data Caching**: Offline data access and synchronization.
 
@@ -25,7 +25,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Framework**: Next.js (App Router)
 -   **Language**: TypeScript
 -   **UI**: React, ShadCN UI, Tailwind CSS
--   **AI**: Genkit (with AI Tool Use, Image/Video Generation)
+-   **AI**: Genkit (with AI Tool Use, Image/Video Generation, Text-to-Speech)
 -   **Backend**: Firebase (Authentication, Firestore, Cloud Functions)
 -   **Styling**: Tailwind CSS with HSL variables for theming.
 -   **Deployment**: Firebase App Hosting
