@@ -258,3 +258,9 @@
 ### Changed
 -   **Code Quality**: Final refinement of `package.json` by removing the unused `next-themes` dependency to streamline the project configuration and rely on the custom `ThemeProvider` implementation.
 -   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [4.2.0] - 2024-09-12
+
+### Changed
+-   **Code Quality**: Final refinement of the `Input` component by removing the `file:*` utility classes to improve theme consistency.
+-   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
