@@ -216,13 +216,10 @@
 -   **User Profile Settings**:
     -   New "Settings" page at `/dashboard/settings` where users can update their own profile information (e.g., name).
     -   The main layout now dynamically displays the logged-in user's name and avatar.
--   **UI Polish**:
-    -   Refactored the `Button` component to ensure consistent theme application.
-    -   Improved semantic HTML in the `Card` component for better accessibility.
 
 ## [2.5.0] - 2024-09-05
 
 ### Changed
--   **Code Quality**: Performed a final series of code quality enhancements on custom UI components (`Sidebar`, `Input`, `Textarea`, `DropdownMenu`) to ensure consistency, maintainability, and responsiveness.
+-   **Code Quality**: Performed a final series of code quality enhancements on custom UI components (`Card`, `Input`, `Textarea`, `DropdownMenu`) to ensure consistency, maintainability, and accessibility.
 -   **Documentation**: Updated all project documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to reflect that the project is complete and all development work is finished.
     
