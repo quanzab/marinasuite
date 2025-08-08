@@ -245,3 +245,12 @@
     -   New `InventoryIcon` and navigation link in the main layout.
     -   Added `InventoryItem` to `types.ts`.
 -   **Documentation**: Updated `BLUEPRINT.md` and `TODO.md` to include the new inventory module.
+
+## [4.4.0] - 2024-09-14
+
+### Added
+-   **Inventory CRUD**:
+    -   Implemented full CRUD (Create, Read, Update, Delete) functionality for the Inventory Management module.
+    -   Created a new `inventory-form.tsx` component to handle adding and editing items.
+    -   Added `addInventoryItem`, `updateInventoryItem`, and `deleteInventoryItem` functions to the Firestore service.
+-   **Documentation**: Updated `TODO.md` to reflect the completion of the inventory feature.

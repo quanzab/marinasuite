@@ -6,8 +6,11 @@ import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route, I
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
-import type { UserFormValues, UpdateUserFormValues } from '@/app/dashboard/settings/page';
+import type { UserFormValues } from '@/app/dashboard/admin/user-form';
+import type { UpdateUserFormValues } from '@/app/dashboard/settings/page';
 import { format } from 'date-fns';
+import type { RouteFormValues } from '@/app/dashboard/routes/route-form';
+import type { InventoryFormValues } from '@/app/dashboard/inventory/inventory-form';
 
 // ====== REAL-TIME SUBSCRIPTIONS ======
 
@@ -95,6 +98,28 @@ export const subscribeToInventory = async (
   });
   return unsubscribe;
 };
+
+// SUBSCRIBE to Routes
+export const subscribeToRoutes = async (
+  tenantId: string,
+  callback: (routes: Route[]) => void,
+  onError: (error: Error) => void
+) => {
+  if (!tenantId) {
+    onError(new Error("Tenant ID is required."));
+    return () => {};
+  }
+  const routesCollectionRef = collection(db, 'orgs', tenantId, 'routes');
+  const unsubscribe = onSnapshot(routesCollectionRef, (snapshot) => {
+    const routeData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Route));
+    callback(routeData);
+  }, (error) => {
+    console.error("Error subscribing to routes:", error);
+    onError(error);
+  });
+  return unsubscribe;
+}
+
 
 // SUBSCRIBE to Notifications
 export const subscribeToNotifications = async (
@@ -338,6 +363,30 @@ export const deleteUser = async (id: string, tenantId: string) => {
     await deleteDoc(userDoc);
 };
 
+// ====== INVENTORY ======
+
+// CREATE
+export const addInventoryItem = async (tenantId: string, itemData: InventoryFormValues) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const inventoryCollectionRef = collection(db, 'orgs', tenantId, 'inventory');
+    await addDoc(inventoryCollectionRef, itemData);
+};
+
+// UPDATE
+export const updateInventoryItem = async (tenantId: string, id: string, itemData: Partial<InventoryFormValues>) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const itemDoc = doc(db, 'orgs', tenantId, 'inventory', id);
+    await updateDoc(itemDoc, itemData);
+};
+
+// DELETE
+export const deleteInventoryItem = async (tenantId: string, id: string) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const itemDoc = doc(db, 'orgs', tenantId, 'inventory', id);
+    await deleteDoc(itemDoc);
+};
+
+
 // ====== ROUTES ======
 
 // READ (all)
@@ -347,6 +396,28 @@ export const getRoutes = async (tenantId: string): Promise<Route[]> => {
   const snapshot = await getDocs(routesCollectionRef);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Route));
 };
+
+// CREATE
+export const addRoute = async (tenantId: string, routeData: RouteFormValues) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const routesCollectionRef = collection(db, 'orgs', tenantId, 'routes');
+    await addDoc(routesCollectionRef, routeData);
+};
+
+// UPDATE
+export const updateRoute = async (tenantId: string, id: string, routeData: Partial<RouteFormValues>) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const routeDoc = doc(db, 'orgs', tenantId, 'routes', id);
+    await updateDoc(routeDoc, routeData);
+};
+
+// DELETE
+export const deleteRoute = async (tenantId: string, id: string) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const routeDoc = doc(db, 'orgs', tenantId, 'routes', id);
+    await deleteDoc(routeDoc);
+};
+
 
 // ====== NOTIFICATIONS ======
 

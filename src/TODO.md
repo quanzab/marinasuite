@@ -64,7 +64,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Make user profile information in the main layout dynamic.
     -   [x] Add a user settings page to allow users to update their own profile.
 -   [x] **Inventory Management**:
-    -   [ ] Implement a module to track spare parts and supplies with full CRUD.
+    -   [x] Implement a module to track spare parts and supplies with full CRUD.
 -   [x] **Route Management**:
     -   [ ] Implement a module to manage shipping routes with full CRUD.
 -   [x] **Code Quality & Finalization**:
