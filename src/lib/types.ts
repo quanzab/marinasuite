@@ -10,6 +10,11 @@ export type CrewMember = {
   medicalRecords?: string;
 };
 
+export type MaintenanceRecord = {
+  date: string;
+  description: string;
+};
+
 export type Vessel = {
   id: string;
   name: string;
@@ -18,6 +23,7 @@ export type Vessel = {
   status: 'In Service' | 'In Maintenance' | 'Docked';
   nextMaintenance: string;
   imageUrl?: string | null;
+  maintenanceHistory?: MaintenanceRecord[];
 };
 
 export type Certificate = {
@@ -47,13 +53,20 @@ export type CurrentUser = User & {
 }
 
 
-const scheduleMaintenanceFormSchema = z.object({
+export const scheduleMaintenanceFormSchema = z.object({
   nextMaintenance: z.date({
     required_error: "Next maintenance date is required.",
   }),
 });
 
 export type ScheduleMaintenanceFormValues = z.infer<typeof scheduleMaintenanceFormSchema>;
+
+export const maintenanceLogFormSchema = z.object({
+    date: z.date({ required_error: "Maintenance date is required." }),
+    description: z.string().min(10, { message: "Description must be at least 10 characters." }),
+});
+
+export type MaintenanceLogFormValues = z.infer<typeof maintenanceLogFormSchema>;
 
 
 const userFormSchema = z.object({

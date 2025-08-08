@@ -1,7 +1,6 @@
-
 import { db } from './firebase';
-import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where } from 'firebase/firestore';
-import type { User, CrewMember, Vessel, Certificate } from './types';
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion } from 'firebase/firestore';
+import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
@@ -94,7 +93,8 @@ export const addVessel = async (vesselData: VesselFormValues) => {
         type,
         status,
         nextMaintenance: format(nextMaintenance, 'yyyy-MM-dd'),
-        imageUrl: null
+        imageUrl: null,
+        maintenanceHistory: [],
     });
 };
 
@@ -110,6 +110,15 @@ export const updateVessel = async (id: string, vesselData: Partial<VesselFormVal
   
   await updateDoc(vesselDoc, dataToUpdate);
 };
+
+// ADD MAINTENANCE RECORD
+export const addMaintenanceRecord = async (id: string, record: MaintenanceRecord) => {
+    const vesselDoc = doc(db, 'orgs', TENANT_ID, 'vessels', id);
+    await updateDoc(vesselDoc, {
+        maintenanceHistory: arrayUnion(record)
+    });
+};
+
 
 // DELETE
 export const deleteVessel = async (id: string) => {

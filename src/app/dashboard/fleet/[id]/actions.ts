@@ -1,7 +1,9 @@
 'use server';
 
 import { generateVesselImage } from '@/ai/flows/generate-vessel-image-flow';
-import { getVesselById, updateVessel } from '@/lib/firestore';
+import { getVesselById, updateVessel, addMaintenanceRecord } from '@/lib/firestore';
+import type { MaintenanceLogFormValues } from '@/lib/types';
+import { format } from 'date-fns';
 import { revalidatePath } from 'next/cache';
 
 export async function generateNewImageAction(vesselId: string) {
@@ -28,4 +30,21 @@ export async function generateNewImageAction(vesselId: string) {
     const message = error instanceof Error ? error.message : 'An unknown error occurred';
     return { success: false, error: message };
   }
+}
+
+
+export async function logMaintenanceAction(vesselId: string, data: MaintenanceLogFormValues) {
+    try {
+        const record = {
+            date: format(data.date, 'yyyy-MM-dd'),
+            description: data.description,
+        };
+        await addMaintenanceRecord(vesselId, record);
+        revalidatePath(`/dashboard/fleet/${vesselId}`);
+        return { success: true };
+    } catch (error) {
+        console.error('Error logging maintenance:', error);
+        const message = error instanceof Error ? error.message : 'An unknown error occurred';
+        return { success: false, error: message };
+    }
 }

@@ -6,16 +6,19 @@ import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { getVesselById, getCrew } from '@/lib/firestore';
-import type { Vessel, CrewMember } from '@/lib/types';
+import type { Vessel, CrewMember, MaintenanceLogFormValues } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Ship, Tag, Wrench, Calendar, Users, Wand2, Loader2, User } from 'lucide-react';
+import { Ship, Tag, Wrench, Calendar, Users, Wand2, Loader2, User, PlusCircle } from 'lucide-react';
 import Image from 'next/image';
-import { generateNewImageAction } from './actions';
+import { generateNewImageAction, logMaintenanceAction } from './actions';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { MaintenanceLogForm } from './maintenance-log-form';
+import { format } from 'date-fns';
 
 const getAvatarFallback = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
@@ -28,6 +31,9 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isGenerating, startTransition] = useTransition();
+  const [isLogMaintenanceOpen, setIsLogMaintenanceOpen] = useState(false);
+  const [isSubmittingLog, setIsSubmittingLog] = useState(false);
+
   const { toast } = useToast();
   const { user: currentUser, isLoading: isUserLoading } = useCurrentUser();
   const isManagerOrAdmin = currentUser?.role === 'Admin' || currentUser?.role === 'Manager';
@@ -77,6 +83,19 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
     });
   }
 
+  const handleLogMaintenanceSubmit = async (data: MaintenanceLogFormValues) => {
+    setIsSubmittingLog(true);
+    const result = await logMaintenanceAction(params.id, data);
+    if (result.success) {
+      toast({ title: 'Success!', description: 'Maintenance record has been logged.' });
+      setIsLogMaintenanceOpen(false);
+      fetchData(); // Refetch data to show new log
+    } else {
+      toast({ variant: 'destructive', title: 'Error', description: result.error });
+    }
+    setIsSubmittingLog(false);
+  }
+
   if (isLoading) {
     return <VesselProfileSkeleton />;
   }
@@ -92,6 +111,23 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   const imageUrl = vessel.imageUrl || `https://placehold.co/600x400.png`;
 
   return (
+      <>
+    <Dialog open={isLogMaintenanceOpen} onOpenChange={setIsLogMaintenanceOpen}>
+        <DialogContent>
+            <DialogHeader>
+                <DialogTitle>Log New Maintenance Record</DialogTitle>
+                <DialogDescription>
+                    Add a new entry to the maintenance history for "{vessel.name}".
+                </DialogDescription>
+            </DialogHeader>
+            <MaintenanceLogForm 
+                onSubmit={handleLogMaintenanceSubmit}
+                isSubmitting={isSubmittingLog}
+            />
+        </DialogContent>
+    </Dialog>
+
+
     <div className="flex flex-col gap-6">
        <div className="flex flex-col md:flex-row items-start gap-6">
         <div className="w-full md:w-1/3">
@@ -196,18 +232,50 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
         </Card>
          <Card>
             <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                    <Wrench className="h-5 w-5 text-primary" />
-                    Maintenance History
-                </CardTitle>
-                <CardDescription>Log of past maintenance and services.</CardDescription>
+                <div className="flex justify-between items-start">
+                    <div className="space-y-1.5">
+                        <CardTitle className="flex items-center gap-2">
+                            <Wrench className="h-5 w-5 text-primary" />
+                            Maintenance History
+                        </CardTitle>
+                        <CardDescription>Log of past maintenance and services.</CardDescription>
+                    </div>
+                     <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => setIsLogMaintenanceOpen(true)}
+                        disabled={!isManagerOrAdmin || isUserLoading}
+                     >
+                        <PlusCircle />
+                        <span className="ml-2 hidden sm:inline">Log Entry</span>
+                     </Button>
+                </div>
             </CardHeader>
             <CardContent>
-                <p className="text-sm text-muted-foreground">Maintenance history feature coming soon.</p>
+                {vessel.maintenanceHistory && vessel.maintenanceHistory.length > 0 ? (
+                  <ul className="space-y-4">
+                    {vessel.maintenanceHistory.slice().reverse().map((record, index) => (
+                      <li key={index} className="flex gap-3">
+                        <div className="flex-shrink-0">
+                          <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
+                            <Wrench className="h-4 w-4 text-muted-foreground" />
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium">{record.description}</p>
+                          <p className="text-xs text-muted-foreground">{format(new Date(record.date), "PPP")}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-sm text-muted-foreground">No maintenance history recorded.</p>
+                )}
             </CardContent>
         </Card>
       </div>
     </div>
+    </>
   );
 }
 

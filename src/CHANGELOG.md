@@ -323,3 +323,13 @@
 ## [3.3.0] - 2024-09-04
 ### Changed
 - **Vessel Profile Enhancement**: The "Assigned Crew" card on the vessel profile page now dynamically fetches and displays the list of crew members assigned to that specific vessel, replacing the previous placeholder text.
+
+## [3.4.0] - 2024-09-05
+### Added
+- **Vessel Maintenance History**:
+  - Implemented functionality to log and view maintenance records for each vessel.
+  - The vessel profile page now displays a chronological list of past maintenance activities.
+  - Added a "Log Maintenance" button with a dialog and form to add new service records.
+### Changed
+- Updated the `Vessel` data model in `types.ts` to include a `maintenanceHistory` array.
+- Added `addMaintenanceRecord` function to `firestore.ts` to support logging new entries.
