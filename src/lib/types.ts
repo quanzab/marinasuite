@@ -55,6 +55,14 @@ export type CurrentUser = User & {
     uid: string;
 }
 
+export type Route = {
+    id: string;
+    startPort: string;
+    endPort: string;
+    vessel: string;
+    status: 'Open' | 'In Progress' | 'Completed';
+}
+
 
 export const scheduleMaintenanceFormSchema = z.object({
   nextMaintenance: z.date({

@@ -262,3 +262,34 @@
 ### Fixed
 
 -   **Authentication Failures**: Resolved persistent login issues by fetching and implementing the correct Firebase project configuration, fixing an invalid API key. This was a critical fix to restore core application functionality.
+
+## [2.5.0] - 2024-08-23
+
+### Fixed
+
+-   **Build Failure**: Resolved a critical build error (`Module not found: Can't resolve 'child_process'`) caused by an incorrect import of `firebase-admin` in a client-side file (`firebase.ts`).
+-   **Font Application**: Corrected the CSS in `globals.css` and `tailwind.config.ts` to properly apply the "Inter" font family across the application, ensuring visual consistency with the design blueprint.
+
+## [2.6.0] - 2024-08-24
+
+### Added
+- **AI Shanty Generator**:
+    -   New "Shanty AI" page for generating creative sea shanties about vessels.
+    -   Genkit flow (`generate-shanty-flow.ts`) to compose lyrics.
+    -   New `MusicIcon` for navigation.
+
+## [2.7.0] - 2024-08-25
+
+### Added
+- **AI Image & Video Generation**:
+    -   New Genkit flows to generate photorealistic images (`generate-vessel-image-flow.ts`) and cinematic videos (`generate-vessel-video-flow.ts`) of vessels.
+    -   Added "Generate Image" and "Generate Video" buttons to the vessel profile page.
+    -   Vessel profiles now display the generated video.
+
+## [2.8.0] - 2024-08-26
+
+### Changed
+- **Dashboard Analytics**:
+    -   Made the "Open Routes" summary card on the dashboard dynamic.
+    -   Added a new `routes` collection to the data model to track the status of shipping routes.
+    -   The dashboard now provides a fully data-driven overview of all key metrics.

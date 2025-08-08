@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useEffect, useCallback, useMemo } from "react";
@@ -29,9 +30,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getCrew, getVessels } from "@/lib/firestore"
+import { getCrew, getVessels, getRoutes } from "@/lib/firestore"
 import { getCertificateNotifications } from "@/lib/notifications";
-import type { CertificateWithStatus, CrewMember, Vessel } from "@/lib/types";
+import type { CertificateWithStatus, CrewMember, Vessel, Route } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
@@ -41,6 +42,7 @@ import { useTenant } from "@/hooks/use-tenant";
 export default function Dashboard() {
   const [crew, setCrew] = useState<CrewMember[]>([]);
   const [vessels, setVessels] = useState<Vessel[]>([]);
+  const [routes, setRoutes] = useState<Route[]>([]);
   const [expiringCertificates, setExpiringCertificates] = useState<CertificateWithStatus[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
@@ -50,14 +52,16 @@ export default function Dashboard() {
     if (!tenantId) return;
     setIsLoading(true);
     try {
-      const [crewData, vesselData, certNotifications] = await Promise.all([
+      const [crewData, vesselData, certNotifications, routeData] = await Promise.all([
           getCrew(tenantId), 
           getVessels(tenantId),
-          getCertificateNotifications(tenantId)
+          getCertificateNotifications(tenantId),
+          getRoutes(tenantId)
         ]);
       setCrew(crewData);
       setVessels(vesselData);
       setExpiringCertificates(certNotifications);
+      setRoutes(routeData);
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
        toast({
@@ -76,6 +80,7 @@ export default function Dashboard() {
 
   const vesselsInService = vessels.filter(v => v.status === 'In Service').length;
   const expiringSoonCount = expiringCertificates.filter(c => c.status === 'Expiring Soon').length;
+  const openRoutesCount = routes.filter(r => r.status === 'Open').length;
 
 
   const vesselStatusData = useMemo(() => {
@@ -182,8 +187,7 @@ export default function Dashboard() {
                 <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                {/* This data is still mock */}
-                <div className="text-2xl font-bold">5</div>
+                {isLoading ? <Skeleton className="h-8 w-12" /> : <div className="text-2xl font-bold">{openRoutesCount}</div>}
                 <p className="text-xs text-muted-foreground">
                     Awaiting crew allocation
                 </p>

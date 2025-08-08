@@ -52,8 +52,8 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 ├── lib/
 │   ├── data.ts
 │   ├── firebase/
-│   │   ├── functions/ (*new*)
-│   │   └── index.ts (*refactored*)
+│   │   ├── functions/
+│   │   └── index.ts
 │   └── types.ts
 └── public/
 ```

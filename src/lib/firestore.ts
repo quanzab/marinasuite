@@ -2,7 +2,7 @@
 
 import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion } from 'firebase/firestore';
-import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord } from './types';
+import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
@@ -218,4 +218,20 @@ export const deleteUser = async (id: string, tenantId: string) => {
     }
     const userDoc = doc(db, 'orgs', tenantId, 'users', id);
     await deleteDoc(userDoc);
+};
+
+// ====== ROUTES ======
+
+// READ (all)
+export const getRoutes = async (tenantId: string): Promise<Route[]> => {
+  if (!tenantId) return [];
+  // For this demo, we'll just return a mock list. 
+  // In a real app, this would query a 'routes' collection similar to the others.
+  const mockRoutes: Route[] = [
+      { id: 'R001', startPort: 'Singapore', endPort: 'Rotterdam', vessel: 'Ocean Explorer', status: 'Open' },
+      { id: 'R002', startPort: 'Shanghai', endPort: 'Los Angeles', vessel: 'Sea Serpent', status: 'In Progress' },
+      { id: 'R003', startPort: 'Dubai', endPort: 'New York', vessel: 'Arctic Pioneer', status: 'Open' },
+      { id: 'R004', startPort: 'Hamburg', endPort: 'Singapore', vessel: 'Coastal Voyager', status: 'Open' },
+  ];
+  return Promise.resolve(mockRoutes.slice(0, Math.floor(Math.random() * 5))); // return random number of routes
 };
