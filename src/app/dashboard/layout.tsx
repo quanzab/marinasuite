@@ -84,6 +84,7 @@ export default function DashboardLayout({
     { href: '/dashboard/crew', label: 'Crew', icon: CrewIcon },
     { href: '/dashboard/fleet', label: 'Fleet', icon: FleetIcon },
     { href: '/dashboard/certificates', label: 'Certificates', icon: CertificateIcon },
+    { href: '/dashboard/routes', label: 'Routes', icon: RouteIcon },
     { href: '/dashboard/scheduling', label: 'Scheduling', icon: SchedulingIcon },
     { href: '/dashboard/reporting', label: 'Reporting', icon: ReportingIcon },
     { href: '/dashboard/inventory', label: 'Inventory', icon: InventoryIcon },
@@ -174,7 +175,7 @@ export default function DashboardLayout({
                 <CardHeader className="p-2 pt-0 md:p-4">
                   <div className="flex items-center justify-between">
                     <CardTitle>What's New</CardTitle>
-                    <Badge variant="secondary">v5.1.0</Badge>
+                    <Badge variant="secondary">v5.7.0</Badge>
                   </div>
                   <CardDescription>
                     Check out the latest features and updates.

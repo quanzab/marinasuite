@@ -343,4 +343,12 @@
 -   **Icons**: Added a new `BoxIcon` for representing inventory.
 -   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
 
-    
+## [5.7.0] - 2024-09-27
+
+### Added
+-   **Route Management**:
+    -   New "Routes" page to provide full CRUD functionality for shipping routes.
+    -   Added `addRoute`, `updateRoute`, `deleteRoute`, and `subscribeToRoutes` functions to the Firestore service.
+    -   Created `route-form.tsx` for adding and editing routes.
+    -   Added a navigation link to the main sidebar.
+-   **Documentation**: Updated all project documentation to include the new Route Management module.

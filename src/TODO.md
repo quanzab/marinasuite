@@ -65,6 +65,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Add a user settings page to allow users to update their own profile.
 -   [x] **Inventory Management**:
     -   [x] Implement a module to track spare parts and supplies with full CRUD.
+-   [x] **Route Management**:
+    -   [x] Implement a module to manage shipping routes with full CRUD.
 -   [x] **Code Quality & Finalization**:
     -   [x] Perform final code review and polish, including fixing type mismatches in mock data and ensuring UI component consistency.
     -   [x] Perform final configuration cleanup to ensure all settings are up-to-date and streamlined.
@@ -77,5 +79,3 @@ This document outlines the remaining tasks and future enhancements for the Marin
 ## Project Complete
 
 All planned features and enhancements have been successfully implemented. The MarinaSuite application is now considered feature-complete, stable, and ready for deployment. This concludes the development cycle.
-
-    

@@ -134,3 +134,11 @@ export const inventoryFormSchema = z.object({
   location: z.string().min(2, { message: "Location is required." }),
 });
 export type InventoryFormValues = z.infer<typeof inventoryFormSchema>;
+
+export const routeFormSchema = z.object({
+  startPort: z.string().min(2, { message: "Start port is required." }),
+  endPort: z.string().min(2, { message: "End port is required." }),
+  vessel: z.string().min(1, { message: "A vessel must be assigned." }),
+  status: z.enum(["Open", "In Progress", "Completed"]),
+});
+export type RouteFormValues = z.infer<typeof routeFormSchema>;
