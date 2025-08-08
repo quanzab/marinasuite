@@ -30,6 +30,10 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Display live data for summary cards and tables.
     -   [x] Add a chart for vessel status distribution.
     -   [ ] Add more detailed charts and graphs for operational insights.
+-   [x] **Advanced AI Features**:
+    -   [x] AI-powered crew allocation suggestions.
+    -   [x] AI-powered route optimization suggestions.
+    -   [ ] Predictive maintenance alerts for vessels.
 
 
 ## Future Enhancements
@@ -38,8 +42,3 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [ ] Implement in-app and push notifications for important events (e.g., certificate expiry).
 -   [ ] **Reporting**:
     -   [ ] Add functionality to generate and export reports (e.g., crew lists, vessel status).
--   [ ] **Advanced AI Features**:
-    -   [ ] AI-powered route optimization suggestions.
-    -   [ ] Predictive maintenance alerts for vessels.
-
-    

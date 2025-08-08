@@ -132,4 +132,11 @@
 
 -   Updated the dashboard grid layout to better accommodate the new analytics chart.
 
-    
+## [1.1.0] - 2024-08-09
+
+### Added
+
+-   **Route Optimizer AI**:
+    -   New "Route AI" page for generating optimal shipping route suggestions.
+    -   Genkit flow (`suggest-route-flow.ts`) to process route requests based on start/end ports and vessel type.
+    -   New `RouteIcon` for navigation.
