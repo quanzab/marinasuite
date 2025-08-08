@@ -319,3 +319,12 @@
 ### Changed
 
 -   Updated the application's protected route logic to direct users to the tenant selection page first.
+
+## [2.9.0] - 2024-08-27
+
+### Added
+
+-   **Notifications**:
+    -   Added a dedicated "Notifications" page to view a list of all alerts.
+    -   Implemented a notifications dropdown in the main header for quick access to recent alerts.
+    -   Included a new `NotificationsIcon` for navigation.

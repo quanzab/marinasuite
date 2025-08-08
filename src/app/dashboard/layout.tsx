@@ -6,6 +6,7 @@ import {
   PanelLeft,
   Search,
   LogOut,
+  Bell,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -40,6 +41,7 @@ import {
   SafetyIcon,
   SchedulingIcon,
   ReportingIcon,
+  NotificationsIcon
 } from '@/components/icons';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -68,6 +70,7 @@ export default function DashboardLayout({
     { href: '/dashboard/safety-ai', label: 'Safety AI', icon: SafetyIcon },
     { type: 'separator', label: 'Settings' },
     { href: '/dashboard/admin', label: 'Admin', icon: AdminIcon },
+    { href: '/dashboard/notifications', label: 'Notifications', icon: NotificationsIcon },
   ];
   const auth = getAuth();
   const router = useRouter();
@@ -125,7 +128,7 @@ export default function DashboardLayout({
                 <CardHeader className="p-2 pt-0 md:p-4">
                   <div className="flex items-center justify-between">
                     <CardTitle>What's New</CardTitle>
-                    <Badge variant="secondary">v2.5.0</Badge>
+                    <Badge variant="secondary">v2.9.0</Badge>
                   </div>
                   <CardDescription>
                     Check out the latest features and updates.
@@ -205,6 +208,37 @@ export default function DashboardLayout({
             <ThemeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="relative">
+                  <Bell className="h-5 w-5" />
+                   <Badge className="absolute -top-1 -right-1 h-4 w-4 justify-center p-0 text-xs" variant="destructive">2</Badge>
+                  <span className="sr-only">Toggle notifications</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-80">
+                <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                   <Link href="/dashboard/notifications" className="flex flex-col items-start gap-1">
+                    <p className="font-medium">Certificate Expiring</p>
+                    <p className="text-xs text-muted-foreground">"Ship Security Officer" certificate expires in 29 days.</p>
+                  </Link>
+                </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
+                   <Link href="/dashboard/notifications" className="flex flex-col items-start gap-1">
+                    <p className="font-medium">Maintenance Due</p>
+                    <p className="text-xs text-muted-foreground">Vessel "Sea Serpent" is due for scheduled maintenance.</p>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                 <DropdownMenuItem asChild>
+                   <Link href="/dashboard/notifications" className="w-full">
+                      <Button size="sm" className="w-full">View All Notifications</Button>
+                   </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
                 <Button variant="secondary" size="icon" className="rounded-full">
                   <Avatar>
                     <AvatarImage src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="@admin" />
@@ -234,5 +268,3 @@ export default function DashboardLayout({
     </ProtectedRoute>
   );
 }
-
-    
