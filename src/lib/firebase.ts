@@ -12,21 +12,9 @@ const firebaseConfig = {
     appId: "1:125869964378:web:d74000f2f1b050c2156c63",
 };
 
-function getFirebaseApp(): FirebaseApp {
-    if (getApps().length > 0) {
-        return getApp();
-    }
-    return initializeApp(firebaseConfig);
-}
+// Initialize Firebase
+const app: FirebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+const auth: Auth = getAuth(app);
+const db: Firestore = getFirestore(app);
 
-function getAuthInstance(): Auth {
-    return getAuth(getFirebaseApp());
-}
-
-function getDbInstance(): Firestore {
-    return getFirestore(getFirebaseApp());
-}
-
-export const app = getFirebaseApp();
-export const auth = getAuthInstance();
-export const db = getDbInstance();
+export { app, auth, db };
