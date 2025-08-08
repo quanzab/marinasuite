@@ -2,7 +2,6 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -25,12 +24,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    serverActions: {
-      // Increase timeout for slow server actions like video generation
-      bodySizeLimit: '10mb',
-      maxDuration: 120,
-    },
+  serverActions: {
+    // Increase timeout for slow server actions like video generation
+    bodySizeLimit: '10mb',
+    maxDuration: 120,
   },
 };
 

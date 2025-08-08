@@ -234,3 +234,9 @@
 ### Changed
 -   **Code Quality**: Final refinement of the Next.js configuration (`next.config.ts`) to simplify the `serverActions` object and improve readability.
 -   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [2.8.0] - 2024-09-08
+
+### Changed
+-   **Code Quality**: Final refinement of the Next.js configuration (`next.config.ts`) by moving `serverActions` to the top level to align with the latest stable standards.
+-   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
