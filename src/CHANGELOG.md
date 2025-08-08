@@ -277,8 +277,14 @@
 -   **UX Refinement**: Streamlined the "Invite User" workflow by making the `name` field optional. This simplifies the process for administrators and allows new users to set their own name upon their first login via the Settings page.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
 
-## [6.0.0] - 2024-09-19
+## [6.0.0] - 2024-09-20
 
 ### Changed
--   **Configuration**: Consolidated project configuration by removing the redundant `package.json` file from the `src` directory to improve maintainability.
+-   **Configuration**: Consolidated project configuration by removing the redundant `package.json` and `CHANGELOG.md` files from the `src` directory to improve maintainability. The main layout's version badge has been updated to `v6.0.0`.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [6.1.0] - 2024-09-22
+
+### Changed
+-   **Configuration**: Changed the project name in `package.json` from `nextn` to `marinasuite` and synchronized the version to `6.1.0` to reflect the latest changes.
+-   **Documentation**: Finalized all documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to mark the project as complete, stable, and ready for deployment.

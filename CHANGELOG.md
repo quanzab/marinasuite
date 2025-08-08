@@ -281,7 +281,7 @@
 -   **Configuration**: Consolidated project configuration by removing the redundant `package.json` and `CHANGELOG.md` files from the `src` directory to improve maintainability. The main layout's version badge has been updated to `v6.0.0`.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
 
-## [6.1.0] - 2024-09-21
+## [6.1.0] - 2024-09-22
 
 ### Changed
 -   **Configuration**: Changed the project name in `package.json` from `nextn` to `marinasuite` and synchronized the version to `6.1.0` to reflect the latest changes.
