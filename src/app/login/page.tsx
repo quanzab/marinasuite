@@ -58,6 +58,7 @@ export default function LoginPage() {
           data-ai-hint="cargo ship ocean"
           fill
           style={{objectFit: 'cover'}}
+          quality={100}
         />
         <div className="absolute bottom-8 left-8 text-white">
           <h2 className="text-4xl font-bold">MarinaSuite</h2>
