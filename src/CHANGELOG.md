@@ -282,3 +282,9 @@
 ## [2.9.2] - 2024-08-29
 ### Fixed
 - **Authentication Flow**: Corrected the post-login redirect path in `login/page.tsx` to point to `/dashboard/select-tenant`, ensuring user data is loaded correctly by the `useCurrentUser` hook.
+
+## [2.9.3] - 2024-08-30
+### Added
+- **Advanced Scheduling**: Implemented an "Assign to Vessel" action on the scheduling page, allowing managers to directly assign unassigned crew members to a vessel via a dropdown menu.
+
+    

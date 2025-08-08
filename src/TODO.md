@@ -43,6 +43,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Tenant Selection**:
     -   [x] Create a tenant selection screen after login.
 -   [ ] **Advanced Scheduling**:
+    -   [x] Implement direct crew assignment from the scheduling page.
     -   [ ] Implement drag-and-drop functionality for crew assignments on the calendar.
 -   [x] **Advanced Certificate Management**:
     -   [x] Add a streamlined "Renew Certificate" workflow.
@@ -55,3 +56,5 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [ ] Implement push notifications for important events (e.g., certificate expiry, maintenance reminders).
 -   [x] **Creative AI Tools**:
     -   [x] AI-powered sea shanty generator.
+
+    
