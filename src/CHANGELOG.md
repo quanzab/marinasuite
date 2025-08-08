@@ -342,3 +342,9 @@
 -   **Code Quality**: Performed a final code quality enhancement on the `Sidebar` component, refactoring its sub-menu components for better maintainability and code clarity.
 -   **Documentation**: Updated all project documentation to reflect that the project is complete and all development work is finished.
     
+## [3.5.0] - 2024-09-01
+
+### Changed
+-   **Code Quality**: Performed a final code quality enhancement on the `Sidebar` component, refactoring its sub-menu components for better maintainability and code clarity.
+-   **Documentation**: Updated all project documentation to reflect that the project is complete and all development work is finished.
+    
