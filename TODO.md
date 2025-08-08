@@ -6,7 +6,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 
 -   [x] **Authentication**:
     -   [x] Implement Firebase Authentication for secure user login.
-    -   [ ] Create a tenant selection screen after login.
+    -   [x] Create a tenant selection screen after login.
 -   [ ] **Crew Management**:
     -   [ ] Implement full CRUD functionality (Create, Read, Update, Delete) for crew members.
     -   [ ] Connect the UI to a Firestore database instead of using mock data.

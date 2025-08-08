@@ -28,7 +28,7 @@ export default function LoginPage() {
       // For this demo, we'll use a pre-existing test user.
       // In a real app, you would implement user creation.
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/dashboard');
+      router.push('/tenant-selection');
     } catch (error) {
       console.error('Login failed:', error);
       let errorMessage = 'An unknown error occurred.';
@@ -72,14 +72,10 @@ export default function LoginPage() {
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">Login</CardTitle>
-              <CardDescription>Select your tenant and enter your email and password to login.</CardDescription>
+              <CardDescription>Enter your email and password to login.</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleLogin} className="grid gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="tenant">Tenant</Label>
-                  <Input id="tenant" type="text" placeholder="Global Maritime" required defaultValue="Global Maritime" />
-                </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input id="email" type="email" placeholder="m@example.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
