@@ -45,7 +45,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Advanced Scheduling**:
     -   [x] Implement direct crew assignment from the scheduling page.
     -   [x] Implement drag-and-drop functionality for crew assignments.
-    -   [ ] Implement a full weekly calendar view for assignments.
+    -   [x] Implement a full weekly calendar view for assignments.
 -   [x] **Advanced Certificate Management**:
     -   [x] Add a streamlined "Renew Certificate" workflow.
     -   [x] Add automated reminders for certificate renewals. (In Progress via Notifications)

@@ -274,3 +274,12 @@
     -   Replaced the dropdown-based crew assignment with a full drag-and-drop interface on the Scheduling page.
     -   Users can now visually drag unassigned crew members and drop them onto vessel cards to make assignments.
     -   This provides a more intuitive and efficient workflow for managing crew schedules.
+
+## [2.7.0] - 2024-08-25
+
+### Changed
+
+-   **Advanced Scheduling - Calendar View**:
+    -   Overhauled the Scheduling page to feature a full seven-day weekly calendar.
+    -   Integrated the drag-and-drop functionality into the new calendar layout, allowing users to assign crew to vessels on specific days.
+    -   This provides a much more powerful and visually intuitive interface for weekly planning.

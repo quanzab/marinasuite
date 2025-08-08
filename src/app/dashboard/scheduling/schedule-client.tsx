@@ -50,28 +50,31 @@ function DraggableCrewMember({ member }: { member: CrewMember }) {
     );
 }
 
-function DroppableVessel({ vessel, crew, children }: { vessel: Vessel; crew: CrewMember[]; children?: React.ReactNode }) {
+function DroppableVessel({ vessel, crew }: { vessel: Vessel; crew: CrewMember[]; }) {
     const { setNodeRef, isOver } = useSortable({ id: vessel.id, data: { accepts: 'crewMember' } });
     
     return (
-        <div ref={setNodeRef} className="space-y-2">
-            <h4 className="font-semibold text-sm mb-2 flex items-center gap-2">
+         <Card ref={setNodeRef} className={`p-3 space-y-2 transition-colors ${isOver ? 'bg-primary/20 ring-2 ring-primary' : ''}`}>
+            <h4 className="font-semibold text-xs mb-2 flex items-center gap-2">
                 <Ship className="w-4 h-4 text-primary" />
                 {vessel.name}
             </h4>
-            <div className={`p-2 rounded-lg bg-muted/50 min-h-[60px] transition-colors ${isOver ? 'bg-primary/20 ring-2 ring-primary' : ''}`}>
+            <div className="min-h-[40px] space-y-1">
                 {crew.length > 0 ? (
                     crew.map(member => (
-                        <div key={member.id} className="text-xs p-1 bg-card rounded my-1 shadow-sm">
-                           {member.name} - <span className="text-muted-foreground">{member.rank}</span>
+                       <div key={member.id} className="text-xs p-1.5 bg-background rounded shadow-sm flex items-center gap-2">
+                           <Avatar className="h-5 w-5">
+                                <AvatarImage src={`https://i.pravatar.cc/150?u=${member.id}`} />
+                                <AvatarFallback>{getAvatarFallback(member.name)}</AvatarFallback>
+                           </Avatar>
+                           {member.name}
                        </div>
                     ))
                 ) : (
                     <p className="text-xs text-muted-foreground p-2 text-center">Drag crew here</p>
                 )}
-                {children}
             </div>
-        </div>
+        </Card>
     );
 }
 
@@ -119,7 +122,7 @@ export default function ScheduleClient() {
   }, [fetchData]);
 
   const assignedCrewByVessel = useMemo(() => vessels.reduce((acc, vessel) => {
-    acc[vessel.id] = crew.filter(c => c.assignedVessel === vessel.name);
+    acc[vessel.name] = crew.filter(c => c.assignedVessel === vessel.name);
     return acc;
   }, {} as Record<string, CrewMember[]>), [vessels, crew]);
 
@@ -170,10 +173,10 @@ export default function ScheduleClient() {
           <CardHeader>
             <CardTitle>Unassigned Crew</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="max-h-[70vh] overflow-y-auto">
             {isLoading ? (
               Array.from({ length: 3 }).map((_, i) => (
-                <Skeleton key={i} className="h-12 w-full mb-3" />
+                <Skeleton key={i} className="h-16 w-full mb-3" />
               ))
             ) : (
               <SortableContext items={unassignedCrewIds} strategy={verticalListSortingStrategy}>
@@ -192,21 +195,24 @@ export default function ScheduleClient() {
         </Card>
       </div>
       <div className="md:col-span-9">
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-             {isLoading ? (
-                Array.from({ length: 3 }).map((_, i) => (
-                    <div key={i}>
-                        <Skeleton className="h-5 w-3/4 mb-2" />
-                        <Skeleton className="h-24 w-full" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-2">
+            {weekDays.map(day => (
+                <div key={day.toISOString()} className="bg-muted/40 rounded-lg p-2 flex flex-col">
+                    <h3 className="font-semibold text-sm text-center mb-2">{format(day, 'EEE')}</h3>
+                    <p className="text-xs text-muted-foreground text-center mb-4">{format(day, 'dd')}</p>
+                    <div className="space-y-3 flex-1">
+                        {isLoading ? (
+                            Array.from({ length: 2 }).map((_, i) => <Skeleton key={i} className="h-20 w-full" />)
+                        ) : (
+                            vessels.filter(v => v.status === 'In Service').map(vessel => (
+                                <SortableContext key={vessel.id} items={[]} strategy={verticalListSortingStrategy}>
+                                    <DroppableVessel vessel={vessel} crew={assignedCrewByVessel[vessel.name] || []} />
+                                </SortableContext>
+                            ))
+                        )}
                     </div>
-                ))
-                ) : (
-                vessels.map(vessel => (
-                    <SortableContext key={vessel.id} items={[]} strategy={verticalListSortingStrategy}>
-                        <DroppableVessel vessel={vessel} crew={assignedCrewByVessel[vessel.id] || []} />
-                    </SortableContext>
-                ))
-            )}
+                </div>
+            ))}
         </div>
       </div>
     </div>
