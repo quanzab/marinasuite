@@ -39,6 +39,7 @@ import {
   MaintenanceIcon,
   SafetyIcon,
   SchedulingIcon,
+  ReportingIcon,
 } from '@/components/icons';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -59,10 +60,13 @@ export default function DashboardLayout({
     { href: '/dashboard/fleet', label: 'Fleet', icon: FleetIcon },
     { href: '/dashboard/certificates', label: 'Certificates', icon: CertificateIcon },
     { href: '/dashboard/scheduling', label: 'Scheduling', icon: SchedulingIcon },
+    { href: '/dashboard/reporting', label: 'Reporting', icon: ReportingIcon },
+    { type: 'separator', label: 'AI Assistants' },
     { href: '/dashboard/crew-ai', label: 'Crew AI', icon: AiIcon },
     { href: '/dashboard/route-ai', label: 'Route AI', icon: RouteIcon },
     { href: '/dashboard/maintenance-ai', label: 'Maintenance AI', icon: MaintenanceIcon },
     { href: '/dashboard/safety-ai', label: 'Safety AI', icon: SafetyIcon },
+    { type: 'separator', label: 'Settings' },
     { href: '/dashboard/admin', label: 'Admin', icon: AdminIcon },
   ];
   const auth = getAuth();
@@ -99,12 +103,15 @@ export default function DashboardLayout({
                 <span className="">MarinaSuite</span>
               </Link>
             </div>
-            <div className="flex-1">
+            <div className="flex-1 overflow-y-auto">
               <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                {navLinks.map((link) => (
+                {navLinks.map((link, index) => 
+                  link.type === 'separator' ? (
+                    <div key={index} className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">{link.label}</div>
+                  ) : (
                   <Link
                     key={link.href}
-                    href={link.href}
+                    href={link.href!}
                     className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                   >
                     <link.icon className="h-5 w-5" />
@@ -118,7 +125,7 @@ export default function DashboardLayout({
                 <CardHeader className="p-2 pt-0 md:p-4">
                   <div className="flex items-center justify-between">
                     <CardTitle>What's New</CardTitle>
-                    <Badge variant="secondary">v2.1.0</Badge>
+                    <Badge variant="secondary">v2.2.0</Badge>
                   </div>
                   <CardDescription>
                     Check out the latest features and updates.
@@ -154,10 +161,11 @@ export default function DashboardLayout({
                     <Logo className="h-6 w-6 text-primary" />
                     <span className="sr-only">MarinaSuite</span>
                   </Link>
-                  {navLinks.map((link) => (
+                  {navLinks.map((link) => 
+                    link.type === 'separator' ? null : (
                     <Link
                       key={link.href}
-                      href={link.href}
+                      href={link.href!}
                       className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                     >
                       <link.icon className="h-5 w-5" />

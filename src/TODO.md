@@ -31,11 +31,12 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] AI-powered route optimization suggestions.
     -   [x] Predictive maintenance alerts for vessels.
     -   [x] AI-powered safety report analysis.
+-   [x] **Authentication & Onboarding**:
+    -   [x] Re-implement Firebase Authentication for secure user login.
 
 ## Future Enhancements & Shelved Tasks
 
--   [x] **Authentication & Onboarding**: (Re-implemented)
-    -   [x] Re-implement Firebase Authentication for secure user login.
+-   [ ] **Tenant Selection**:
     -   [ ] Create a tenant selection screen after login.
 -   [ ] **Advanced Scheduling**:
     -   [ ] Implement drag-and-drop functionality for crew assignments on the calendar.
@@ -43,9 +44,10 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [ ] Add automated reminders for certificate renewals.
 -   [ ] **Advanced RBAC**:
     -   [ ] Implement role-based access control using Firebase Auth custom claims to restrict actions.
+-   [ ] **Reporting**:
+    -   [x] Add functionality to generate and export reports (e.g., crew lists, vessel status).
+    -   [ ] Add more report types (vessel status, certificate expiry).
 -   [ ] **Notifications**:
     -   [ ] Implement in-app and push notifications for important events (e.g., certificate expiry, maintenance reminders).
--   [ ] **Reporting**:
-    -   [ ] Add functionality to generate and export reports (e.g., crew lists, vessel status, audit logs).
 -   [ ] **Dashboard Analytics**:
     -   [ ] Add more detailed charts and graphs for operational insights (e.g., crew turnover rates, vessel performance).

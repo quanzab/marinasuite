@@ -246,3 +246,16 @@
 ### Changed
 
 -   The application entry point now redirects to `/login` instead of `/dashboard`.
+
+## [2.2.0] - 2024-08-20
+
+### Added
+
+-   **Reporting**:
+    -   Added a new "Reporting" page to the application.
+    -   Implemented a "Crew Manifest" report that fetches all crew members from Firestore and presents them in a printable format.
+    -   Added a new `ReportingIcon` for navigation.
+
+### Changed
+
+-   Slightly refactored the main navigation in `layout.tsx` to include separators for better organization.
