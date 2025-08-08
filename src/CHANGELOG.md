@@ -178,3 +178,13 @@
 ### Changed
 
 -   Updated `lib/types.ts` to include a `User` type.
+
+## [1.6.0] - 2024-08-14
+
+### Added
+
+-   **Vessel Profile Pages**:
+    -   Created a dynamic route (`/dashboard/fleet/[id]`) to display detailed profiles for each vessel.
+    -   The profile page shows key details like IMO, type, status, and maintenance schedules.
+    -   Added a `getVesselById` function to the Firestore service.
+    -   The "View Details" option in the fleet list now links to the corresponding profile page.

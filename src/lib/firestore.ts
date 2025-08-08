@@ -1,6 +1,7 @@
+
 import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
-import type { CrewMember, Vessel, Certificate, User } from './types';
+import type { CrewMember, Vessel, User } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
@@ -64,11 +65,24 @@ export const deleteCrewMember = async (id: string) => {
 
 // ====== VESSELS ======
 
-// READ
+// READ (all)
 export const getVessels = async (): Promise<Vessel[]> => {
   const snapshot = await getDocs(vesselsCollectionRef);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Vessel));
 };
+
+// READ (single)
+export const getVesselById = async (id: string): Promise<Vessel | null> => {
+  const vesselDocRef = doc(db, 'orgs', TENANT_ID, 'vessels', id);
+  const docSnap = await getDoc(vesselDocRef);
+
+  if (docSnap.exists()) {
+    return { id: docSnap.id, ...docSnap.data() } as Vessel;
+  } else {
+    return null;
+  }
+};
+
 
 // CREATE
 export const addVessel = async (vesselData: VesselFormValues) => {

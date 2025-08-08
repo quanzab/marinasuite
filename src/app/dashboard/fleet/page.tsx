@@ -14,6 +14,7 @@ import { getVessels, addVessel, updateVessel, deleteVessel } from "@/lib/firesto
 import type { Vessel } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter } from "next/navigation";
 
 export default function FleetPage() {
   const [vessels, setVessels] = useState<Vessel[]>([]);
@@ -22,6 +23,7 @@ export default function FleetPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedVessel, setSelectedVessel] = useState<Vessel | null>(null);
   const { toast } = useToast();
+  const router = useRouter();
 
   const fetchVessels = useCallback(async () => {
     setIsLoading(true);
@@ -102,6 +104,10 @@ export default function FleetPage() {
     }
   };
   
+  const handleViewDetails = (id: string) => {
+    router.push(`/dashboard/fleet/${id}`);
+  };
+
   const renderSkeleton = () => (
     Array.from({ length: 4 }).map((_, index) => (
       <TableRow key={index}>
@@ -191,7 +197,7 @@ export default function FleetPage() {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => handleEdit(vessel)}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>View Details</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleViewDetails(vessel.id)}>View Details</DropdownMenuItem>
                         <DropdownMenuItem>Schedule Maintenance</DropdownMenuItem>
                         <DropdownMenuItem 
                           className="text-destructive"
