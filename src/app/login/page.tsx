@@ -30,11 +30,16 @@ export default function LoginPage() {
       await signInWithEmailAndPassword(auth, email, password);
       toast({
         title: 'Login Successful',
-        description: 'Welcome back to MarinaSuite!',
+        description: 'Welcome back! Redirecting...',
       });
-      router.push('/dashboard/select-tenant');
+      // Redirect to a page that will then handle tenant selection.
+      router.push('/dashboard'); 
     } catch (err: any) {
-      setError(err.message);
+      let errorMessage = 'An unexpected error occurred. Please try again.';
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password' || err.code === 'auth/invalid-credential') {
+        errorMessage = 'Invalid email or password. Please check your credentials and try again.';
+      }
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -57,7 +62,7 @@ export default function LoginPage() {
                 <AlertTriangle className="h-4 w-4" />
                 <AlertTitle>Login Failed</AlertTitle>
                 <AlertDescription>
-                    Please check your email and password and try again.
+                   {error}
                 </AlertDescription>
               </Alert>
             )}

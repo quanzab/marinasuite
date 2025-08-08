@@ -10,30 +10,25 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        // If user is authenticated and tries to access login, redirect them
-        if (pathname.startsWith('/login')) {
-            router.push('/dashboard/select-tenant');
-        }
-      } else {
-        // If no user, redirect to login, unless they are already on the login page
-        if (!pathname.startsWith('/login')) {
-            router.push('/login');
-        }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      const isAuthed = !!user;
+      setIsAuthenticated(isAuthed);
+
+      if (!isAuthed && !pathname.startsWith('/login')) {
+        router.push('/login');
+      } else if (isAuthed && pathname.startsWith('/login')) {
+        router.push('/dashboard');
       }
-      setIsLoading(false);
     });
 
     return () => unsubscribe();
   }, [router, pathname]);
 
-  if (isLoading) {
+  // While checking auth status, show a loading skeleton.
+  if (isAuthenticated === null) {
     return (
         <div className="flex items-center justify-center h-screen w-screen">
             <div className="flex flex-col items-center gap-4">
@@ -47,17 +42,22 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     );
   }
 
-  // If user is not logged in and not on login page, render nothing while redirect happens
-  if (!user && !pathname.startsWith('/login')) {
-    return null;
-  }
-  
-  // If user is logged in, but not on a dashboard page yet (e.g. at root), they will be redirected
-  // by other logic. The tenant selection is part of the dashboard layout.
-  if (user && pathname === '/') {
-      router.push('/dashboard/select-tenant');
-      return null;
+  // If the user is authenticated, or is on the login page, show the children.
+  // The redirect logic inside useEffect will handle routing them away from login if needed.
+  if (isAuthenticated || pathname.startsWith('/login')) {
+      // At the root, decide where to go.
+      if (pathname === '/') {
+          if (isAuthenticated) {
+              router.push('/dashboard');
+          } else {
+              router.push('/login');
+          }
+          return null;
+      }
+      return <>{children}</>;
   }
 
-  return <>{children}</>;
+
+  // If not authenticated and not on login page, render nothing while redirecting.
+  return null;
 }
