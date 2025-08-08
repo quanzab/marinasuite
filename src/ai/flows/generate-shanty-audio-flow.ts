@@ -66,8 +66,21 @@ const generateShantyAudioFlow = ai.defineFlow(
       config: {
         responseModalities: ['AUDIO'],
         speechConfig: {
-          voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: 'Calypso' }, // A voice that might sound good for a shanty
+           multiSpeakerVoiceConfig: {
+            speakerVoiceConfigs: [
+              {
+                speaker: 'Speaker1',
+                voiceConfig: {
+                  prebuiltVoiceConfig: { voiceName: 'Calypso' },
+                },
+              },
+              {
+                speaker: 'Speaker2',
+                voiceConfig: {
+                  prebuiltVoiceConfig: { voiceName: 'Triton' },
+                },
+              },
+            ],
           },
         },
       },

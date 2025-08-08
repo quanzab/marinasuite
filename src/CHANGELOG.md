@@ -272,3 +272,12 @@
 ### Fixed
 
 -   **Project Complete**: All major features and enhancements from the blueprint and to-do list are now implemented. The application is considered feature-complete.
+
+## [2.4.0] - 2024-08-20
+
+### Changed
+
+-   **AI Shanty Generator - Multi-Speaker TTS**:
+    -   Enhanced the AI Shanty Generator to use a multi-speaker TTS model.
+    -   The Genkit flow now formats the lyrics with `Speaker1` and `Speaker2` prefixes to create a dynamic call-and-response audio output.
+    -   The audio generation flow is now configured with two distinct voices (`Calypso` and `Triton`) for a more engaging listening experience.

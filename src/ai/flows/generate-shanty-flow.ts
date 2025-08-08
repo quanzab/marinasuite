@@ -19,7 +19,7 @@ export type GenerateShantyInput = z.infer<typeof GenerateShantyInputSchema>;
 
 const GenerateShantyOutputSchema = z.object({
   title: z.string().describe('The title of the sea shanty.'),
-  shanty: z.string().describe('The full lyrics of the generated sea shanty, with verses and a chorus. Should include markdown for formatting.'),
+  shanty: z.string().describe('The full lyrics of the generated sea shanty, with verses and a chorus. Should include markdown for formatting and speaker prefixes (e.g., "Speaker1: ...") for TTS.'),
 });
 export type GenerateShantyOutput = z.infer<typeof GenerateShantyOutputSchema>;
 
@@ -42,7 +42,15 @@ const prompt = ai.definePrompt({
 
   The tone should be adventurous, and optimistic. Use classic sea shanty themes like wind, waves, far-off lands, and the camaraderie of the crew.
 
-  Format the output as a JSON object, with the shanty lyrics using markdown for verses and chorus (e.g., bold for chorus).
+  IMPORTANT: You must format the lyrics for a multi-speaker Text-to-Speech (TTS) model. Each line must be prefixed with either "Speaker1: " or "Speaker2: " to create a call-and-response effect. Alternate between speakers for each line.
+
+  Example Format:
+  Speaker1: The waves are high, the winds do blow,
+  Speaker2: Heave ho, me lads, heave ho!
+  Speaker1: To distant shores we're bound to go,
+  Speaker2: Heave ho, me lads, heave ho!
+
+  Format the final output as a JSON object, with the shanty lyrics using markdown for verses and chorus (e.g., bold for chorus) and the required speaker prefixes.
   `,
 });
 
