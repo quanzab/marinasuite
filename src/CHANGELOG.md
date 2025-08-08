@@ -302,3 +302,9 @@
 - Updated the main layout to link to the new Settings page from the sidebar and user profile dropdown.
 - Added a new `updateUserProfile` function to the Firestore service layer.
 - Added a new `SettingsIcon`.
+
+## [2.8.0] - 2024-08-24
+
+### Changed
+-   **Code Quality**: Performed a final code quality enhancement on the `Button` component, ensuring its `ghost` variant correctly uses theme-based colors for its hover state.
+-   **Documentation**: Updated all project documentation (`BLUEPRINT.md`, `CHANGELOG.md`, `TODO.md`) to reflect that the project is complete and all development work is finished.
