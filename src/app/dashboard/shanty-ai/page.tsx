@@ -2,7 +2,7 @@
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
-import { Bot, Loader2, Music, Ship, PlayCircle } from "lucide-react";
+import { Bot, Loader2, Music, Ship } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,7 @@ import type { Vessel } from "@/lib/types";
 import { getVessels } from "@/lib/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
 import Markdown from 'react-markdown';
+import { useTenant } from "@/hooks/use-tenant";
 
 
 function SubmitButton() {
@@ -40,12 +41,14 @@ export default function ShantyAiPage() {
   const [state, formAction] = useFormState(getShanty, initialState);
   const [vessels, setVessels] = useState<Vessel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { tenantId } = useTenant();
 
   useEffect(() => {
     async function fetchData() {
+        if (!tenantId) return;
       try {
         setIsLoading(true);
-        const vesselData = await getVessels();
+        const vesselData = await getVessels(tenantId);
         setVessels(vesselData);
       } catch (error) {
         console.error("Failed to fetch vessels for AI form", error);
@@ -54,7 +57,7 @@ export default function ShantyAiPage() {
       }
     }
     fetchData();
-  }, []);
+  }, [tenantId]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -62,7 +65,7 @@ export default function ShantyAiPage() {
         <h1 className="text-2xl font-semibold md:text-3xl">AI Shanty Generator</h1>
       </div>
       <p className="text-muted-foreground">
-        Select a vessel and let the AI compose and sing a traditional sea shanty in its honor.
+        Select a vessel and let the AI compose a traditional sea shanty in its honor.
       </p>
 
       <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -84,6 +87,7 @@ export default function ShantyAiPage() {
                 </div>
             ) : (
             <form action={formAction} className="grid gap-6">
+              <input type="hidden" name="tenantId" value={tenantId || ''} />
               <div className="grid gap-2">
                 <Label htmlFor="vesselId">Vessel</Label>
                  <Select name="vesselId" required>
@@ -121,14 +125,6 @@ export default function ShantyAiPage() {
                   </div>
               </CardHeader>
               <CardContent>
-                  {state.data.audioDataUri && (
-                      <div className="mb-6">
-                         <audio controls className="w-full">
-                            <source src={state.data.audioDataUri} type="audio/wav" />
-                            Your browser does not support the audio element.
-                        </audio>
-                      </div>
-                  )}
                   <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap">
                       <Markdown>{state.data.shanty}</Markdown>
                   </div>

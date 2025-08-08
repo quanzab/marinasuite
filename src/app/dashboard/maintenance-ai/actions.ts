@@ -9,6 +9,7 @@ import { differenceInYears } from "date-fns";
 const formSchema = z.object({
     vesselId: z.string().min(1, "Vessel is required."),
     operatingHours: z.coerce.number().min(0, "Operating hours must be a positive number."),
+    tenantId: z.string().min(1, "Tenant ID is required."),
 });
 
 type State = {
@@ -24,6 +25,7 @@ export async function getMaintenancePrediction(
     const validatedFields = formSchema.safeParse({
         vesselId: formData.get("vesselId"),
         operatingHours: formData.get("operatingHours"),
+        tenantId: formData.get("tenantId"),
     });
 
     if (!validatedFields.success) {
@@ -34,10 +36,10 @@ export async function getMaintenancePrediction(
         };
     }
 
-    const { vesselId, operatingHours } = validatedFields.data;
+    const { vesselId, operatingHours, tenantId } = validatedFields.data;
 
     try {
-        const allVessels = await getVessels();
+        const allVessels = await getVessels(tenantId);
         const selectedVessel = allVessels.find(v => v.id === vesselId);
 
         if (!selectedVessel) {

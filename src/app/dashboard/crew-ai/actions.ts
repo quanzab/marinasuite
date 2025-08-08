@@ -8,6 +8,7 @@ import { getVessels } from "@/lib/firestore";
 const formSchema = z.object({
     route: z.string().min(1, "Route is required."),
     vesselId: z.string().min(1, "Vessel is required."),
+    tenantId: z.string().min(1, "Tenant ID is required."),
 });
 
 type State = {
@@ -23,6 +24,7 @@ export async function getCrewSuggestion(
     const validatedFields = formSchema.safeParse({
         route: formData.get("route"),
         vesselId: formData.get("vesselId"),
+        tenantId: formData.get("tenantId"),
     });
 
     if (!validatedFields.success) {
@@ -33,10 +35,10 @@ export async function getCrewSuggestion(
         };
     }
 
-    const { route, vesselId } = validatedFields.data;
+    const { route, vesselId, tenantId } = validatedFields.data;
 
     try {
-        const allVessels = await getVessels();
+        const allVessels = await getVessels(tenantId);
 
         const selectedVessel = allVessels.find(v => v.id === vesselId);
         if (!selectedVessel) {

@@ -15,6 +15,7 @@ import { useState, useEffect } from "react";
 import type { Vessel } from "@/lib/types";
 import { getVessels } from "@/lib/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTenant } from "@/hooks/use-tenant";
 
 
 function SubmitButton() {
@@ -41,12 +42,14 @@ export default function MaintenanceAiPage() {
   const [state, formAction] = useFormState(getMaintenancePrediction, initialState);
   const [vessels, setVessels] = useState<Vessel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { tenantId } = useTenant();
 
   useEffect(() => {
     async function fetchData() {
+        if (!tenantId) return;
       try {
         setIsLoading(true);
-        const vesselData = await getVessels();
+        const vesselData = await getVessels(tenantId);
         setVessels(vesselData);
       } catch (error) {
         console.error("Failed to fetch vessels for AI form", error);
@@ -55,7 +58,7 @@ export default function MaintenanceAiPage() {
       }
     }
     fetchData();
-  }, []);
+  }, [tenantId]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -89,6 +92,7 @@ export default function MaintenanceAiPage() {
                 </div>
             ) : (
             <form action={formAction} className="grid gap-6">
+              <input type="hidden" name="tenantId" value={tenantId || ''} />
               <div className="grid gap-2">
                 <Label htmlFor="vesselId">Vessel</Label>
                  <Select name="vesselId" required>

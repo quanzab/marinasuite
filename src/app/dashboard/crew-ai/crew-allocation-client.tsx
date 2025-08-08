@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import type { Vessel } from "@/lib/types";
 import { getVessels } from "@/lib/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTenant } from "@/hooks/use-tenant";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -40,12 +41,14 @@ export default function CrewAllocationClient() {
   const [state, formAction] = useFormState(getCrewSuggestion, initialState);
   const [vessels, setVessels] = useState<Vessel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { tenantId } = useTenant();
 
   useEffect(() => {
     async function fetchData() {
+      if (!tenantId) return;
       try {
         setIsLoading(true);
-        const vesselData = await getVessels();
+        const vesselData = await getVessels(tenantId);
         setVessels(vesselData);
       } catch (error) {
         console.error("Failed to fetch data for AI form", error);
@@ -55,7 +58,7 @@ export default function CrewAllocationClient() {
       }
     }
     fetchData();
-  }, []);
+  }, [tenantId]);
 
   return (
     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -81,6 +84,7 @@ export default function CrewAllocationClient() {
             </div>
           ) : (
           <form action={formAction} className="grid gap-6">
+            <input type="hidden" name="tenantId" value={tenantId || ''} />
             <div className="grid gap-2">
               <Label htmlFor="route">Route</Label>
               <Input id="route" name="route" placeholder="e.g., Singapore to Rotterdam" required />

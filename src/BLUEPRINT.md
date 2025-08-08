@@ -16,8 +16,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Route Optimizer AI**: AI-powered suggestions for optimal shipping routes.
 -   **Predictive Maintenance AI**: AI-powered forecasts for vessel maintenance.
 -   **Safety Report Analysis AI**: AI-driven analysis of incident reports.
--   **AI Shanty Generator**: A creative AI tool to generate sea shanties about vessels, complete with audio.
--   **AI Vessel Image/Video Generator**: AI tools to generate custom images and videos for vessels.
+-   **AI Shanty Generator**: A creative AI tool to generate sea shanties about vessels.
 -   **Offline Data Caching**: Offline data access and synchronization.
 
 ## 3. Tech Stack
@@ -68,5 +67,3 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 ## 6. Development Roadmap
 
 See `TODO.md` for the development roadmap.
-
-    

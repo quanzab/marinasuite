@@ -4,9 +4,11 @@
 import { z } from "zod";
 import { generateShanty, GenerateShantyOutput } from "@/ai/flows/generate-shanty-flow";
 import { getVessels } from "@/lib/firestore";
+import { useTenant } from "@/hooks/use-tenant";
 
 const formSchema = z.object({
     vesselId: z.string().min(1, "Vessel is required."),
+    tenantId: z.string().min(1, "Tenant ID is required."),
 });
 
 type State = {
@@ -21,6 +23,7 @@ export async function getShanty(
 ): Promise<State> {
     const validatedFields = formSchema.safeParse({
         vesselId: formData.get("vesselId"),
+        tenantId: formData.get("tenantId"),
     });
 
     if (!validatedFields.success) {
@@ -31,9 +34,11 @@ export async function getShanty(
         };
     }
 
+    const { vesselId, tenantId } = validatedFields.data;
+
     try {
-        const allVessels = await getVessels();
-        const selectedVessel = allVessels.find(v => v.id === validatedFields.data.vesselId);
+        const allVessels = await getVessels(tenantId);
+        const selectedVessel = allVessels.find(v => v.id === vesselId);
 
         if (!selectedVessel) {
             return { data: null, error: "Selected vessel not found.", message: "Error" };

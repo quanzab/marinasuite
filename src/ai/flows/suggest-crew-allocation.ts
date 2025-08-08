@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -16,15 +17,17 @@ const findAvailableCrew = ai.defineTool(
   {
     name: 'findAvailableCrew',
     description: 'Returns a list of all crew members who are currently active and unassigned to any vessel.',
-    inputSchema: z.object({}),
+    inputSchema: z.object({
+        tenantId: z.string().describe("The ID of the tenant to search for crew within.")
+    }),
     outputSchema: z.array(z.object({
         name: z.string(),
         rank: z.string(),
         certifications: z.array(z.string()).optional(),
     })),
   },
-  async () => {
-    const allCrew = await getCrew();
+  async ({ tenantId }) => {
+    const allCrew = await getCrew(tenantId);
     return allCrew.filter(c => c.status === 'Active' && !c.assignedVessel);
   }
 )
@@ -56,37 +59,37 @@ export type SuggestCrewAllocationOutput = z.infer<
 export async function suggestCrewAllocation(
   input: SuggestCrewAllocationInput
 ): Promise<SuggestCrewAllocationOutput> {
+  // We need to pass the tenantId to the tool, but we don't want to expose it in the public-facing schema.
+  // This is a placeholder for getting the tenant context on the server.
+  const tenantId = "Global Maritime"; 
+  
+  const suggestCrewAllocationFlow = ai.defineFlow(
+    {
+      name: 'suggestCrewAllocationFlow',
+      inputSchema: SuggestCrewAllocationInputSchema,
+      outputSchema: SuggestCrewAllocationOutputSchema,
+    },
+    async (flowInput) => {
+      const { output } = await ai.generate({
+        prompt: `You are an expert fleet manager specializing in optimizing crew allocation for vessels.
+
+        Your first step is to call the \`findAvailableCrew\` tool to get a list of all available crew members and their certifications for the tenant ID: ${tenantId}.
+
+        Then, using the provided information about the route, vessel, and vessel requirements, suggest the optimal crew allocation from the list of available crew you retrieved.
+
+        Route: ${flowInput.route}
+        Vessel: ${flowInput.vessel}
+        Vessel Requirements: ${flowInput.vesselRequirements.join(', ')}
+
+        Consider crew availability, certifications, and vessel requirements to make informed decisions and minimize operational costs. Provide a detailed reasoning for your suggested allocation.
+        Your final output should be formatted as JSON.
+        `,
+        tools: [findAvailableCrew],
+        output: { schema: SuggestCrewAllocationOutputSchema }
+      });
+      return output!;
+    }
+  );
+
   return suggestCrewAllocationFlow(input);
 }
-
-const prompt = ai.definePrompt({
-  name: 'suggestCrewAllocationPrompt',
-  input: {schema: SuggestCrewAllocationInputSchema},
-  output: {schema: SuggestCrewAllocationOutputSchema},
-  tools: [findAvailableCrew],
-  prompt: `You are an expert fleet manager specializing in optimizing crew allocation for vessels.
-
-  Your first step is to call the \`findAvailableCrew\` tool to get a list of all available crew members and their certifications.
-
-  Then, using the provided information about the route, vessel, and vessel requirements, suggest the optimal crew allocation from the list of available crew you retrieved.
-
-  Route: {{{route}}}
-  Vessel: {{{vessel}}}
-  Vessel Requirements: {{#each vesselRequirements}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}
-
-  Consider crew availability, certifications, and vessel requirements to make informed decisions and minimize operational costs. Provide a detailed reasoning for your suggested allocation.
-  Your final output should be formatted as JSON.
-  `,
-});
-
-const suggestCrewAllocationFlow = ai.defineFlow(
-  {
-    name: 'suggestCrewAllocationFlow',
-    inputSchema: SuggestCrewAllocationInputSchema,
-    outputSchema: SuggestCrewAllocationOutputSchema,
-  },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
-  }
-);
