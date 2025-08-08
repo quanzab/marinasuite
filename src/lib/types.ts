@@ -84,5 +84,3 @@ export const renewCertificateFormSchema = z.object({
   expiryDate: z.date({ required_error: "New expiry date is required." }),
 });
 export type RenewCertificateFormValues = z.infer<typeof renewCertificateFormSchema>;
-
-    

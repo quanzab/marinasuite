@@ -230,12 +230,14 @@
     -   Added a new "Scheduling" page to the main navigation.
     -   Implemented a UI to display assigned and unassigned crew members, laying the groundwork for interactive scheduling.
 
+## [2.2.0] - 2024-08-20
+
 ### Fixed
 
 -   Corrected a bug where the "Unassigned Crew" list was not filtering correctly.
 -   Fixed an issue in the crew assignment logic to ensure the vessel's name, not its ID, is used for the assignment, improving data consistency.
 
-## [2.2.0] - 2024-08-20
+## [2.3.0] - 2024-08-21
 
 ### Added
 
@@ -243,7 +245,7 @@
     -   Added an "Assign to Vessel" dropdown action for each unassigned crew member on the Scheduling page.
     -   This allows managers to directly assign crew to vessels from the scheduling interface, updating Firestore in real-time.
 
-## [2.3.0] - 2024-08-21
+## [2.4.0] - 2024-08-22
 
 ### Added
 
@@ -252,7 +254,7 @@
     -   Managers can now visually drag unassigned crew members and drop them onto vessel cards to create assignments.
     -   This provides a highly intuitive and efficient workflow for managing crew allocations.
 
-## [2.4.0] - 2024-08-22
+## [2.5.0] - 2024-08-23
 
 ### Added
 
@@ -260,7 +262,7 @@
     -   Added a new "Generate Image" button to the vessel profile page.
     -   This feature uses a new Genkit flow (`generate-vessel-image-flow.ts`) to create a unique, AI-generated image for the vessel, replacing the default placeholder.
 
-## [2.5.0] - 2024-08-23
+## [2.6.0] - 2024-08-24
 
 ### Added
 
@@ -269,7 +271,7 @@
     -   The feature now not only writes a sea shanty about a vessel but also generates an audio performance of it.
     -   Updated the UI to include an audio player to listen to the generated shanty.
 
-## [2.6.0] - 2024-08-24
+## [2.7.0] - 2024-08-25
 
 ### Added
 
@@ -278,14 +280,14 @@
     -   This feature uses the Veo model via a new Genkit flow (`generate-vessel-video-flow.ts`) to create a short, animated video clip of the vessel.
     -   Updated the UI to include a video player.
 
-## [2.7.0] - 2024-08-25
+## [2.8.0] - 2024-08-26
 
 ### Fixed
 
 -   **Login Redirect**:
     -   Fixed a bug in the login page where users were incorrectly redirected to `/dashboard` instead of `/dashboard/select-tenant` after a successful login.
 
-## [2.8.0] - 2024-08-26
+## [2.9.0] - 2024-08-27
 
 ### Added
 
@@ -295,7 +297,7 @@
         -   Vessel Status
         -   Certificate Status
 
-## [2.8.1] - 2024-08-27
+## [2.9.1] - 2024-08-28
 
 ### Fixed
 
