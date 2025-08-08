@@ -58,9 +58,9 @@ export default function AdminPage() {
     setIsDialogOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (user: User) => {
     try {
-      await deleteUser(id);
+      await deleteUser(user.id, user.tenant);
       toast({
         title: "Success",
         description: "User removed successfully.",
@@ -196,7 +196,7 @@ export default function AdminPage() {
                         <DropdownMenuItem disabled>Change Tenant</DropdownMenuItem>
                         <DropdownMenuItem 
                           className="text-destructive"
-                          onClick={() => handleDelete(user.id)}
+                          onClick={() => handleDelete(user)}
                         >
                           Remove User
                         </DropdownMenuItem>
@@ -207,6 +207,11 @@ export default function AdminPage() {
               ))}
             </TableBody>
           </Table>
+           {users.length === 0 && !isLoading && (
+              <div className="text-center py-10 text-muted-foreground">
+                No users found.
+              </div>
+            )}
         </CardContent>
       </Card>
     </>

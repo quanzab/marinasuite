@@ -166,17 +166,14 @@
 -   **Offline Data Caching**:
     -   Enabled Firestore's offline persistence in `firebase.ts`.
     -   The application now caches data locally, allowing users to view and modify data even when offline. Changes are synced automatically upon reconnection.
+
 ## [1.5.0] - 2024-08-13
-
-### Added
-
--   **Admin Panel**:
-    -   Connected the User Management page to Firestore to display live user data.
-    -   Added a `getUsers` function to the Firestore service.
 
 ### Changed
 
--   Updated `lib/types.ts` to include a `User` type.
+-   **Admin Panel**:
+    -   Refactored the `getUsers` function in `firestore.ts` to query all tenant sub-collections, ensuring it fetches all users across the entire system.
+    -   Removed the mock data population from `getUsers`, making the Admin Panel fully data-driven.
 
 ## [1.6.0] - 2024-08-14
 

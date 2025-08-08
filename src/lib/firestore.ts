@@ -1,6 +1,6 @@
 
 import { db } from './firebase';
-import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where } from 'firebase/firestore';
 import type { User, CrewMember, Vessel, Certificate } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
@@ -166,37 +166,42 @@ export const deleteCertificate = async (id: string) => {
 
 // READ
 export const getUsers = async (): Promise<User[]> => {
-  const snapshot = await getDocs(usersCollectionRef);
-  // If no users, populate with mock data for demo purposes
-  if (snapshot.empty) {
-    const mockUsers = [
-        { name: 'Admin User', email: 'admin@marinasuite.com', role: 'Admin', tenant: 'Global Maritime' },
-        { name: 'Manager User', email: 'manager@marinasuite.com', role: 'Manager', tenant: 'Global Maritime' },
-        { name: 'Viewer User', email: 'viewer@marinasuite.com', role: 'Viewer', tenant: 'Coastal Shipping' },
-        { name: 'Alice Admin', email: 'alice@marinasuite.com', role: 'Admin', tenant: 'Coastal Shipping' },
-    ];
-    for (const user of mockUsers) {
-        await addDoc(usersCollectionRef, user);
+    // This function will now query all 'users' sub-collections across all 'orgs'
+    const usersQuery = query(collectionGroup(db, 'users'));
+    const snapshot = await getDocs(usersQuery);
+    if (snapshot.empty) {
+        // If there are truly no users, return an empty array.
+        // The initial user data should be provisioned in a real setup.
+        return [];
     }
-    const newSnapshot = await getDocs(usersCollectionRef);
-    return newSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
-  }
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as User));
 };
+
 
 // CREATE
 export const addUser = async (userData: UserFormValues) => {
-    await addDoc(usersCollectionRef, userData);
+    // This creates a user under a specific tenant.
+    // In a real app, the tenantId would be dynamic.
+    const specificUsersCollectionRef = collection(db, 'orgs', userData.tenant, 'users');
+    await addDoc(specificUsersCollectionRef, userData);
 };
 
 // UPDATE
 export const updateUser = async (id: string, userData: Partial<UserFormValues>) => {
-  const userDoc = doc(db, 'orgs', TENANT_ID, 'users', id);
+  // To update a user, we need to know their tenant.
+  // This is a simplification; a real app would need a more robust way to locate the user document.
+  if (!userData.tenant) {
+      throw new Error("Tenant must be provided to update a user.");
+  }
+  const userDoc = doc(db, 'orgs', userData.tenant, 'users', id);
   await updateDoc(userDoc, userData);
 };
 
 // DELETE
-export const deleteUser = async (id: string) => {
-  const userDoc = doc(db, 'orgs', TENANT_ID, 'users', id);
-  await deleteDoc(userDoc);
+export const deleteUser = async (id: string, tenantId: string) => {
+    if (!tenantId) {
+        throw new Error("Tenant ID is required to delete a user.");
+    }
+    const userDoc = doc(db, 'orgs', tenantId, 'users', id);
+    await deleteDoc(userDoc);
 };

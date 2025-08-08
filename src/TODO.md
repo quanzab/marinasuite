@@ -52,5 +52,5 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Notifications**:
     -   [x] Implement in-app notification UI with a dedicated page and header dropdown.
     -   [ ] Implement push notifications for important events (e.g., certificate expiry, maintenance reminders).
--   [ ] **Creative AI Tools**:
+-   [x] **Creative AI Tools**:
     -   [x] AI-powered sea shanty generator.
