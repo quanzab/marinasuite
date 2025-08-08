@@ -1,4 +1,5 @@
 
+
 # Changelog
 
 ## [0.1.0] - 2024-07-30
@@ -175,7 +176,7 @@
 -   **Admin Panel**:
     -   Refactored the `getUsers` function in `firestore.ts` to query all tenant sub-collections, ensuring it fetches all users across the entire system.
     -   Removed the mock data population from `getUsers`, making the Admin Panel fully data-driven.
-
+   
 ## [1.6.0] - 2024-08-14
 
 ### Changed

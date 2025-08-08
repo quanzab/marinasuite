@@ -106,7 +106,7 @@ export const addVessel = async (tenantId: string, vesselData: VesselFormValues) 
 };
 
 // UPDATE
-export const updateVessel = async (tenantId: string, id: string, vesselData: Partial<VesselFormValues | { imageUrl: string, videoUrl: string }>) => {
+export const updateVessel = async (tenantId: string, id: string, vesselData: Partial<VesselFormValues | { imageUrl: string | null, videoUrl: string | null }>) => {
   if (!tenantId) throw new Error("Tenant ID is required.");
   const vesselDoc = doc(db, 'orgs', tenantId, 'vessels', id);
   
@@ -227,3 +227,4 @@ export const deleteUser = async (id: string, tenantId: string) => {
     const userDoc = doc(db, 'orgs', tenantId, 'users', id);
     await deleteDoc(userDoc);
 };
+
