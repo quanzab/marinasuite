@@ -56,5 +56,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [ ] Implement push notifications for important events (e.g., certificate expiry, maintenance reminders).
 -   [x] **Creative AI Tools**:
     -   [x] AI-powered sea shanty generator.
+    -   [x] AI-powered vessel image generator.
 
     
+

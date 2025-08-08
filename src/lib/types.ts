@@ -17,6 +17,7 @@ export type Vessel = {
   type: string;
   status: 'In Service' | 'In Maintenance' | 'Docked';
   nextMaintenance: string;
+  imageUrl?: string | null;
 };
 
 export type Certificate = {

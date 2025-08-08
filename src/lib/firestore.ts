@@ -93,25 +93,22 @@ export const addVessel = async (vesselData: VesselFormValues) => {
         imo,
         type,
         status,
-        nextMaintenance: format(nextMaintenance, 'yyyy-MM-dd')
+        nextMaintenance: format(nextMaintenance, 'yyyy-MM-dd'),
+        imageUrl: null
     });
 };
 
 // UPDATE
-export const updateVessel = async (id: string, vesselData: Partial<VesselFormValues>) => {
+export const updateVessel = async (id: string, vesselData: Partial<VesselFormValues | { imageUrl: string }>) => {
   const vesselDoc = doc(db, 'orgs', TENANT_ID, 'vessels', id);
   
-  // Format date if it exists in the update data
+  const dataToUpdate: Record<string, any> = { ...vesselData };
+
   if (vesselData.nextMaintenance) {
-      const { nextMaintenance, ...rest } = vesselData;
-      const formattedData = {
-          ...rest,
-          nextMaintenance: format(new Date(nextMaintenance), 'yyyy-MM-dd')
-      };
-      await updateDoc(vesselDoc, formattedData);
-  } else {
-      await updateDoc(vesselDoc, vesselData);
+      dataToUpdate.nextMaintenance = format(new Date(vesselData.nextMaintenance), 'yyyy-MM-dd');
   }
+  
+  await updateDoc(vesselDoc, dataToUpdate);
 };
 
 // DELETE

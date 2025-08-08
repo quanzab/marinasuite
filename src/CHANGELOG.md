@@ -301,3 +301,11 @@
 ### Changed
 - Refactored the `schedule-client.tsx` component to support the new interactive functionality.
 - Removed the previous dropdown-based assignment in favor of the drag-and-drop system.
+
+## [3.1.0] - 2024-09-02
+### Added
+- **AI Vessel Image Generator**:
+    - Added a new creative AI tool to generate custom images for vessels.
+    - Created a new Genkit flow (`generate-vessel-image-flow.ts`) for the image generation logic.
+    - Implemented a "Generate Image" button on the vessel profile page that triggers the AI and updates the image.
+- **Vessel Image Storage**: Added `imageUrl` field to the `Vessel` type and Firestore documents to store the generated image URLs.
