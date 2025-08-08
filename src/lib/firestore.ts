@@ -228,3 +228,4 @@ export const deleteUser = async (id: string, tenantId: string) => {
     await deleteDoc(userDoc);
 };
 
+
