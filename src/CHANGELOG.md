@@ -261,6 +261,9 @@
     -   Added a "Direct Assign" feature to the Scheduling page, providing an alternative to drag-and-drop.
     -   Users can now click an "Assign" button on an unassigned crew member to open a dialog and select a vessel.
     -   This enhances the flexibility and accessibility of the crew scheduling workflow.
+-   **Reporting Page**:
+    -   Added a new "Reporting" page to generate and print key operational reports.
+    -   Includes printable reports for Crew Manifest, Vessel Status, and Certificate Status.
 
 ### Changed
 
@@ -269,26 +272,3 @@
 ### Fixed
 
 -   **Project Complete**: All major features and enhancements from the blueprint and to-do list are now implemented. The application is considered feature-complete.
-
-## [2.3.1] - 2024-08-20
-
-### Changed
-
--   **Component Refinement**: Updated the `Button` component to automatically style icons passed as children, ensuring consistent sizing and spacing. This improves the component's reusability and aligns it with best practices.
-
-## [2.4.0] - 2024-08-21
-
-### Added
-
--   **Real-Time Data Updates**: Implemented real-time data synchronization using Firestore's `onSnapshot` listeners for the Crew, Fleet, Certificates, and Dashboard pages. The UI now updates automatically when data changes in the backend, providing a more dynamic and responsive user experience.
-
-### Changed
-
--   Refactored `firestore.ts` to include `subscribeTo` functions that manage real-time listeners.
--   Updated all relevant pages to use the new subscription-based data fetching hooks instead of one-time fetches.
-
-## [2.5.0] - 2024-08-22
-
-### Changed
-
--   **Shanty AI Polish**: Updated the AI Shanty Generator to use Markdown for formatting the output. The AI prompt now instructs the model to structure the lyrics, and the frontend uses `react-markdown` to render them with proper verse and chorus breaks, improving readability.
