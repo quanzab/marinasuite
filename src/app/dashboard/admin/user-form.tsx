@@ -55,9 +55,9 @@ export function UserForm({ user, onSubmit, isSubmitting, isAdmin }: UserFormProp
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>Full Name (Optional)</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} disabled={!user === false} />
+                <Input placeholder="John Doe" {...field} disabled={!!user} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,7 +70,7 @@ export function UserForm({ user, onSubmit, isSubmitting, isAdmin }: UserFormProp
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="user@example.com" {...field} disabled={!user === false} />
+                <Input type="email" placeholder="user@example.com" {...field} disabled={!!user} />
               </FormControl>
               <FormMessage />
             </FormItem>

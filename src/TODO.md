@@ -75,6 +75,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement a `routes` collection in Firestore to make the "Open Routes" dashboard card fully dynamic.
 -   [x] **Data Consistency**:
     -   [x] Converted free-text inputs for "Vessel Type" and "Crew Rank" to dropdowns to enforce consistency.
+-   [x] **User Experience**:
+    -   [x] Streamlined the "Invite User" workflow by making the name field optional.
 
 ## Project Complete
 
