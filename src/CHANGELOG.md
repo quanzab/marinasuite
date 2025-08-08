@@ -240,3 +240,9 @@
 ### Changed
 -   **Code Quality**: Final refinement of the Next.js configuration (`next.config.ts`) by moving `serverActions` to the top level to align with the latest stable standards.
 -   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [2.9.0] - 2024-09-09
+
+### Changed
+-   **Code Quality**: Final refinement of `package.json` by removing the `genkit:watch` development script to streamline project configuration.
+-   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
