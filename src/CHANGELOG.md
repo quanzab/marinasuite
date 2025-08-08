@@ -274,3 +274,7 @@
     - Replaced mock notification data with a real-time system that generates alerts for expiring and expired certificates.
     - Created a new `notifications.ts` service to handle the logic for fetching and processing notification-worthy events.
     - The header dropdown and the main notifications page now display live, actionable alerts.
+
+## [2.9.1] - 2024-08-28
+### Fixed
+- **Code Cleanup**: Removed an obsolete and unused layout file from `src/dashboard/` to maintain a clean codebase.
