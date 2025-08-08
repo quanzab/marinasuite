@@ -55,6 +55,7 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { getCertificateNotifications } from '@/lib/notifications';
 import type { CertificateWithStatus } from '@/lib/types';
+import { useTenant } from '@/hooks/use-tenant';
 
 
 export default function DashboardLayout({
@@ -64,6 +65,7 @@ export default function DashboardLayout({
 }) {
   const [notifications, setNotifications] = useState<CertificateWithStatus[]>([]);
   const [isLoadingNotifications, setIsLoadingNotifications] = useState(true);
+  const { tenantId } = useTenant();
 
   const navLinks = [
     { href: '/dashboard', label: 'Dashboard', icon: DashboardIcon },
@@ -88,17 +90,20 @@ export default function DashboardLayout({
 
   useEffect(() => {
     async function fetchNotifications() {
+      if (!tenantId) return;
       setIsLoadingNotifications(true);
-      const certs = await getCertificateNotifications();
+      const certs = await getCertificateNotifications(tenantId);
       setNotifications(certs);
       setIsLoadingNotifications(false);
     }
     fetchNotifications();
-  }, []);
+  }, [tenantId]);
 
   const handleSignOut = async () => {
     try {
       await signOut(auth);
+      // Also clear tenant from session storage on sign out
+      sessionStorage.removeItem('marinasuite-tenantId');
       router.push('/login');
       toast({
         title: "Signed Out",

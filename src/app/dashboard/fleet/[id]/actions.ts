@@ -8,9 +8,9 @@ import type { MaintenanceLogFormValues } from '@/lib/types';
 import { format } from 'date-fns';
 import { revalidatePath } from 'next/cache';
 
-export async function generateNewImageAction(vesselId: string) {
+export async function generateNewImageAction(tenantId: string, vesselId: string) {
   try {
-    const vessel = await getVesselById(vesselId);
+    const vessel = await getVesselById(tenantId, vesselId);
     if (!vessel) {
       throw new Error('Vessel not found');
     }
@@ -21,7 +21,7 @@ export async function generateNewImageAction(vesselId: string) {
     });
     
     if (result.imageUrl) {
-        await updateVessel(vesselId, { imageUrl: result.imageUrl });
+        await updateVessel(tenantId, vesselId, { imageUrl: result.imageUrl });
     }
 
     revalidatePath(`/dashboard/fleet/${vesselId}`);
@@ -34,9 +34,9 @@ export async function generateNewImageAction(vesselId: string) {
   }
 }
 
-export async function generateNewVideoAction(vesselId: string) {
+export async function generateNewVideoAction(tenantId: string, vesselId: string) {
   try {
-    const vessel = await getVesselById(vesselId);
+    const vessel = await getVesselById(tenantId, vesselId);
     if (!vessel) {
       throw new Error('Vessel not found');
     }
@@ -48,7 +48,7 @@ export async function generateNewVideoAction(vesselId: string) {
     });
     
     if (result.videoDataUri) {
-        await updateVessel(vesselId, { videoUrl: result.videoDataUri });
+        await updateVessel(tenantId, vesselId, { videoUrl: result.videoDataUri });
     }
 
     revalidatePath(`/dashboard/fleet/${vesselId}`);
@@ -62,13 +62,13 @@ export async function generateNewVideoAction(vesselId: string) {
 }
 
 
-export async function logMaintenanceAction(vesselId: string, data: MaintenanceLogFormValues) {
+export async function logMaintenanceAction(tenantId: string, vesselId: string, data: MaintenanceLogFormValues) {
     try {
         const record = {
             date: format(data.date, 'yyyy-MM-dd'),
             description: data.description,
         };
-        await addMaintenanceRecord(vesselId, record);
+        await addMaintenanceRecord(tenantId, vesselId, record);
         revalidatePath(`/dashboard/fleet/${vesselId}`);
         return { success: true };
     } catch (error) {
@@ -77,5 +77,3 @@ export async function logMaintenanceAction(vesselId: string, data: MaintenanceLo
         return { success: false, error: message };
     }
 }
-
-    

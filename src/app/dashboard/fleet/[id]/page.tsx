@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { getVesselById, getCrew } from '@/lib/firestore';
 import type { Vessel, CrewMember, MaintenanceLogFormValues } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Ship, Tag, Wrench, Calendar, Users, Wand2, Loader2, User, PlusCircle, Video } from 'lucide-react';
+import { Ship, Tag, Wrench, Calendar, Users, Wand2, Loader2, User, PlusCircle, Video, Bot } from 'lucide-react';
 import Image from 'next/image';
 import { generateNewImageAction, logMaintenanceAction, generateNewVideoAction } from './actions';
 import { useToast } from '@/hooks/use-toast';
@@ -19,6 +19,7 @@ import Link from 'next/link';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { MaintenanceLogForm } from './maintenance-log-form';
 import { format } from 'date-fns';
+import { useTenant } from '@/hooks/use-tenant';
 
 const getAvatarFallback = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
@@ -40,14 +41,16 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   const { toast } = useToast();
   const { user: currentUser, isLoading: isUserLoading } = useCurrentUser();
   const isManagerOrAdmin = currentUser?.role === 'Admin' || currentUser?.role === 'Manager';
+  const { tenantId } = useTenant();
 
 
   const fetchData = async () => {
+    if (!tenantId) return;
     setIsLoading(true);
     try {
       const [fetchedVessel, allCrew] = await Promise.all([
-          getVesselById(params.id),
-          getCrew()
+          getVesselById(tenantId, params.id),
+          getCrew(tenantId)
       ]);
       
       if (fetchedVessel) {
@@ -72,12 +75,13 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
       fetchData();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.id]);
+  }, [params.id, tenantId]);
 
   const handleGenerateImage = () => {
+    if (!tenantId) return;
     startImageTransition(async () => {
         toast({ title: 'AI Image Generation', description: 'The AI is creating a new image. This may take a moment...' });
-        const result = await generateNewImageAction(params.id);
+        const result = await generateNewImageAction(tenantId, params.id);
         if (result.success && result.imageUrl) {
             setVessel(prev => prev ? { ...prev, imageUrl: result.imageUrl } : null);
             toast({ title: 'Success!', description: 'New vessel image has been generated.' });
@@ -88,9 +92,10 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   }
 
   const handleGenerateVideo = () => {
+    if (!tenantId) return;
     startVideoTransition(async () => {
         toast({ title: 'AI Video Generation', description: 'The AI is creating a new video. This can take up to a minute...' });
-        const result = await generateNewVideoAction(params.id);
+        const result = await generateNewVideoAction(tenantId, params.id);
         if (result.success && result.videoUrl) {
             setVideoUrl(result.videoUrl);
             toast({ title: 'Success!', description: 'New vessel video has been generated.' });
@@ -102,8 +107,9 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
 
 
   const handleLogMaintenanceSubmit = async (data: MaintenanceLogFormValues) => {
+    if (!tenantId) return;
     setIsSubmittingLog(true);
-    const result = await logMaintenanceAction(params.id, data);
+    const result = await logMaintenanceAction(tenantId, params.id, data);
     if (result.success) {
       toast({ title: 'Success!', description: 'Maintenance record has been logged.' });
       setIsLogMaintenanceOpen(false);
@@ -419,5 +425,3 @@ function VesselProfileSkeleton() {
         </div>
     );
 }
-
-    

@@ -9,21 +9,24 @@ import { getCertificateNotifications } from '@/lib/notifications';
 import type { CertificateWithStatus } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatDistanceToNow } from 'date-fns';
+import { useTenant } from '@/hooks/use-tenant';
 
 
 export default function NotificationsPage() {
     const [notifications, setNotifications] = useState<CertificateWithStatus[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const { tenantId } = useTenant();
 
     useEffect(() => {
         async function fetchNotifications() {
+            if (!tenantId) return;
             setIsLoading(true);
-            const certs = await getCertificateNotifications();
+            const certs = await getCertificateNotifications(tenantId);
             setNotifications(certs);
             setIsLoading(false);
         }
         fetchNotifications();
-    }, []);
+    }, [tenantId]);
 
     const getIcon = (status: 'Expired' | 'Expiring Soon' | 'Valid') => {
         if (status === 'Expired') {

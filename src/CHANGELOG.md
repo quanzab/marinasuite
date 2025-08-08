@@ -175,5 +175,129 @@
 -   **Admin Panel**:
     -   Refactored the `getUsers` function in `firestore.ts` to query all tenant sub-collections, ensuring it fetches all users across the entire system.
     -   Removed the mock data population from `getUsers`, making the Admin Panel fully data-driven.
+
+## [1.6.0] - 2024-08-14
+
+### Changed
+
+-   **Vessel Profile Page**:
+    -   Made the "Assigned Crew" section on the vessel profile page dynamic. It now fetches and displays the actual crew members assigned to that vessel from Firestore.
+
+## [1.7.0] - 2024-08-15
+
+### Added
+
+-   **Maintenance History**:
+    -   Implemented functionality to log and view maintenance history for each vessel.
+    -   Added a "Log Entry" button to the vessel profile page, which opens a dialog with a form to add new maintenance records.
+    -   Updated the Firestore service to include an `addMaintenanceRecord` function.
+    -   The vessel profile page now displays a chronological list of all past maintenance activities.
+
+## [1.8.0] - 2024-08-16
+
+### Changed
+
+-   **Dashboard Analytics**:
+    -   Connected the "Certificates Expiring" summary card on the main dashboard to live data from the `getCertificateNotifications` service.
+
+## [1.9.0] - 2024-08-17
+
+### Added
+
+-   **AI Tool Use**:
+    -   Enhanced the Crew Allocation AI by implementing a Genkit tool (`findAvailableCrew`).
+    -   The AI now autonomously fetches available crew members from Firestore instead of requiring the user to provide them.
+
+### Changed
+
+-   Refactored the Crew AI page to remove the manual crew selection checkboxes, streamlining the user experience.
+
+## [2.0.0] - 2024-08-18
+
+### Changed
+
+-   **Multi-Tenancy Architecture**:
+    -   Refactored the entire Firestore service layer (`firestore.ts`) to be fully multi-tenant aware. All data access functions now require a `tenantId`.
+    -   Removed the hardcoded single-tenant ID, enabling true data separation between different organizations.
+    -   Implemented a session-based context to manage the currently selected tenant, ensuring all operations are performed within the correct organizational scope.
+    -   Updated all pages and components that fetch data to use the new tenant-aware service functions.
     
-```
+## [2.1.0] - 2024-08-19
+
+### Added
+
+-   **Advanced Scheduling UI**:
+    -   Added a new "Scheduling" page to the main navigation.
+    -   Implemented a UI to display assigned and unassigned crew members, laying the groundwork for interactive scheduling.
+
+### Fixed
+
+-   Corrected a bug where the "Unassigned Crew" list was not filtering correctly.
+-   Fixed an issue in the crew assignment logic to ensure the vessel's name, not its ID, is used for the assignment, improving data consistency.
+
+## [2.2.0] - 2024-08-20
+
+### Added
+
+-   **Interactive Crew Assignment**:
+    -   Added an "Assign to Vessel" dropdown action for each unassigned crew member on the Scheduling page.
+    -   This allows managers to directly assign crew to vessels from the scheduling interface, updating Firestore in real-time.
+
+## [2.3.0] - 2024-08-21
+
+### Added
+
+-   **Drag-and-Drop Scheduling**:
+    -   Implemented a full drag-and-drop interface on the Crew Scheduling page using `@dnd-kit`.
+    -   Managers can now visually drag unassigned crew members and drop them onto vessel cards to create assignments.
+    -   This provides a highly intuitive and efficient workflow for managing crew allocations.
+
+## [2.4.0] - 2024-08-22
+
+### Added
+
+-   **AI Vessel Image Generation**:
+    -   Added a new "Generate Image" button to the vessel profile page.
+    -   This feature uses a new Genkit flow (`generate-vessel-image-flow.ts`) to create a unique, AI-generated image for the vessel, replacing the default placeholder.
+
+## [2.5.0] - 2024-08-23
+
+### Added
+
+-   **AI Shanty Generator with Audio**:
+    -   Enhanced the AI Shanty Generator to include Text-to-Speech (TTS).
+    -   The feature now not only writes a sea shanty about a vessel but also generates an audio performance of it.
+    -   Updated the UI to include an audio player to listen to the generated shanty.
+
+## [2.6.0] - 2024-08-24
+
+### Added
+
+-   **AI Vessel Video Generation**:
+    -   Added a new "Generate Video" button to the vessel profile page.
+    -   This feature uses the Veo model via a new Genkit flow (`generate-vessel-video-flow.ts`) to create a short, animated video clip of the vessel.
+    -   Updated the UI to include a video player.
+
+## [2.7.0] - 2024-08-25
+
+### Fixed
+
+-   **Login Redirect**:
+    -   Fixed a bug in the login page where users were incorrectly redirected to `/dashboard` instead of `/dashboard/select-tenant` after a successful login.
+
+## [2.8.0] - 2024-08-26
+
+### Added
+
+-   **Reporting Module**:
+    -   Implemented a new "Reporting" page with printable reports for:
+        -   Crew Manifest
+        -   Vessel Status
+        -   Certificate Status
+
+## [2.8.1] - 2024-08-27
+
+### Fixed
+
+-   **Obsolete Code Removal**:
+    -   Deleted an unused and obsolete layout file at `src/dashboard/layout.tsx` to maintain codebase cleanliness.

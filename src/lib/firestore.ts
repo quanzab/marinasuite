@@ -10,25 +10,20 @@ import type { UserFormValues } from '@/app/dashboard/admin/user-form';
 import { format } from 'date-fns';
 
 
-// For this MVP, we will assume a single tenant 'Global Maritime'
-// In a multi-tenant app, you'd get the tenantId from the user's session
-const TENANT_ID = 'Global Maritime'; 
-const crewCollectionRef = collection(db, 'orgs', TENANT_ID, 'crew');
-const vesselsCollectionRef = collection(db, 'orgs', TENANT_ID, 'vessels');
-const certificatesCollectionRef = collection(db, 'orgs', TENANT_ID, 'certificates');
-const usersCollectionRef = collection(db, 'orgs', TENANT_ID, 'users');
-
 // ====== CREW ======
 
 // READ (all)
-export const getCrew = async (): Promise<CrewMember[]> => {
+export const getCrew = async (tenantId: string): Promise<CrewMember[]> => {
+  if (!tenantId) return [];
+  const crewCollectionRef = collection(db, 'orgs', tenantId, 'crew');
   const snapshot = await getDocs(crewCollectionRef);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as CrewMember));
 };
 
 // READ (single)
-export const getCrewMemberById = async (id: string): Promise<CrewMember | null> => {
-  const crewDocRef = doc(db, 'orgs', TENANT_ID, 'crew', id);
+export const getCrewMemberById = async (tenantId: string, id: string): Promise<CrewMember | null> => {
+  if (!tenantId) return null;
+  const crewDocRef = doc(db, 'orgs', tenantId, 'crew', id);
   const docSnap = await getDoc(crewDocRef);
 
   if (docSnap.exists()) {
@@ -40,7 +35,9 @@ export const getCrewMemberById = async (id: string): Promise<CrewMember | null> 
 
 
 // CREATE
-export const addCrewMember = async (crewData: CrewFormValues) => {
+export const addCrewMember = async (tenantId: string, crewData: CrewFormValues) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const crewCollectionRef = collection(db, 'orgs', tenantId, 'crew');
     const { name, rank, status } = crewData;
     await addDoc(crewCollectionRef, {
         name,
@@ -53,14 +50,16 @@ export const addCrewMember = async (crewData: CrewFormValues) => {
 };
 
 // UPDATE
-export const updateCrewMember = async (id: string, crewData: Partial<CrewFormValues & { assignedVessel: string | null }>) => {
-  const crewDoc = doc(db, 'orgs', TENANT_ID, 'crew', id);
+export const updateCrewMember = async (tenantId: string, id: string, crewData: Partial<CrewFormValues & { assignedVessel: string | null }>) => {
+  if (!tenantId) throw new Error("Tenant ID is required.");
+  const crewDoc = doc(db, 'orgs', tenantId, 'crew', id);
   await updateDoc(crewDoc, crewData);
 };
 
 // DELETE
-export const deleteCrewMember = async (id: string) => {
-  const crewDoc = doc(db, 'orgs', TENANT_ID, 'crew', id);
+export const deleteCrewMember = async (tenantId: string, id: string) => {
+  if (!tenantId) throw new Error("Tenant ID is required.");
+  const crewDoc = doc(db, 'orgs', tenantId, 'crew', id);
   await deleteDoc(crewDoc);
 };
 
@@ -68,14 +67,17 @@ export const deleteCrewMember = async (id: string) => {
 // ====== VESSELS ======
 
 // READ (all)
-export const getVessels = async (): Promise<Vessel[]> => {
+export const getVessels = async (tenantId: string): Promise<Vessel[]> => {
+  if (!tenantId) return [];
+  const vesselsCollectionRef = collection(db, 'orgs', tenantId, 'vessels');
   const snapshot = await getDocs(vesselsCollectionRef);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Vessel));
 };
 
 // READ (single)
-export const getVesselById = async (id: string): Promise<Vessel | null> => {
-  const vesselDocRef = doc(db, 'orgs', TENANT_ID, 'vessels', id);
+export const getVesselById = async (tenantId: string, id: string): Promise<Vessel | null> => {
+  if (!tenantId) return null;
+  const vesselDocRef = doc(db, 'orgs', tenantId, 'vessels', id);
   const docSnap = await getDoc(vesselDocRef);
 
   if (docSnap.exists()) {
@@ -87,7 +89,9 @@ export const getVesselById = async (id: string): Promise<Vessel | null> => {
 
 
 // CREATE
-export const addVessel = async (vesselData: VesselFormValues) => {
+export const addVessel = async (tenantId: string, vesselData: VesselFormValues) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const vesselsCollectionRef = collection(db, 'orgs', tenantId, 'vessels');
     const { name, imo, type, status, nextMaintenance } = vesselData;
     await addDoc(vesselsCollectionRef, {
         name,
@@ -102,8 +106,9 @@ export const addVessel = async (vesselData: VesselFormValues) => {
 };
 
 // UPDATE
-export const updateVessel = async (id: string, vesselData: Partial<VesselFormValues | { imageUrl: string, videoUrl: string }>) => {
-  const vesselDoc = doc(db, 'orgs', TENANT_ID, 'vessels', id);
+export const updateVessel = async (tenantId: string, id: string, vesselData: Partial<VesselFormValues | { imageUrl: string, videoUrl: string }>) => {
+  if (!tenantId) throw new Error("Tenant ID is required.");
+  const vesselDoc = doc(db, 'orgs', tenantId, 'vessels', id);
   
   const dataToUpdate: Record<string, any> = { ...vesselData };
 
@@ -115,8 +120,9 @@ export const updateVessel = async (id: string, vesselData: Partial<VesselFormVal
 };
 
 // ADD MAINTENANCE RECORD
-export const addMaintenanceRecord = async (id: string, record: MaintenanceRecord) => {
-    const vesselDoc = doc(db, 'orgs', TENANT_ID, 'vessels', id);
+export const addMaintenanceRecord = async (tenantId: string, id: string, record: MaintenanceRecord) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const vesselDoc = doc(db, 'orgs', tenantId, 'vessels', id);
     await updateDoc(vesselDoc, {
         maintenanceHistory: arrayUnion(record)
     });
@@ -124,21 +130,26 @@ export const addMaintenanceRecord = async (id: string, record: MaintenanceRecord
 
 
 // DELETE
-export const deleteVessel = async (id: string) => {
-  const vesselDoc = doc(db, 'orgs', TENANT_ID, 'vessels', id);
+export const deleteVessel = async (tenantId: string, id: string) => {
+  if (!tenantId) throw new Error("Tenant ID is required.");
+  const vesselDoc = doc(db, 'orgs', tenantId, 'vessels', id);
   await deleteDoc(vesselDoc);
 };
 
 // ====== CERTIFICATES ======
 
 // READ
-export const getCertificates = async (): Promise<Certificate[]> => {
+export const getCertificates = async (tenantId: string): Promise<Certificate[]> => {
+    if (!tenantId) return [];
+    const certificatesCollectionRef = collection(db, 'orgs', tenantId, 'certificates');
     const snapshot = await getDocs(certificatesCollectionRef);
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Certificate));
 };
 
 // CREATE
-export const addCertificate = async (certificateData: CertificateFormValues) => {
+export const addCertificate = async (tenantId: string, certificateData: CertificateFormValues) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const certificatesCollectionRef = collection(db, 'orgs', tenantId, 'certificates');
     const { name, issuedBy, issueDate, expiryDate } = certificateData;
     await addDoc(certificatesCollectionRef, {
         name,
@@ -149,8 +160,9 @@ export const addCertificate = async (certificateData: CertificateFormValues) => 
 };
 
 // UPDATE
-export const updateCertificate = async (id: string, certificateData: Partial<CertificateFormValues>) => {
-    const certDoc = doc(db, 'orgs', TENANT_ID, 'certificates', id);
+export const updateCertificate = async (tenantId: string, id: string, certificateData: Partial<CertificateFormValues>) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const certDoc = doc(db, 'orgs', tenantId, 'certificates', id);
     
     const dataToUpdate: Record<string, any> = { ...certificateData };
 
@@ -165,8 +177,9 @@ export const updateCertificate = async (id: string, certificateData: Partial<Cer
 };
 
 // DELETE
-export const deleteCertificate = async (id: string) => {
-    const certDoc = doc(db, 'orgs', TENANT_ID, 'certificates', id);
+export const deleteCertificate = async (tenantId: string, id: string) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const certDoc = doc(db, 'orgs', tenantId, 'certificates', id);
     await deleteDoc(certDoc);
 };
 

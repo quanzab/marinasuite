@@ -6,22 +6,24 @@ import { Building, ChevronRight } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTenant } from '@/hooks/use-tenant';
 
 // Mock tenants for the demo. In a real app, this would come from the user's profile.
 const tenants = [
-    { id: 'global_maritime', name: 'Global Maritime' },
-    { id: 'coastal_shipping', name: 'Coastal Shipping' },
-    { id: 'offshore_innovations', name: 'Offshore Innovations' },
+    { id: 'Global Maritime', name: 'Global Maritime' },
+    { id: 'Coastal Shipping', name: 'Coastal Shipping' },
+    { id: 'Offshore Innovations', name: 'Offshore Innovations' },
 ];
 
 export default function SelectTenantPage() {
   const router = useRouter();
   const { user, isLoading } = useCurrentUser();
+  const { setTenantId } = useTenant();
 
   const handleSelectTenant = (tenantId: string) => {
     // In a real application, you would set the selected tenant in a global state/context
     // and potentially update the user's session or a cookie.
-    console.log(`Tenant selected: ${tenantId}`);
+    setTenantId(tenantId);
     // For now, we just redirect to the main dashboard.
     router.push('/dashboard');
   };

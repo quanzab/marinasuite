@@ -17,6 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useTenant } from "@/hooks/use-tenant";
 
 export default function FleetPage() {
   const [vessels, setVessels] = useState<Vessel[]>([]);
@@ -29,11 +30,13 @@ export default function FleetPage() {
   const router = useRouter();
   const { user: currentUser, isLoading: isUserLoading } = useCurrentUser();
   const isManagerOrAdmin = currentUser?.role === 'Admin' || currentUser?.role === 'Manager';
+  const { tenantId } = useTenant();
 
   const fetchVessels = useCallback(async () => {
+    if (!tenantId) return;
     setIsLoading(true);
     try {
-      const vesselData = await getVessels();
+      const vesselData = await getVessels(tenantId);
       setVessels(vesselData);
     } catch (error) {
       console.error("Error fetching vessels:", error);
@@ -45,7 +48,7 @@ export default function FleetPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, [toast, tenantId]);
 
   useEffect(() => {
     fetchVessels();
@@ -67,8 +70,9 @@ export default function FleetPage() {
   };
 
   const handleDelete = async (id: string) => {
+    if (!tenantId) return;
     try {
-      await deleteVessel(id);
+      await deleteVessel(tenantId, id);
       toast({
         title: "Success",
         description: "Vessel decommissioned successfully.",
@@ -85,16 +89,17 @@ export default function FleetPage() {
   };
 
   const handleVesselFormSubmit = async (data: VesselFormValues) => {
+    if (!tenantId) return;
     setIsSubmitting(true);
     try {
       if (selectedVessel) {
-        await updateVessel(selectedVessel.id, data);
+        await updateVessel(tenantId, selectedVessel.id, data);
         toast({
           title: "Success",
           description: "Vessel updated successfully.",
         });
       } else {
-        await addVessel(data);
+        await addVessel(tenantId, data);
         toast({
           title: "Success",
           description: "Vessel added successfully.",
@@ -115,10 +120,10 @@ export default function FleetPage() {
   };
 
   const handleMaintenanceFormSubmit = async (data: ScheduleMaintenanceFormValues) => {
-    if (!selectedVessel) return;
+    if (!selectedVessel || !tenantId) return;
     setIsSubmitting(true);
     try {
-      await updateVessel(selectedVessel.id, {
+      await updateVessel(tenantId, selectedVessel.id, {
         nextMaintenance: data.nextMaintenance,
         status: "In Maintenance",
       });

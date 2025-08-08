@@ -54,6 +54,9 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Notifications**:
     -   [x] Implement in-app notification UI with a dedicated page and header dropdown.
     -   [x] Implement dynamic, data-driven alerts for certificate expiries.
+-   [x] **Architecture**:
+    -   [x] Implement full multi-tenant data access layer.
+-   [ ] **Push Notifications**:
     -   [ ] Implement push notifications for important events (e.g., certificate expiry, maintenance reminders).
 -   [x] **Creative AI Tools**:
     -   [x] AI-powered sea shanty generator with audio.

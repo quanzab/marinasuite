@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { differenceInDays } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
+import { useTenant } from '@/hooks/use-tenant';
 
 function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring Soon' | 'Expired', daysUntilExpiry: number } {
   const today = new Date();
@@ -32,11 +33,13 @@ function CrewManifestReport() {
   const [crew, setCrew] = useState<CrewMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const { tenantId } = useTenant();
 
   const fetchCrew = useCallback(async () => {
+    if (!tenantId) return;
     setIsLoading(true);
     try {
-      const crewData = await getCrew();
+      const crewData = await getCrew(tenantId);
       setCrew(crewData);
     } catch (error) {
       console.error('Error fetching crew data for report:', error);
@@ -48,7 +51,7 @@ function CrewManifestReport() {
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, [toast, tenantId]);
 
   useEffect(() => {
     fetchCrew();
@@ -124,11 +127,13 @@ function VesselStatusReport() {
     const [vessels, setVessels] = useState<Vessel[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { toast } = useToast();
+    const { tenantId } = useTenant();
 
     const fetchVessels = useCallback(async () => {
+        if (!tenantId) return;
         setIsLoading(true);
         try {
-            const vesselData = await getVessels();
+            const vesselData = await getVessels(tenantId);
             setVessels(vesselData);
         } catch (error) {
             console.error('Error fetching vessel data for report:', error);
@@ -140,7 +145,7 @@ function VesselStatusReport() {
         } finally {
             setIsLoading(false);
         }
-    }, [toast]);
+    }, [toast, tenantId]);
 
     useEffect(() => {
         fetchVessels();
@@ -216,11 +221,13 @@ function CertificateStatusReport() {
     const [certificates, setCertificates] = useState<Certificate[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const { toast } = useToast();
+    const { tenantId } = useTenant();
 
     const fetchCertificates = useCallback(async () => {
+        if (!tenantId) return;
         setIsLoading(true);
         try {
-            const certificateData = await getCertificates();
+            const certificateData = await getCertificates(tenantId);
             setCertificates(certificateData);
         } catch (error) {
             console.error('Error fetching certificate data for report:', error);
@@ -232,7 +239,7 @@ function CertificateStatusReport() {
         } finally {
             setIsLoading(false);
         }
-    }, [toast]);
+    }, [toast, tenantId]);
 
     useEffect(() => {
         fetchCertificates();

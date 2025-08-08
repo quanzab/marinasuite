@@ -10,18 +10,20 @@ import { getCrewMemberById } from '@/lib/firestore';
 import type { CrewMember } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { User, Ship, ShieldCheck, FileText } from 'lucide-react';
+import { useTenant } from '@/hooks/use-tenant';
 
 export default function CrewProfilePage({ params }: { params: { id: string } }) {
   const [crewMember, setCrewMember] = useState<CrewMember | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { tenantId } = useTenant();
 
   useEffect(() => {
-    if (params.id) {
+    if (params.id && tenantId) {
       const fetchCrewMember = async () => {
         setIsLoading(true);
         try {
-          const member = await getCrewMemberById(params.id);
+          const member = await getCrewMemberById(tenantId, params.id);
           if (member) {
             setCrewMember(member);
           } else {
@@ -36,7 +38,7 @@ export default function CrewProfilePage({ params }: { params: { id: string } }) 
       };
       fetchCrewMember();
     }
-  }, [params.id]);
+  }, [params.id, tenantId]);
 
   if (isLoading) {
     return <CrewProfileSkeleton />;
@@ -187,4 +189,3 @@ function CrewProfileSkeleton() {
         </div>
     );
 }
-

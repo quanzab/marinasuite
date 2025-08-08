@@ -23,6 +23,7 @@ import {
 } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useTenant } from "@/hooks/use-tenant";
 
 const getAvatarFallback = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
@@ -94,15 +95,17 @@ export default function ScheduleClient() {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const sensors = useSensors(useSensor(PointerSensor));
+  const { tenantId } = useTenant();
 
   const today = new Date();
   const weekStart = startOfWeek(today, { weekStartsOn: 1 }); // Monday
   const weekDays = Array.from({ length: 7 }).map((_, i) => addDays(weekStart, i));
 
   const fetchData = useCallback(async () => {
+    if (!tenantId) return;
     setIsLoading(true);
     try {
-      const [crewData, vesselData] = await Promise.all([getCrew(), getVessels()]);
+      const [crewData, vesselData] = await Promise.all([getCrew(tenantId), getVessels(tenantId)]);
       setCrew(crewData);
       setVessels(vesselData);
     } catch (error) {
@@ -115,7 +118,7 @@ export default function ScheduleClient() {
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, [toast, tenantId]);
 
   useEffect(() => {
     fetchData();
@@ -130,6 +133,8 @@ export default function ScheduleClient() {
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { over, active } = event;
+    
+    if (!tenantId) return;
 
     if (!over) {
         return;
@@ -145,7 +150,7 @@ export default function ScheduleClient() {
     // Unassigning
     if (newVesselId === 'unassigned') {
         if (oldVesselName) {
-            await updateCrewMember(crewMemberId, { assignedVessel: null });
+            await updateCrewMember(tenantId, crewMemberId, { assignedVessel: null });
             fetchData();
             toast({ title: 'Success', description: `${crewMember.name} is now unassigned.` });
         }
@@ -159,7 +164,7 @@ export default function ScheduleClient() {
     if (newVessel.name === oldVesselName) return;
 
     // Assigning to a new vessel
-    await updateCrewMember(crewMemberId, { assignedVessel: newVessel.name });
+    await updateCrewMember(tenantId, crewMemberId, { assignedVessel: newVessel.name });
     fetchData();
     toast({ title: 'Success', description: `${crewMember.name} assigned to ${newVessel.name}.` });
   };
@@ -237,4 +242,3 @@ export default function ScheduleClient() {
     </DndContext>
   );
 }
-

@@ -30,9 +30,10 @@ function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring
 }
 
 
-export async function getCertificateNotifications(): Promise<CertificateWithStatus[]> {
+export async function getCertificateNotifications(tenantId: string): Promise<CertificateWithStatus[]> {
+    if (!tenantId) return [];
     try {
-        const certificates = await getCertificates();
+        const certificates = await getCertificates(tenantId);
         const expiringCerts = certificates
             .map(cert => {
                 const { status, daysUntilExpiry } = getCertificateStatus(cert.expiryDate);

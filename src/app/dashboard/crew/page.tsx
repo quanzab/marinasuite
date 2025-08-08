@@ -16,6 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useTenant } from "@/hooks/use-tenant";
 
 export default function CrewPage() {
   const [crew, setCrew] = useState<CrewMember[]>([]);
@@ -27,12 +28,14 @@ export default function CrewPage() {
   const router = useRouter();
   const { user: currentUser, isLoading: isUserLoading } = useCurrentUser();
   const isManagerOrAdmin = currentUser?.role === 'Admin' || currentUser?.role === 'Manager';
+  const { tenantId } = useTenant();
 
 
   const fetchCrew = useCallback(async () => {
+    if (!tenantId) return;
     setIsLoading(true);
     try {
-      const crewData = await getCrew();
+      const crewData = await getCrew(tenantId);
       setCrew(crewData);
     } catch (error) {
       console.error("Error fetching crew:", error);
@@ -44,7 +47,7 @@ export default function CrewPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, [toast, tenantId]);
 
   useEffect(() => {
     fetchCrew();
@@ -61,8 +64,9 @@ export default function CrewPage() {
   }
 
   const handleDelete = async (id: string) => {
+    if (!tenantId) return;
     try {
-      await deleteCrewMember(id);
+      await deleteCrewMember(tenantId, id);
       toast({
         title: "Success",
         description: "Crew member deleted successfully.",
@@ -79,18 +83,19 @@ export default function CrewPage() {
   };
 
   const handleFormSubmit = async (data: CrewFormValues) => {
+    if (!tenantId) return;
     setIsSubmitting(true);
     try {
       if (selectedCrew) {
         // Update existing crew member
-        await updateCrewMember(selectedCrew.id, data);
+        await updateCrewMember(tenantId, selectedCrew.id, data);
         toast({
           title: "Success",
           description: "Crew member updated successfully.",
         });
       } else {
         // Add new crew member
-        await addCrewMember(data);
+        await addCrewMember(tenantId, data);
         toast({
           title: "Success",
           description: "Crew member added successfully.",

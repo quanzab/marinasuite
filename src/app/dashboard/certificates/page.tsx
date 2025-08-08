@@ -17,6 +17,7 @@ import type { Certificate, CertificateWithStatus, RenewCertificateFormValues } f
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useTenant } from "@/hooks/use-tenant";
 
 function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring Soon' | 'Expired', daysUntilExpiry: number } {
   const today = new Date();
@@ -43,12 +44,14 @@ export default function CertificatesPage() {
   const { toast } = useToast();
   const { user: currentUser, isLoading: isUserLoading } = useCurrentUser();
   const isManagerOrAdmin = currentUser?.role === 'Admin' || currentUser?.role === 'Manager';
+  const { tenantId } = useTenant();
 
 
   const fetchCertificates = useCallback(async () => {
+    if (!tenantId) return;
     setIsLoading(true);
     try {
-      const certificateData = await getCertificates();
+      const certificateData = await getCertificates(tenantId);
       setCertificates(certificateData);
     } catch (error) {
       console.error("Error fetching certificates:", error);
@@ -60,7 +63,7 @@ export default function CertificatesPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, [toast, tenantId]);
 
   useEffect(() => {
     fetchCertificates();
@@ -90,8 +93,9 @@ export default function CertificatesPage() {
   }
 
   const handleDelete = async (id: string) => {
+    if (!tenantId) return;
     try {
-      await deleteCertificate(id);
+      await deleteCertificate(tenantId, id);
       toast({
         title: "Success",
         description: "Certificate deleted successfully.",
@@ -108,16 +112,17 @@ export default function CertificatesPage() {
   };
 
   const handleFormSubmit = async (data: CertificateFormValues) => {
+    if (!tenantId) return;
     setIsSubmitting(true);
     try {
       if (selectedCertificate) {
-        await updateCertificate(selectedCertificate.id, data);
+        await updateCertificate(tenantId, selectedCertificate.id, data);
         toast({
           title: "Success",
           description: "Certificate updated successfully.",
         });
       } else {
-        await addCertificate(data);
+        await addCertificate(tenantId, data);
         toast({
           title: "Success",
           description: "Certificate added successfully.",
@@ -138,10 +143,10 @@ export default function CertificatesPage() {
   };
   
   const handleRenewSubmit = async (data: RenewCertificateFormValues) => {
-    if (!selectedCertificate) return;
+    if (!selectedCertificate || !tenantId) return;
     setIsSubmitting(true);
     try {
-      await updateCertificate(selectedCertificate.id, {
+      await updateCertificate(tenantId, selectedCertificate.id, {
         issueDate: new Date(),
         expiryDate: data.expiryDate
       });

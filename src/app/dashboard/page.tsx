@@ -35,6 +35,7 @@ import type { CertificateWithStatus, CrewMember, Vessel } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { useTenant } from "@/hooks/use-tenant";
 
 
 export default function Dashboard() {
@@ -43,14 +44,16 @@ export default function Dashboard() {
   const [expiringCertificates, setExpiringCertificates] = useState<CertificateWithStatus[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const { tenantId } = useTenant();
 
   const fetchData = useCallback(async () => {
+    if (!tenantId) return;
     setIsLoading(true);
     try {
       const [crewData, vesselData, certNotifications] = await Promise.all([
-          getCrew(), 
-          getVessels(),
-          getCertificateNotifications()
+          getCrew(tenantId), 
+          getVessels(tenantId),
+          getCertificateNotifications(tenantId)
         ]);
       setCrew(crewData);
       setVessels(vesselData);
@@ -65,7 +68,7 @@ export default function Dashboard() {
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, [toast, tenantId]);
 
   useEffect(() => {
     fetchData();
