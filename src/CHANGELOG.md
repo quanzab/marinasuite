@@ -267,3 +267,10 @@
     - Created a new Genkit flow (`generate-shanty-flow.ts`) for the AI logic.
     - Implemented a "Shanty AI" page with a form to select a vessel and display the generated song.
     - Added a `MusicIcon` for navigation.
+
+## [2.9.0] - 2024-08-27
+### Changed
+- **Dynamic Notifications**:
+    - Replaced mock notification data with a real-time system that generates alerts for expiring and expired certificates.
+    - Created a new `notifications.ts` service to handle the logic for fetching and processing notification-worthy events.
+    - The header dropdown and the main notifications page now display live, actionable alerts.

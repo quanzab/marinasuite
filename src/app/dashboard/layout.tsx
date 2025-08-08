@@ -7,7 +7,9 @@ import {
   Search,
   LogOut,
   Bell,
+  FileWarning
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -51,12 +53,18 @@ import ProtectedRoute from './protected-route';
 import { getAuth, signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import { getCertificateNotifications } from '@/lib/notifications';
+import type { CertificateWithStatus } from '@/lib/types';
+
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [notifications, setNotifications] = useState<CertificateWithStatus[]>([]);
+  const [isLoadingNotifications, setIsLoadingNotifications] = useState(true);
+
   const navLinks = [
     { href: '/dashboard', label: 'Dashboard', icon: DashboardIcon },
     { href: '/dashboard/crew', label: 'Crew', icon: CrewIcon },
@@ -77,6 +85,16 @@ export default function DashboardLayout({
   const auth = getAuth();
   const router = useRouter();
   const { toast } = useToast();
+
+  useEffect(() => {
+    async function fetchNotifications() {
+      setIsLoadingNotifications(true);
+      const certs = await getCertificateNotifications();
+      setNotifications(certs);
+      setIsLoadingNotifications(false);
+    }
+    fetchNotifications();
+  }, []);
 
   const handleSignOut = async () => {
     try {
@@ -130,7 +148,7 @@ export default function DashboardLayout({
                 <CardHeader className="p-2 pt-0 md:p-4">
                   <div className="flex items-center justify-between">
                     <CardTitle>What's New</CardTitle>
-                    <Badge variant="secondary">v2.8.0</Badge>
+                    <Badge variant="secondary">v2.9.0</Badge>
                   </div>
                   <CardDescription>
                     Check out the latest features and updates.
@@ -212,25 +230,35 @@ export default function DashboardLayout({
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="relative">
                   <Bell className="h-5 w-5" />
-                   <Badge className="absolute -top-1 -right-1 h-4 w-4 justify-center p-0 text-xs" variant="destructive">2</Badge>
+                   {notifications.length > 0 && (
+                     <Badge className="absolute -top-1 -right-1 h-4 w-4 justify-center p-0 text-xs" variant="destructive">
+                       {notifications.length}
+                     </Badge>
+                   )}
                   <span className="sr-only">Toggle notifications</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-80">
                 <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                   <Link href="/dashboard/notifications" className="flex flex-col items-start gap-1">
-                    <p className="font-medium">Certificate Expiring</p>
-                    <p className="text-xs text-muted-foreground">"Ship Security Officer" certificate expires in 29 days.</p>
-                  </Link>
-                </DropdownMenuItem>
-                 <DropdownMenuItem asChild>
-                   <Link href="/dashboard/notifications" className="flex flex-col items-start gap-1">
-                    <p className="font-medium">Maintenance Due</p>
-                    <p className="text-xs text-muted-foreground">Vessel "Sea Serpent" is due for scheduled maintenance.</p>
-                  </Link>
-                </DropdownMenuItem>
+                 {isLoadingNotifications ? (
+                    <DropdownMenuItem>Loading...</DropdownMenuItem>
+                 ) : notifications.length > 0 ? (
+                    notifications.slice(0, 3).map(cert => (
+                      <DropdownMenuItem key={cert.id} asChild>
+                        <Link href="/dashboard/notifications" className="flex flex-col items-start gap-1">
+                          <p className="font-medium text-destructive">
+                             {cert.status === 'Expired' ? 'Certificate Expired' : 'Certificate Expiring'}
+                          </p>
+                          <p className="text-xs text-muted-foreground whitespace-normal">
+                              "{cert.name}" {cert.status === 'Expired' ? 'expired' : `expires in ${cert.daysUntilExpiry} days`}.
+                          </p>
+                        </Link>
+                      </DropdownMenuItem>
+                    ))
+                 ) : (
+                    <DropdownMenuItem>No new notifications</DropdownMenuItem>
+                 )}
                 <DropdownMenuSeparator />
                  <DropdownMenuItem asChild>
                    <Link href="/dashboard/notifications" className="w-full">
