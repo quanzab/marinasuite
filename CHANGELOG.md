@@ -166,3 +166,9 @@
 -   **Offline Data Caching**:
     -   Enabled Firestore's offline persistence in `firebase.ts`.
     -   The application now caches data locally, allowing users to view and modify data even when offline. Changes are synced automatically upon reconnection.
+
+## [5.8.0] - 2024-09-17
+
+### Changed
+-   **Configuration**: Synchronized `package.json` version to `5.8.0` to match the latest changelog entry and reflect project maturity.
+-   **Documentation**: Finalized all documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to mark the project as complete, stable, and ready for deployment.

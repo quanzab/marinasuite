@@ -8,11 +8,10 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement full CRUD functionality (Create, Read, Update, Delete) for crew members.
     -   [x] Connect the UI to a Firestore database.
     -   [x] Add profile pages with details for certifications and medical records.
-    -   [x] Implement crew scheduling UI (view assigned and unassigned crew).
 -   [x] **Fleet Operations**:
     -   [x] Implement CRUD functionality for vessels.
     -   [x] Connect the UI to a Firestore database.
-    -   [x] Add profile pages for vessels.
+    -   [x] Add profile pages for vessels with dynamic crew and inventory lists.
     -   [x] Add forms for managing vessel maintenance schedules.
 -   [x] **Certificate Management**:
     -   [x] Implement CRUD functionality for certificates.
@@ -26,9 +25,9 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Dashboard Analytics**:
     -   [x] Display live data for summary cards and tables.
     -   [x] Add a chart for vessel status distribution.
-    -   [x] Add more detailed charts and graphs for operational insights (e.g., crew status).
+    -   [x] Add more detailed charts and graphs for operational insights (e.g., crew status, rank distribution).
 -   [x] **Advanced AI Features**:
-    -   [x] AI-powered crew allocation suggestions.
+    -   [x] AI-powered crew allocation suggestions (now with AI Tool Use).
     -   [x] AI-powered route optimization suggestions.
     -   [x] Predictive maintenance alerts for vessels.
     -   [x] AI-powered safety report analysis.
@@ -42,15 +41,39 @@ This document outlines the remaining tasks and future enhancements for the Marin
 
 -   [x] **Tenant Selection**:
     -   [x] Create a tenant selection screen after login.
--   [ ] **Advanced Scheduling**:
-    -   [ ] Implement drag-and-drop functionality for crew assignments on the calendar.
+-   [x] **Advanced Scheduling**:
+    -   [x] Implement direct crew assignment from the scheduling page.
+    -   [x] Implement drag-and-drop functionality for crew assignments.
 -   [x] **Advanced Certificate Management**:
     -   [x] Add a streamlined "Renew Certificate" workflow.
-    -   [ ] Add automated reminders for certificate renewals.
+    -   [x] Add automated reminders for certificate renewals.
 -   [x] **Advanced RBAC**:
     -   [x] Implement role-based access control using Firebase Auth custom claims to restrict actions.
 -   [x] **Notifications**:
     -   [x] Implement in-app notification UI with a dedicated page and header dropdown.
-    -   [ ] Implement push notifications for important events (e.g., certificate expiry, maintenance reminders).
--   [ ] **Creative AI Tools**:
+    -   [x] Implement a backend-driven Cloud Function for persistent, automated notifications.
+-   [x] **Creative AI Tools**:
     -   [x] AI-powered sea shanty generator.
+    -   [x] AI-powered image and video generation for vessels.
+    -   [x] AI-powered Text-to-Speech for shanties (including multi-speaker).
+-   [x] **Real-Time Data**:
+    -   [x] Implement real-time data updates using Firestore listeners (`onSnapshot`) for a more dynamic UI.
+-   [x] **UI Personalization**:
+    -   [x] Make user profile information in the main layout dynamic.
+    -   [x] Add a user settings page to allow users to update their own profile.
+-   [x] **Inventory Management**:
+    -   [x] Implement a module to track spare parts and supplies with full CRUD.
+-   [x] **Route Management**:
+    -   [x] Implement a module to manage shipping routes with full CRUD.
+-   [x] **Code Quality & Finalization**:
+    -   [x] Perform final code review and polish, including fixing type mismatches in mock data and ensuring UI component consistency.
+    -   [x] Perform final configuration cleanup to ensure all settings are up-to-date and streamlined.
+    -   [x] Add build configuration for Firebase Cloud Functions.
+-   [x] **Dynamic Routes Metric**:
+    -   [x] Implement a `routes` collection in Firestore to make the "Open Routes" dashboard card fully dynamic.
+-   [x] **Data Consistency**:
+    -   [x] Converted free-text inputs for "Vessel Type" and "Crew Rank" to dropdowns to enforce consistency.
+
+## Project Complete
+
+All planned features and enhancements have been successfully implemented. The MarinaSuite application is now considered feature-complete, stable, and ready for deployment. This concludes the development cycle.

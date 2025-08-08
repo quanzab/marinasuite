@@ -1,5 +1,4 @@
 
-
 # MarinaSuite Blueprint
 
 ## 1. Overview

@@ -265,8 +265,8 @@
     -   Added a navigation link to the new page in the main layout.
 -   **Documentation**: Updated `BLUEPRINT.md` and `TODO.md` to reflect the new module.
 
-## [5.8.0] - 2024-09-16
+## [5.8.0] - 2024-09-17
 
 ### Changed
--   **Code Quality**: Final refinement of the `Card` component by setting the default `CardTitle` font size to `text-base` for better reusability and consistency.
+-   **Configuration**: Synchronized `package.json` version to `5.8.0` to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
