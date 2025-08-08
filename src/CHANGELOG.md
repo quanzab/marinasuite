@@ -288,3 +288,20 @@
 -   **Critical Authentication Config**:
     -   Corrected the invalid API key in the `firebase-config.ts` file. This was the root cause of the persistent "unexpected error" during login, as the application could not communicate with the Firebase backend.
     -   The login and all Firebase-related features are now fully operational.
+
+## [2.9.0] - 2024-08-27
+
+### Changed
+
+-   **Vessel Profile Page**:
+    -   Made the "Assigned Crew" section on the vessel profile page dynamic. It now fetches and displays the actual crew members assigned to that vessel from Firestore.
+
+## [2.9.1] - 2024-08-28
+
+### Added
+
+-   **Maintenance History**:
+    -   Implemented functionality to log and view maintenance history for each vessel.
+    -   Added a "Log Entry" button to the vessel profile page, which opens a dialog with a form to add new maintenance records.
+    -   Updated the Firestore service to include an `addMaintenanceRecord` function.
+    -   The vessel profile page now displays a chronological list of all past maintenance activities.
