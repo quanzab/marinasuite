@@ -16,8 +16,8 @@ import {
   Gift,
   LogOut,
 } from 'lucide-react';
-import { signOut } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+// import { signOut } from 'firebase/auth';
+// import { auth } from '@/lib/firebase';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -70,21 +70,26 @@ export default function DashboardLayout({
   const { toast } = useToast();
 
   const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      toast({
-        title: 'Logged Out',
-        description: 'You have been successfully logged out.',
-      });
-      router.push('/login');
-    } catch (error) {
-      console.error('Logout failed:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Logout Failed',
-        description: 'An error occurred while logging out. Please try again.',
-      });
-    }
+    // try {
+    //   await signOut(auth);
+    //   toast({
+    //     title: 'Logged Out',
+    //     description: 'You have been successfully logged out.',
+    //   });
+    //   router.push('/login');
+    // } catch (error) {
+    //   console.error('Logout failed:', error);
+    //   toast({
+    //     variant: 'destructive',
+    //     title: 'Logout Failed',
+    //     description: 'An error occurred while logging out. Please try again.',
+    //   });
+    // }
+    console.log("Logout functionality is temporarily disabled.");
+    toast({
+      title: 'Logout Disabled',
+      description: 'Logout functionality will be enabled at a later stage.',
+    });
   };
 
   return (
