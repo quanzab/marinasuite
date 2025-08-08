@@ -8,7 +8,7 @@ export default function SchedulingPage() {
         <h1 className="text-2xl font-semibold md:text-3xl">Crew Scheduling</h1>
       </div>
       <p className="text-muted-foreground">
-        Assign crew to vessels and manage weekly schedules.
+        View assigned and unassigned crew members and manage weekly schedules.
       </p>
       <ScheduleClient />
     </div>

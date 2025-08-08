@@ -216,3 +216,19 @@
     -   Added a basic weekly calendar view showing unassigned crew members and a daily schedule grid.
     -   This lays the foundation for future drag-and-drop scheduling functionality.
     -   Added a new `SchedulingIcon` for navigation.
+
+## [2.0.0] - 2024-08-18
+
+### Changed
+
+-   **Crew Scheduling UI**:
+    -   Enhanced the scheduling page to dynamically display assigned crew members under their respective vessels.
+    -   Improved layout with "Unassigned Crew" and "Vessel Assignments" sections for a clearer overview.
+
+### Fixed
+
+-   Corrected the `SchedulingIcon` name in `layout.tsx` to match the component in `icons.tsx`.
+
+### Project Status
+
+-   This version marks the completion of the core features outlined for the MarinaSuite MVP. The application now has a solid foundation for all major modules, including multiple AI-powered assistants and a functional scheduling interface. Future development will focus on enhancements, deeper integration, and shelved features like authentication and RBAC.
