@@ -50,11 +50,11 @@ export default function LoginPage() {
     <div className="w-full h-screen lg:grid lg:grid-cols-2">
       <div className="relative h-full hidden lg:block">
         <Image
-          src="https://placehold.co/1200x900.png"
+          src="https://img.freepik.com/premium-photo/vastness-ocean-unfolds-aerial-cargo-ship-view-vertical-mobile-wallpaper_896558-10976.jpg"
           alt="Maritime port"
-          data-ai-hint="maritime port"
-          layout="fill"
-          objectFit="cover"
+          data-ai-hint="cargo ship ocean"
+          fill
+          style={{objectFit: 'cover'}}
           className="opacity-90"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
