@@ -55,3 +55,12 @@
 
 -   Resolved persistent `auth/configuration-not-found` Firebase error by ensuring correct initialization order.
 -   Fixed application routing to correctly redirect from the root to the `/dashboard` page.
+
+## [0.5.0] - 2024-08-03
+
+### Changed
+
+-   **Crew Allocation AI**:
+    -   Updated the Crew AI page to use live data from Firestore instead of mock data.
+    -   The allocation form now dynamically populates with crew and vessels from the database.
+    -   Server action now fetches real data to provide more accurate AI suggestions.

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
@@ -11,8 +12,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getCrewSuggestion } from "./actions";
-import { mockCrew, mockVessels } from "@/lib/data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { CrewMember, Vessel } from "@/lib/types";
+import { getCrew, getVessels } from "@/lib/firestore";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -36,6 +39,26 @@ function SubmitButton() {
 export default function CrewAllocationClient() {
   const initialState = { data: null, error: null, message: "" };
   const [state, formAction] = useFormState(getCrewSuggestion, initialState);
+  const [crew, setCrew] = useState<CrewMember[]>([]);
+  const [vessels, setVessels] = useState<Vessel[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        setIsLoading(true);
+        const [crewData, vesselData] = await Promise.all([getCrew(), getVessels()]);
+        setCrew(crewData);
+        setVessels(vesselData);
+      } catch (error) {
+        console.error("Failed to fetch data for AI form", error);
+        // Handle error state in UI if necessary
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -47,6 +70,23 @@ export default function CrewAllocationClient() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {isLoading ? (
+             <div className="grid gap-6">
+                <div className="grid gap-2">
+                    <Skeleton className="h-4 w-16" />
+                    <Skeleton className="h-10 w-full" />
+                </div>
+                <div className="grid gap-2">
+                    <Skeleton className="h-4 w-16" />
+                    <Skeleton className="h-10 w-full" />
+                </div>
+                 <div className="grid gap-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-40 w-full" />
+                </div>
+                <Skeleton className="h-10 w-full" />
+            </div>
+          ) : (
           <form action={formAction} className="grid gap-6">
             <div className="grid gap-2">
               <Label htmlFor="route">Route</Label>
@@ -54,21 +94,21 @@ export default function CrewAllocationClient() {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="vessel">Vessel</Label>
-               <Select name="vessel" required>
+               <Select name="vesselId" required>
                 <SelectTrigger>
                   <SelectValue placeholder="Select a vessel" />
                 </SelectTrigger>
                 <SelectContent>
-                  {mockVessels.map(v => <SelectItem key={v.id} value={v.name}>{v.name}</SelectItem>)}
+                  {vessels.map(v => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
              <div className="grid gap-2">
               <Label>Available Crew</Label>
               <div className="grid gap-2 rounded-md border p-2 max-h-60 overflow-y-auto">
-                 {mockCrew.map((member) => (
+                 {crew.filter(c => c.status === 'Active').map((member) => (
                     <div key={member.id} className="flex items-center space-x-2">
-                        <Checkbox id={member.id} name="crewMembers" value={member.name}/>
+                        <Checkbox id={member.id} name="crewMemberIds" value={member.id}/>
                         <Label htmlFor={member.id} className="w-full font-normal">
                             {member.name} <span className="text-muted-foreground">({member.rank})</span>
                         </Label>
@@ -78,6 +118,7 @@ export default function CrewAllocationClient() {
             </div>
             <SubmitButton />
           </form>
+          )}
         </CardContent>
       </Card>
       
@@ -86,7 +127,7 @@ export default function CrewAllocationClient() {
         <Alert variant="destructive" className="mb-4">
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>
-            There was an error processing your request. Please check your inputs and try again.
+            There was an error processing your request: {state.error}
           </AlertDescription>
         </Alert>
       )}
