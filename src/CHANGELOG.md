@@ -284,3 +284,4 @@
     -   Overhauled the Scheduling page to feature a full seven-day weekly calendar.
     -   Integrated the drag-and-drop functionality into the new calendar layout, allowing users to assign crew to vessels on specific days.
     -   This provides a much more powerful and visually intuitive interface for weekly planning.
+
