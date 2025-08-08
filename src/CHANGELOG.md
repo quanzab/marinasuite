@@ -280,3 +280,9 @@
 ### Changed
 -   **Code Quality**: Refined the Firebase Cloud Functions configuration by updating the `source` path in `firebase.json` to point directly to the functions project root.
 -   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
+
+## [4.8.0] - 2024-09-18
+
+### Changed
+-   **Configuration**: Removed the unused `next-auth` dependency from `package.json` to streamline the project's dependencies.
+-   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
