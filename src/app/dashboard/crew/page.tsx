@@ -1,23 +1,66 @@
+
+'use client';
+
+import { useState } from "react";
 import { MoreHorizontal, PlusCircle } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { CrewForm } from "./crew-form";
 import { mockCrew } from "@/lib/data"
+import type { CrewMember } from "@/lib/types";
 
 export default function CrewPage() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedCrew, setSelectedCrew] = useState<CrewMember | null>(null);
+
+  const handleEdit = (crew: CrewMember) => {
+    setSelectedCrew(crew);
+    setIsDialogOpen(true);
+  };
+
+  const handleAdd = () => {
+    setSelectedCrew(null);
+    setIsDialogOpen(true);
+  }
+
+  const handleFormSubmit = (data: any) => {
+    console.log("Form submitted", data);
+    // In a real app, you would handle create/update logic here
+    setIsDialogOpen(false);
+  };
+
+
   return (
     <>
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-semibold md:text-3xl">Crew Management</h1>
         <div className="ml-auto flex items-center gap-2">
-          <Button>
+           <Button onClick={handleAdd}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Add Crew Member
           </Button>
         </div>
       </div>
+
+       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{selectedCrew ? 'Edit Crew Member' : 'Add Crew Member'}</DialogTitle>
+            <DialogDescription>
+              {selectedCrew ? 'Update the details of the crew member.' : 'Enter the details for the new crew member.'}
+            </DialogDescription>
+          </DialogHeader>
+          <CrewForm
+            crewMember={selectedCrew}
+            onSubmit={handleFormSubmit}
+          />
+        </DialogContent>
+      </Dialog>
+
       <Card>
         <CardHeader>
           <CardTitle>Crew Members</CardTitle>
@@ -59,7 +102,7 @@ export default function CrewPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEdit(member)}>Edit</DropdownMenuItem>
                         <DropdownMenuItem>View Details</DropdownMenuItem>
                         <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
                       </DropdownMenuContent>
