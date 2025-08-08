@@ -296,3 +296,9 @@
 -   **Code Quality**: Corrected a type mismatch in the mock data (`lib/data.ts`) for certificates. The `status` and `daysUntilExpiry` fields, which are calculated properties, were removed from the base mock object to align with the strict `Certificate` type definition. This ensures type safety and prevents potential runtime errors.
 -   **Project Complete**: Final polish and code review complete. The MarinaSuite application is now officially feature-complete and stable.
 
+## [2.7.0] - 2024-08-23
+
+### Fixed
+
+-   **Code Quality**: Refactored the `SidebarInput` component to ensure its styling is consistent with the global `Input` component, improving UI library consistency and maintainability.
+-   **Project Complete**: Final code quality pass is complete. The MarinaSuite application is now officially feature-complete, polished, and stable.
