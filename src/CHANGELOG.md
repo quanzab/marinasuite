@@ -264,3 +264,9 @@
 ### Changed
 -   **Data Refinement**: Final refinement of `lib/firestore.ts` by updating the `getRoutes` function to return an empty array instead of mock data, ensuring a more realistic initial state.
 -   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [3.3.0] - 2024-09-13
+
+### Changed
+-   **Code Quality**: Removed the unused mock data file (`lib/data.ts`) to streamline the project and remove unnecessary code.
+-   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.

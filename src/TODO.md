@@ -67,6 +67,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Perform final configuration cleanup to ensure all settings are up-to-date and streamlined.
 -   [x] **Data Refinement**:
     -   [x] Update `getRoutes` function to remove mock data and provide a clean initial state.
+-   [x] **Code Cleanup**:
+    -   [x] Remove unused mock data file (`lib/data.ts`).
 
 ## Project Complete
 
