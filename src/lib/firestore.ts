@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, query, where } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import type { CrewMember } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 

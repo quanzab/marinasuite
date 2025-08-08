@@ -1,9 +1,10 @@
+
 'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
@@ -20,21 +21,39 @@ export default function LoginPage() {
   const [email, setEmail] = useState('admin@marinasuite.com');
   const [password, setPassword] = useState('password');
   const [loading, setLoading] = useState(false);
+  const [isFirebaseInitialized, setIsFirebaseInitialized] = useState(false);
+
+  useEffect(() => {
+    // This effect ensures that the auth object is ready on the client before we try to use it.
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      setIsFirebaseInitialized(true);
+      unsubscribe();
+    });
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isFirebaseInitialized) {
+      toast({
+        variant: 'destructive',
+        title: 'Initialization Error',
+        description: 'Firebase is still initializing. Please wait a moment and try again.',
+      });
+      return;
+    }
     setLoading(true);
     try {
-      // For this demo, we'll use a pre-existing test user.
-      // In a real app, you would implement user creation.
       await signInWithEmailAndPassword(auth, email, password);
       router.push('/tenant-selection');
     } catch (error) {
       console.error('Login failed:', error);
       let errorMessage = 'An unknown error occurred.';
       if (error instanceof Error) {
-        // In a real app, you would have more specific error handling.
-        errorMessage = 'Invalid email or password. Please try again.';
+        if (error.message.includes('auth/invalid-credential')) {
+             errorMessage = 'Invalid email or password. Please try again.';
+        } else {
+             errorMessage = 'An error occurred during login.';
+        }
       }
       toast({
         variant: 'destructive',
@@ -57,7 +76,7 @@ export default function LoginPage() {
           style={{objectFit: 'cover'}}
           quality={100}
         />
-        <div className="absolute bottom-8 left-8 text-white">
+         <div className="absolute bottom-8 left-8 text-white">
           <h2 className="text-4xl font-bold">MarinaSuite</h2>
           <p className="text-lg mt-2 drop-shadow-md">Your all-in-one solution for maritime management.</p>
         </div>
@@ -89,7 +108,7 @@ export default function LoginPage() {
                   </div>
                   <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full" disabled={loading || !isFirebaseInitialized}>
                   {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Login'}
                 </Button>
               </form>
