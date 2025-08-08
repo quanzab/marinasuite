@@ -292,3 +292,9 @@
 ### Changed
 -   **Configuration**: Refined the Firebase Cloud Functions configuration by explicitly setting the runtime to `nodejs20` in `firebase.json`.
 -   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
+
+## [5.0.0] - 2024-09-20
+
+### Changed
+-   **Configuration**: Removed the unused `preinstall` script from `package.json` to streamline the project's dependencies and finalize its configuration.
+-   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
