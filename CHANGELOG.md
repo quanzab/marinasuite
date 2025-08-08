@@ -36,7 +36,22 @@
     -   Added a logout button to the dashboard layout that calls `signOut`.
     -   Included basic error handling and loading states for the login process.
 
+## [0.4.0] - 2024-08-02
+
+### Added
+
+-   **Fleet Operations**:
+    -   Implemented full CRUD (Create, Read, Update, Delete) functionality for vessels.
+    -   Connected the Fleet Operations UI to a Firestore database.
+    -   Created a form (`vessel-form.tsx`) for adding and editing vessel details.
+    -   Added loading skeletons and toast notifications for user feedback.
+
 ### Changed
 
--   Replaced the mock login functionality with real Firebase authentication.
--   Updated project documentation (`BLUEPRINT.md`, `TODO.md`) to reflect the new authentication system.
+-   Removed authentication and tenant selection to simplify development and focus on core modules. The app now defaults to the dashboard.
+-   Updated Firestore service (`firestore.ts`) to include vessel management functions.
+
+### Fixed
+
+-   Resolved persistent `auth/configuration-not-found` Firebase error by ensuring correct initialization order.
+-   Fixed application routing to correctly redirect from the root to the `/dashboard` page.

@@ -1,9 +1,10 @@
+
 export type CrewMember = {
   id: string;
   name: string;
   rank: string;
   status: 'Active' | 'On Leave' | 'Inactive';
-  assignedVessel?: string;
+  assignedVessel?: string | null;
   certifications?: string[];
   medicalRecords?: string;
 };

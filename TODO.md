@@ -4,16 +4,18 @@ This document outlines the remaining tasks and future enhancements for the Marin
 
 ## MVP Features (In Progress)
 
--   [x] **Authentication**:
-    -   [x] Implement Firebase Authentication for secure user login.
-    -   [x] Create a tenant selection screen after login.
--   [ ] **Crew Management**:
-    -   [ ] Implement full CRUD functionality (Create, Read, Update, Delete) for crew members.
-    -   [ ] Connect the UI to a Firestore database instead of using mock data.
-    -   [ ] Add forms for adding and editing crew profiles.
--   [ ] **Fleet Operations**:
-    -   [ ] Implement CRUD functionality for vessels.
-    -   [ ] Add forms for managing vessel data and maintenance schedules.
+-   [ ] **Authentication & Onboarding**: (Temporarily Shelved)
+    -   [ ] Re-implement Firebase Authentication for secure user login.
+    -   [ ] Create a tenant selection screen after login.
+-   [x] **Crew Management**:
+    -   [x] Implement full CRUD functionality (Create, Read, Update, Delete) for crew members.
+    -   [x] Connect the UI to a Firestore database.
+    -   [ ] Add profile pages with details for certifications and medical records.
+    -   [ ] Implement crew scheduling UI (drag-and-drop).
+-   [x] **Fleet Operations**:
+    -   [x] Implement CRUD functionality for vessels.
+    -   [x] Connect the UI to a Firestore database.
+    -   [ ] Add forms for managing vessel maintenance schedules.
 -   [ ] **Certificate Management**:
     -   [ ] Implement CRUD functionality for certificates.
     -   [ ] Add automated reminders for certificate renewals.
