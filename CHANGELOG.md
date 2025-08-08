@@ -64,3 +64,17 @@
     -   Updated the Crew AI page to use live data from Firestore instead of mock data.
     -   The allocation form now dynamically populates with crew and vessels from the database.
     -   Server action now fetches real data to provide more accurate AI suggestions.
+
+## [0.6.0] - 2024-08-04
+
+### Added
+
+-   **Certificate Management**:
+    -   Implemented full CRUD functionality for certificates, connecting the UI to Firestore.
+    -   Created a form (`certificate-form.tsx`) for adding and editing certificates with date pickers.
+    -   The main page now fetches data from Firestore and dynamically calculates the status ('Valid', 'Expiring Soon', 'Expired') based on the expiry date.
+
+### Changed
+
+-   Updated Firestore service (`firestore.ts`) to include certificate management functions.
+-   Updated `types.ts` to support both the base `Certificate` type and a `CertificateWithStatus` type for the UI.

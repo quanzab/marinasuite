@@ -1,8 +1,9 @@
 import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
-import type { CrewMember, Vessel } from './types';
+import type { CrewMember, Vessel, Certificate } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
+import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
 import { format } from 'date-fns';
 
 
@@ -11,6 +12,7 @@ import { format } from 'date-fns';
 const TENANT_ID = 'Global Maritime'; 
 const crewCollectionRef = collection(db, 'orgs', TENANT_ID, 'crew');
 const vesselsCollectionRef = collection(db, 'orgs', TENANT_ID, 'vessels');
+const certificatesCollectionRef = collection(db, 'orgs', TENANT_ID, 'certificates');
 
 // ====== CREW ======
 
@@ -87,4 +89,45 @@ export const updateVessel = async (id: string, vesselData: Partial<VesselFormVal
 export const deleteVessel = async (id: string) => {
   const vesselDoc = doc(db, 'orgs', TENANT_ID, 'vessels', id);
   await deleteDoc(vesselDoc);
+};
+
+// ====== CERTIFICATES ======
+
+// READ
+export const getCertificates = async (): Promise<Certificate[]> => {
+    const snapshot = await getDocs(certificatesCollectionRef);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Certificate));
+};
+
+// CREATE
+export const addCertificate = async (certificateData: CertificateFormValues) => {
+    const { name, issuedBy, issueDate, expiryDate } = certificateData;
+    await addDoc(certificatesCollectionRef, {
+        name,
+        issuedBy,
+        issueDate: format(issueDate, 'yyyy-MM-dd'),
+        expiryDate: format(expiryDate, 'yyyy-MM-dd'),
+    });
+};
+
+// UPDATE
+export const updateCertificate = async (id: string, certificateData: Partial<CertificateFormValues>) => {
+    const certDoc = doc(db, 'orgs', TENANT_ID, 'certificates', id);
+    
+    const dataToUpdate: Record<string, any> = { ...certificateData };
+
+    if (certificateData.issueDate) {
+        dataToUpdate.issueDate = format(certificateData.issueDate, 'yyyy-MM-dd');
+    }
+    if (certificateData.expiryDate) {
+        dataToUpdate.expiryDate = format(certificateData.expiryDate, 'yyyy-MM-dd');
+    }
+
+    await updateDoc(certDoc, dataToUpdate);
+};
+
+// DELETE
+export const deleteCertificate = async (id: string) => {
+    const certDoc = doc(db, 'orgs', TENANT_ID, 'certificates', id);
+    await deleteDoc(certDoc);
 };

@@ -4,31 +4,37 @@ This document outlines the remaining tasks and future enhancements for the Marin
 
 ## MVP Features (In Progress)
 
--   [ ] **Crew Management**:
+-   [ ] **Authentication & Onboarding**: (Temporarily Shelved)
+    -   [ ] Re-implement Firebase Authentication for secure user login.
+    -   [ ] Create a tenant selection screen after login.
+-   [x] **Crew Management**:
     -   [x] Implement full CRUD functionality (Create, Read, Update, Delete) for crew members.
     -   [x] Connect the UI to a Firestore database.
     -   [ ] Add profile pages with details for certifications and medical records.
-    -   [ ] Implement crew scheduling UI.
--   [ ] **Fleet Operations**:
-    -   [ ] Implement CRUD functionality for vessels.
-    -   [ ] Add forms for managing vessel data and maintenance schedules.
--   [ ] **Certificate Management**:
-    -   [ ] Implement CRUD functionality for certificates.
+    -   [ ] Implement crew scheduling UI (drag-and-drop).
+-   [x] **Fleet Operations**:
+    -   [x] Implement CRUD functionality for vessels.
+    -   [x] Connect the UI to a Firestore database.
+    -   [ ] Add forms for managing vessel maintenance schedules.
+-   [x] **Certificate Management**:
+    -   [x] Implement CRUD functionality for certificates.
+    -   [x] Connect the UI to a Firestore database.
     -   [ ] Add automated reminders for certificate renewals.
 -   [ ] **RBAC and Admin Panel**:
-    -   [ ] Implement role-based access control.
+    -   [ ] Implement role-based access control using Firebase Auth custom claims.
     -   [ ] Allow admins to invite users and manage roles/tenants.
 -   [ ] **Offline Data Caching**:
     -   [ ] Set up Firestore offline persistence for key data collections.
     -   [ ] Ensure seamless data synchronization when network connectivity is restored.
 
----
+## Future Enhancements
 
-## Post-MVP / Future Enhancements
-
--   [ ] **Authentication**:
-    -   [ ] Re-implement Firebase Authentication for secure user login.
-    -   [ ] Create a tenant selection screen after login.
 -   [ ] **Dashboard Analytics**:
     -   [ ] Add more detailed charts and graphs for operational insights.
--   [... and other future items from blueprint]
+-   [ ] **Notifications**:
+    -   [ ] Implement in-app and push notifications for important events (e.g., certificate expiry).
+-   [ ] **Reporting**:
+    -   [ ] Add functionality to generate and export reports (e.g., crew lists, vessel status).
+-   [ ] **Advanced AI Features**:
+    -   [ ] AI-powered route optimization suggestions.
+    -   [ ] Predictive maintenance alerts for vessels.

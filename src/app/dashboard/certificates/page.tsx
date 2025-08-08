@@ -1,23 +1,175 @@
+
+'use client';
+
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { MoreHorizontal, PlusCircle } from "lucide-react"
+import { differenceInDays } from 'date-fns';
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { mockCertificates } from "@/lib/data"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { CertificateForm, CertificateFormValues } from "./certificate-form";
+import { getCertificates, addCertificate, updateCertificate, deleteCertificate } from "@/lib/firestore";
+import type { Certificate, CertificateWithStatus } from "@/lib/types";
+import { useToast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
+
+function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring Soon' | 'Expired', daysUntilExpiry: number } {
+  const today = new Date();
+  const expiry = new Date(expiryDate);
+  const daysUntilExpiry = differenceInDays(expiry, today);
+
+  if (daysUntilExpiry < 0) {
+    return { status: 'Expired', daysUntilExpiry };
+  }
+  if (daysUntilExpiry <= 30) {
+    return { status: 'Expiring Soon', daysUntilExpiry };
+  }
+  return { status: 'Valid', daysUntilExpiry };
+}
+
 
 export default function CertificatesPage() {
+  const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
+  const { toast } = useToast();
+
+  const fetchCertificates = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const certificateData = await getCertificates();
+      setCertificates(certificateData);
+    } catch (error) {
+      console.error("Error fetching certificates:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to fetch certificate data.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }, [toast]);
+
+  useEffect(() => {
+    fetchCertificates();
+  }, [fetchCertificates]);
+
+  const certificatesWithStatus: CertificateWithStatus[] = useMemo(() => {
+    return certificates.map(cert => {
+      const { status, daysUntilExpiry } = getCertificateStatus(cert.expiryDate);
+      return { ...cert, status, daysUntilExpiry };
+    });
+  }, [certificates]);
+
+  const handleEdit = (certificate: Certificate) => {
+    setSelectedCertificate(certificate);
+    setIsDialogOpen(true);
+  };
+
+  const handleAdd = () => {
+    setSelectedCertificate(null);
+    setIsDialogOpen(true);
+  }
+
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteCertificate(id);
+      toast({
+        title: "Success",
+        description: "Certificate deleted successfully.",
+      });
+      fetchCertificates();
+    } catch (error) {
+      console.error("Error deleting certificate:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to delete certificate.",
+      });
+    }
+  };
+
+  const handleFormSubmit = async (data: CertificateFormValues) => {
+    setIsSubmitting(true);
+    try {
+      if (selectedCertificate) {
+        await updateCertificate(selectedCertificate.id, data);
+        toast({
+          title: "Success",
+          description: "Certificate updated successfully.",
+        });
+      } else {
+        await addCertificate(data);
+        toast({
+          title: "Success",
+          description: "Certificate added successfully.",
+        });
+      }
+      fetchCertificates();
+      setIsDialogOpen(false);
+    } catch (error) {
+      console.error("Error saving certificate:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to save certificate.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const renderSkeleton = () => (
+    Array.from({ length: 5 }).map((_, index) => (
+      <TableRow key={index}>
+        <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+        <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+        <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
+        <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+        <TableCell><Skeleton className="h-8 w-8" /></TableCell>
+      </TableRow>
+    ))
+  );
+
   return (
     <>
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-semibold md:text-3xl">Certificate Management</h1>
         <div className="ml-auto flex items-center gap-2">
-          <Button>
+          <Button onClick={handleAdd}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Add Certificate
           </Button>
         </div>
       </div>
+      
+       <Dialog open={isDialogOpen} onOpenChange={(isOpen) => {
+         if (!isSubmitting) {
+           setIsDialogOpen(isOpen);
+         }
+       }}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{selectedCertificate ? 'Edit Certificate' : 'Add Certificate'}</DialogTitle>
+            <DialogDescription>
+              {selectedCertificate ? 'Update the details of the certificate.' : 'Enter the details for the new certificate.'}
+            </DialogDescription>
+          </DialogHeader>
+          <CertificateForm
+            certificate={selectedCertificate}
+            onSubmit={handleFormSubmit}
+            isSubmitting={isSubmitting}
+          />
+        </DialogContent>
+      </Dialog>
+
       <Card>
         <CardHeader>
           <CardTitle>Certificates</CardTitle>
@@ -40,7 +192,7 @@ export default function CertificatesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockCertificates.map((cert) => (
+              {isLoading ? renderSkeleton() : certificatesWithStatus.map((cert) => (
                 <TableRow key={cert.id}>
                   <TableCell className="font-medium">{cert.name}</TableCell>
                   <TableCell>{cert.issuedBy}</TableCell>
@@ -61,9 +213,14 @@ export default function CertificatesPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEdit(cert)}>Edit</DropdownMenuItem>
                         <DropdownMenuItem>Renew</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="text-destructive"
+                          onClick={() => handleDelete(cert.id)}
+                        >
+                          Delete
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

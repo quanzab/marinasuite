@@ -24,9 +24,13 @@ export type Certificate = {
   issuedBy: string;
   issueDate: string;
   expiryDate: string;
+};
+
+export type CertificateWithStatus = Certificate & {
   daysUntilExpiry: number;
   status: 'Valid' | 'Expiring Soon' | 'Expired';
 };
+
 
 export type User = {
   id: string;
