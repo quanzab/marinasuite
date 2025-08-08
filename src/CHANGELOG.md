@@ -259,3 +259,15 @@
 ### Changed
 
 -   Slightly refactored the main navigation in `layout.tsx` to include separators for better organization.
+
+## [2.3.0] - 2024-08-21
+
+### Added
+
+-   **Reporting**:
+    -   Added a "Vessel Status Report" to the reporting page.
+    -   This report fetches all vessels from Firestore and presents their operational status in a printable format.
+
+### Changed
+
+-   Refactored the Reporting page to better accommodate multiple reports.
