@@ -168,9 +168,61 @@
     -   Enabled Firestore's offline persistence in `firebase.ts`.
     -   The application now caches data locally, allowing users to view and modify data even when offline. Changes are synced automatically upon reconnection.
 
-## [3.9.0] - 2024-09-05
+## [2.0.0] - 2024-08-20
+
+### Added
+-   **Real-Time Data**: Implemented Firestore's `onSnapshot` listener for the Crew, Fleet, and Certificate modules. The UI now updates in real-time as data changes in the database, without needing a manual refresh.
+-   **Tenant Selection**: Added a tenant selection screen at `/dashboard/select-tenant` after login. User's choice is persisted in `sessionStorage`.
+-   **RBAC with Custom Claims**: Implemented a Cloud Function that sets custom claims (`role`) on a user's Auth token when their document is updated in Firestore. The UI now uses these claims to conditionally render controls, providing proper role-based access.
+-   **Notifications Module**:
+    -   Created a new "Notifications" page to display alerts for expiring or expired certificates.
+    -   Added a `Bell` icon to the header with a badge that shows a count of unread notifications.
+    -   Implemented a `getCertificateNotifications` helper to fetch and filter certificates that require attention.
+
+## [2.1.0] - 2024-08-22
+
+### Added
+-   **Reporting Module**:
+    -   Created a new "Reporting" page to generate and print key operational reports.
+    -   Added three printable reports: Crew Manifest, Vessel Status, and Certificate Status.
+    -   Included a "Print Report" button on each report card.
+-   **Dashboard Enhancements**:
+    -   Added a new "Crew Rank Distribution" bar chart to the main dashboard.
+    -   Added new summary cards for "Certificates Expiring" and "Open Routes".
+
+## [2.2.0] - 2024-08-25
+
+### Added
+-   **Advanced Scheduling**:
+    -   The "Scheduling" page now features a weekly calendar view.
+    -   Implemented drag-and-drop functionality to assign unassigned crew members to vessels directly on the calendar.
+    -   Added a direct "Assign" button for a non-D&D workflow.
+-   **AI Tool Use**:
+    -   Upgraded the "Crew Allocation AI" feature to use a Genkit Tool (`findAvailableCrew`). The AI now fetches available crew members in real-time as part of its reasoning process.
+
+## [2.3.0] - 2024-08-28
+
+### Added
+-   **Creative AI Tools**:
+    -   **AI Shanty Generator**: New "Shanty AI" page where users can select a vessel and have the AI generate a unique sea shanty about it.
+    -   **AI Text-to-Speech**: The generated shanty is automatically converted into a multi-speaker audio file, which can be played directly on the page.
+    -   **AI Image/Video Generation**:
+        -   On the vessel profile page, users can now generate a photorealistic image of their vessel with a single click.
+        -   Users can also generate a short, animated video of the vessel sailing.
+
+## [2.4.0] - 2024-09-01
+
+### Added
+-   **User Profile Settings**:
+    -   New "Settings" page at `/dashboard/settings` where users can update their own profile information (e.g., name).
+    -   The main layout now dynamically displays the logged-in user's name and avatar.
+-   **UI Polish**:
+    -   Refactored the `Button` component to ensure consistent theme application.
+    -   Improved semantic HTML in the `Card` component for better accessibility.
+
+## [2.5.0] - 2024-09-05
 
 ### Changed
--   **Code Quality**: Performed a final code quality enhancement on the `Input` component, ensuring its responsive text styling is consistent across all input types.
--   **Documentation**: Updated all project documentation to reflect that the project is complete and all development work is finished.
+-   **Code Quality**: Performed a final series of code quality enhancements on custom UI components (`Sidebar`, `Input`, `Textarea`, `DropdownMenu`) to ensure consistency, maintainability, and responsiveness.
+-   **Documentation**: Updated all project documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to reflect that the project is complete and all development work is finished.
     
