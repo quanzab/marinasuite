@@ -13,7 +13,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement CRUD functionality for vessels.
     -   [x] Connect the UI to a Firestore database.
     -   [x] Add profile pages for vessels with dynamic crew lists.
-    -   [x] Add forms for managing vessel maintenance schedules and history.
+    -   [x] Add forms for managing vessel maintenance schedules.
 -   [x] **Certificate Management**:
     -   [x] Implement CRUD functionality for certificates.
     -   [x] Connect the UI to a Firestore database.
@@ -45,20 +45,13 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Advanced Scheduling**:
     -   [x] Implement direct crew assignment from the scheduling page.
     -   [x] Implement drag-and-drop functionality for crew assignments.
-    -   [x] Implement a full weekly calendar view for assignments.
 -   [x] **Advanced Certificate Management**:
     -   [x] Add a streamlined "Renew Certificate" workflow.
-    -   [x] Add automated reminders for certificate renewals. (Completed via Notifications)
+    -   [ ] Add automated reminders for certificate renewals.
 -   [x] **Advanced RBAC**:
     -   [x] Implement role-based access control using Firebase Auth custom claims to restrict actions.
 -   [x] **Notifications**:
     -   [x] Implement in-app notification UI with a dedicated page and header dropdown.
-    -   [x] Implement dynamic, data-driven alerts for certificate expiries.
--   [x] **Architecture**:
-    -   [x] Implement full multi-tenant data access layer.
--   [x] **Push Notifications**:
     -   [ ] Implement push notifications for important events (e.g., certificate expiry, maintenance reminders).
 -   [x] **Creative AI Tools**:
     -   [x] AI-powered sea shanty generator.
-    -   [x] AI-powered vessel image generator.
-    -   [x] AI-powered vessel video generator.
