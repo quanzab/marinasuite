@@ -6,7 +6,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 
 ## 2. Core Features
 
--   **Authentication & Tenant Selection**: Secure user login and tenant management.
+-   **Authentication & Tenant Selection**: Secure user login and tenant management using Firebase Authentication.
 -   **Crew Management**: CRUD operations for crew profiles, certifications, and medical records.
 -   **Fleet Operations**: Vessel data management and maintenance scheduling.
 -   **Certificate Management**: Tracking and renewal reminders for certificates.
@@ -20,6 +20,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Language**: TypeScript
 -   **UI**: React, ShadCN UI, Tailwind CSS
 -   **AI**: Genkit
+-   **Backend**: Firebase (Authentication, Firestore)
 -   **Styling**: Tailwind CSS with HSL variables for theming.
 -   **Deployment**: Firebase App Hosting
 
@@ -45,6 +46,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 │   └── icons.tsx
 ├── lib/
 │   ├── data.ts
+│   ├── firebase.ts
 │   └── types.ts
 └── public/
 ```

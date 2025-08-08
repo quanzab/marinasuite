@@ -1,4 +1,8 @@
+
+'use client';
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import {
   Bell,
   Home,
@@ -10,7 +14,10 @@ import {
   PanelLeft,
   Search,
   Gift,
+  LogOut,
 } from 'lucide-react';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -43,6 +50,7 @@ import {
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 
 export default function DashboardLayout({
   children,
@@ -57,6 +65,27 @@ export default function DashboardLayout({
     { href: '/dashboard/crew-ai', label: 'Crew AI', icon: AiIcon },
     { href: '/dashboard/admin', label: 'Admin', icon: AdminIcon },
   ];
+
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      toast({
+        title: 'Logged Out',
+        description: 'You have been successfully logged out.',
+      });
+      router.push('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Logout Failed',
+        description: 'An error occurred while logging out. Please try again.',
+      });
+    }
+  };
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -87,7 +116,7 @@ export default function DashboardLayout({
               <CardHeader className="p-2 pt-0 md:p-4">
                 <div className="flex items-center justify-between">
                   <CardTitle>What's New</CardTitle>
-                  <Badge variant="secondary">v0.2.0</Badge>
+                  <Badge variant="secondary">v0.3.0</Badge>
                 </div>
                 <CardDescription>
                   Check out the latest features and updates.
@@ -180,8 +209,9 @@ export default function DashboardLayout({
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/login">Logout</Link>
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

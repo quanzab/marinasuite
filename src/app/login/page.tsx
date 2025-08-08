@@ -3,19 +3,47 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Logo } from '@/components/icons';
+import { useToast } from '@/hooks/use-toast';
+import { Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
+  const { toast } = useToast();
+  const [email, setEmail] = useState('admin@marinasuite.com');
+  const [password, setPassword] = useState('password');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock login logic
-    router.push('/dashboard');
+    setLoading(true);
+    try {
+      // For this demo, we'll use a pre-existing test user.
+      // In a real app, you would implement user creation.
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push('/dashboard');
+    } catch (error) {
+      console.error('Login failed:', error);
+      let errorMessage = 'An unknown error occurred.';
+      if (error instanceof Error) {
+        // In a real app, you would have more specific error handling.
+        errorMessage = 'Invalid email or password. Please try again.';
+      }
+      toast({
+        variant: 'destructive',
+        title: 'Login Failed',
+        description: errorMessage,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,7 +83,7 @@ export default function LoginPage() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="m@example.com" required defaultValue="admin@marinasuite.com" />
+                  <Input id="email" type="email" placeholder="m@example.com" required value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                 <div className="grid gap-2">
                   <div className="flex items-center">
@@ -64,10 +92,10 @@ export default function LoginPage() {
                       Forgot your password?
                     </Link>
                   </div>
-                  <Input id="password" type="password" required defaultValue="password" />
+                  <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
-                <Button type="submit" className="w-full">
-                  Login
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Login'}
                 </Button>
               </form>
             </CardContent>

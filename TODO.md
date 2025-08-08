@@ -4,8 +4,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
 
 ## MVP Features (In Progress)
 
--   [ ] **Authentication**:
-    -   [ ] Implement Firebase Authentication for secure user login.
+-   [x] **Authentication**:
+    -   [x] Implement Firebase Authentication for secure user login.
     -   [ ] Create a tenant selection screen after login.
 -   [ ] **Crew Management**:
     -   [ ] Implement full CRUD functionality (Create, Read, Update, Delete) for crew members.
