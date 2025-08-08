@@ -1,4 +1,5 @@
 
+
 import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion } from 'firebase/firestore';
 import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord } from './types';
@@ -52,7 +53,7 @@ export const addCrewMember = async (crewData: CrewFormValues) => {
 };
 
 // UPDATE
-export const updateCrewMember = async (id: string, crewData: Partial<CrewFormValues>) => {
+export const updateCrewMember = async (id: string, crewData: Partial<CrewFormValues & { assignedVessel: string | null }>) => {
   const crewDoc = doc(db, 'orgs', TENANT_ID, 'crew', id);
   await updateDoc(crewDoc, crewData);
 };
@@ -213,5 +214,3 @@ export const deleteUser = async (id: string, tenantId: string) => {
     const userDoc = doc(db, 'orgs', tenantId, 'users', id);
     await deleteDoc(userDoc);
 };
-
-    
