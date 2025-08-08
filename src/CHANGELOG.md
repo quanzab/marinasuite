@@ -184,3 +184,86 @@
     -   The profile page shows key details like IMO, type, status, and maintenance schedules.
     -   Added a `getVesselById` function to the Firestore service.
     -   The "View Details" option in the fleet list now links to the corresponding profile page.
+
+## [1.7.0] - 2024-08-15
+
+### Added
+- **Crew Scheduling UI**:
+  - Created a new "Scheduling" page at `/dashboard/scheduling`.
+  - Added a `SchedulingIcon` for the navigation sidebar.
+  - Implemented a basic weekly calendar view to serve as the foundation for future drag-and-drop scheduling.
+
+## [1.8.0] - 2024-08-16
+### Changed
+- **Enhanced Crew Scheduling UI**:
+  - The scheduling page now dynamically fetches and displays crew and vessel data from Firestore.
+  - Added a "Vessel Assignments" card that lists assigned crew members under their respective vessels, complete with avatars.
+  - The "Unassigned Crew" list now correctly filters for active, unassigned crew members.
+
+## [1.9.0] - 2024-08-17
+### Added
+- **Firebase Authentication**:
+    - Re-implemented Firebase Authentication with a dedicated login page (`/login`).
+    - Added email/password sign-in and a logout button in the user menu.
+    - Implemented a protected route system to redirect unauthenticated users to the login page.
+### Changed
+- The application's root now redirects to `/login` instead of `/dashboard`.
+
+## [2.0.0] - 2024-08-18
+### Added
+- **Reporting Module**:
+  - Created a new "Reporting" page at `/dashboard/reporting`.
+  - Added a `ReportingIcon` and navigation link.
+  - Implemented the first report: a printable "Crew Manifest" that lists all crew members.
+  
+## [2.1.0] - 2024-08-19
+### Added
+- **Vessel Status Report**:
+  - Added a "Vessel Status Report" to the Reporting page.
+  - The report fetches all vessels from Firestore and displays their status in a printable table.
+  - Refactored the reporting page to cleanly support multiple report components.
+
+## [2.2.0] - 2024-08-20
+### Added
+- **Certificate Status Report**:
+  - Added a "Certificate Status Report" to the Reporting page.
+  - This report fetches all certificates, calculates their status (Valid, Expiring Soon, Expired), and displays the results in a printable table.
+  
+## [2.3.0] - 2024-08-21
+### Added
+- **Dashboard Analytics Chart**:
+  - Added a "Crew Status Distribution" bar chart to the main dashboard.
+  - The chart visualizes the breakdown of crew members by their status ('Active', 'On Leave', 'Inactive').
+  
+## [2.4.0] - 2024-08-22
+### Added
+- **Advanced Certificate Management**:
+  - Implemented a "Renew Certificate" workflow.
+  - Users can now click a "Renew" action on a certificate, which opens a dialog with a simplified form to set a new expiry date.
+  
+## [2.5.0] - 2024-08-23
+### Added
+- **Advanced Role-Based Access Control (RBAC)**:
+  - Created a `useCurrentUser` hook to efficiently provide user role information across the application.
+  - Implemented UI-level restrictions to disable or hide sensitive actions (Add, Edit, Delete) for users without 'Admin' or 'Manager' roles on all relevant pages.
+  
+## [2.6.0] - 2024-08-24
+### Added
+- **Tenant Selection Screen**:
+    - Created a tenant selection page that appears after login.
+    - Updated routing logic to direct users to this page before accessing the main dashboard.
+
+## [2.7.0] - 2024-08-25
+### Added
+- **Notifications**:
+    - Implemented an in-app notification system with a dedicated page and a dropdown in the header.
+    - Added a `NotificationsIcon` for navigation.
+    - The UI includes mock notifications for certificate expiries and maintenance reminders as a proof-of-concept.
+
+## [2.8.0] - 2024-08-26
+### Added
+- **AI Shanty Generator**:
+    - Added a new creative AI tool to generate sea shanties about vessels.
+    - Created a new Genkit flow (`generate-shanty-flow.ts`) for the AI logic.
+    - Implemented a "Shanty AI" page with a form to select a vessel and display the generated song.
+    - Added a `MusicIcon` for navigation.
