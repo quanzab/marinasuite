@@ -345,4 +345,9 @@
 ### Changed
 - Increased the Next.js server action timeout to accommodate longer video generation times.
 
+## [3.6.0] - 2024-09-07
+### Changed
+- **Dashboard Analytics**:
+    - The "Certificates Expiring" summary card is now dynamic, showing a live count of certificates that will expire within 30 days.
+    - This provides a more accurate and actionable at-a-glance overview on the main dashboard.
     

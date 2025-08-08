@@ -30,7 +30,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { getCrew, getVessels } from "@/lib/firestore"
-import type { CrewMember, Vessel } from "@/lib/types";
+import { getCertificateNotifications } from "@/lib/notifications";
+import type { CertificateWithStatus, CrewMember, Vessel } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
@@ -39,15 +40,21 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 export default function Dashboard() {
   const [crew, setCrew] = useState<CrewMember[]>([]);
   const [vessels, setVessels] = useState<Vessel[]>([]);
+  const [expiringCertificates, setExpiringCertificates] = useState<CertificateWithStatus[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const [crewData, vesselData] = await Promise.all([getCrew(), getVessels()]);
+      const [crewData, vesselData, certNotifications] = await Promise.all([
+          getCrew(), 
+          getVessels(),
+          getCertificateNotifications()
+        ]);
       setCrew(crewData);
       setVessels(vesselData);
+      setExpiringCertificates(certNotifications);
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
        toast({
@@ -65,6 +72,8 @@ export default function Dashboard() {
   }, [fetchData]);
 
   const vesselsInService = vessels.filter(v => v.status === 'In Service').length;
+  const expiringSoonCount = expiringCertificates.filter(c => c.status === 'Expiring Soon').length;
+
 
   const vesselStatusData = useMemo(() => {
     const statusCounts = vessels.reduce((acc, vessel) => {
@@ -158,8 +167,7 @@ export default function Dashboard() {
             <FileWarning className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            {/* This data is still mock until certs are linked to crew/vessels */}
-            <div className="text-2xl font-bold">2</div>
+             {isLoading ? <Skeleton className="h-8 w-12" /> : <div className="text-2xl font-bold">{expiringSoonCount}</div>}
             <p className="text-xs text-muted-foreground">
               Within the next 30 days
             </p>
@@ -324,5 +332,3 @@ export default function Dashboard() {
     </>
   )
 }
-
-    
