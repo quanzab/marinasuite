@@ -2,11 +2,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import {
   PanelLeft,
   Search,
-  LogOut,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -40,7 +38,6 @@ import {
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { useToast } from '@/hooks/use-toast';
 
 export default function DashboardLayout({
   children,
@@ -55,15 +52,6 @@ export default function DashboardLayout({
     { href: '/dashboard/crew-ai', label: 'Crew AI', icon: AiIcon },
     { href: '/dashboard/admin', label: 'Admin', icon: AdminIcon },
   ];
-
-  const { toast } = useToast();
-
-  const handleLogout = async () => {
-    toast({
-      title: 'Logout Disabled',
-      description: 'Logout functionality will be enabled at a later stage.',
-    });
-  };
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -186,11 +174,6 @@ export default function DashboardLayout({
               <DropdownMenuSeparator />
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout}>
-                <LogOut className="mr-2 h-4 w-4" />
-                Logout
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
