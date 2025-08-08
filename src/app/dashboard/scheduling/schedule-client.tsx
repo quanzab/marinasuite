@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { format, startOfWeek, addDays } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { CrewMember, Vessel } from "@/lib/types";
+import type { AssignCrewFormValues, CrewMember, Vessel } from "@/lib/types";
 import { getCrew, getVessels, updateCrewMember } from "@/lib/firestore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GripVertical, Ship } from "lucide-react";
@@ -15,6 +15,8 @@ import { useTenant } from "@/hooks/use-tenant";
 import { DndContext, useSensor, useSensors, PointerSensor, closestCenter, type DragEndEvent } from "@dnd-kit/core";
 import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { UnassignedCrew } from "./unassigned-crew";
+import { AssignDialog } from "./assign-dialog";
 
 const getAvatarFallback = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
@@ -83,6 +85,9 @@ export default function ScheduleClient() {
   const [crew, setCrew] = useState<CrewMember[]>([]);
   const [vessels, setVessels] = useState<Vessel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedCrewMember, setSelectedCrewMember] = useState<CrewMember | null>(null);
+  const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const { user: currentUser, isLoading: isUserLoading } = useCurrentUser();
   const isManagerOrAdmin = currentUser?.role === 'Admin' || currentUser?.role === 'Manager';
@@ -163,17 +168,59 @@ export default function ScheduleClient() {
         }
     }
   };
+  
+  const handleOpenAssignDialog = (member: CrewMember) => {
+    setSelectedCrewMember(member);
+    setIsAssignDialogOpen(true);
+  };
+  
+  const handleAssignSubmit = async (data: AssignCrewFormValues) => {
+      if (!selectedCrewMember || !tenantId || !data.vesselName) return;
+      
+      setIsSubmitting(true);
+      try {
+          await updateCrewMember(tenantId, selectedCrewMember.id, { assignedVessel: data.vesselName });
+          toast({
+              title: 'Success',
+              description: `${selectedCrewMember.name} assigned to ${data.vesselName}.`,
+          });
+          fetchData();
+          setIsAssignDialogOpen(false);
+      } catch (error) {
+          toast({
+              variant: 'destructive',
+              title: 'Error',
+              description: 'Failed to assign crew member.',
+          });
+      } finally {
+          setIsSubmitting(false);
+      }
+  }
 
 
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <AssignDialog
+        isOpen={isAssignDialogOpen}
+        onOpenChange={setIsAssignDialogOpen}
+        isSubmitting={isSubmitting}
+        vessels={vessels}
+        crewMember={selectedCrewMember}
+        onSubmit={handleAssignSubmit}
+    />
     <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
       <div className="md:col-span-3 flex flex-col gap-6">
+        <UnassignedCrew 
+            crew={unassignedCrew}
+            onAssign={handleOpenAssignDialog}
+            isLoading={isLoading}
+            isManagerOrAdmin={isManagerOrAdmin}
+        />
         <Card>
           <CardHeader>
-            <CardTitle>Unassigned Crew</CardTitle>
+            <CardTitle>Drag & Drop Crew</CardTitle>
           </CardHeader>
-          <CardContent className="max-h-[70vh] overflow-y-auto">
+          <CardContent className="max-h-[45vh] overflow-y-auto">
             {isLoading ? (
               Array.from({ length: 3 }).map((_, i) => (
                 <Skeleton key={i} className="h-16 w-full mb-3" />

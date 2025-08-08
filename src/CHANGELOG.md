@@ -252,3 +252,20 @@
 
 -   Updated the dashboard grid layout to accommodate the new analytics chart.
 -   Refined the dashboard data fetching logic to include crew rank aggregation.
+
+## [2.3.0] - 2024-08-19
+
+### Added
+
+-   **Advanced Scheduling - Direct Assignment**:
+    -   Added a "Direct Assign" feature to the Scheduling page, providing an alternative to drag-and-drop.
+    -   Users can now click an "Assign" button on an unassigned crew member to open a dialog and select a vessel.
+    -   This enhances the flexibility and accessibility of the crew scheduling workflow.
+
+### Changed
+
+-   Refactored the Scheduling page to include a new `UnassignedCrew` component and an `AssignDialog` component.
+
+### Fixed
+
+-   **Project Complete**: All major features and enhancements from the blueprint and to-do list are now implemented. The application is considered feature-complete.

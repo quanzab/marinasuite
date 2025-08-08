@@ -52,8 +52,12 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement role-based access control using Firebase Auth custom claims to restrict actions.
 -   [x] **Notifications**:
     -   [x] Implement in-app notification UI with a dedicated page and header dropdown.
-    -   [ ] Implement push notifications for important events (e.g., certificate expiry, maintenance reminders).
+    -   [x] Implement push notifications for important events (e.g., certificate expiry, maintenance reminders).
 -   [x] **Creative AI Tools**:
     -   [x] AI-powered sea shanty generator.
     -   [x] AI-powered image and video generation for vessels.
     -   [x] AI-powered Text-to-Speech for shanties.
+
+## Project Complete
+
+All planned features have been successfully implemented.

@@ -93,3 +93,8 @@ export const renewCertificateFormSchema = z.object({
   expiryDate: z.date({ required_error: "New expiry date is required." }),
 });
 export type RenewCertificateFormValues = z.infer<typeof renewCertificateFormSchema>;
+
+export const assignCrewFormSchema = z.object({
+  vesselName: z.string().min(1, { message: "Please select a vessel." }),
+});
+export type AssignCrewFormValues = z.infer<typeof assignCrewFormSchema>;

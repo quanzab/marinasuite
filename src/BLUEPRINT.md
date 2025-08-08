@@ -19,6 +19,8 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **AI Shanty Generator**: A creative AI tool to generate sea shanties about vessels, complete with Text-to-Speech audio output.
 -   **AI Image/Video Generator**: AI tools to generate images and videos of vessels.
 -   **Offline Data Caching**: Offline data access and synchronization.
+-   **Advanced Scheduling**: Drag-and-drop and direct assignment of crew to vessels.
+-   **Reporting**: Generation and printing of key operational reports.
 
 ## 3. Tech Stack
 
@@ -51,7 +53,6 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 │   ├── ui/
 │   └── icons.tsx
 ├── lib/
-│   ├── data.ts
 │   ├── firebase/
 │   │   ├── functions/
 │   │   └── index.ts
@@ -69,4 +70,4 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 
 ## 6. Development Roadmap
 
-See `TODO.md` for the development roadmap.
+See `TODO.md` for the development roadmap. Project is feature-complete.
