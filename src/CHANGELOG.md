@@ -286,3 +286,9 @@
 
 -   Refactored `firestore.ts` to include `subscribeTo` functions that manage real-time listeners.
 -   Updated all relevant pages to use the new subscription-based data fetching hooks instead of one-time fetches.
+
+## [2.5.0] - 2024-08-22
+
+### Changed
+
+-   **Shanty AI Polish**: Updated the AI Shanty Generator to use Markdown for formatting the output. The AI prompt now instructs the model to structure the lyrics, and the frontend uses `react-markdown` to render them with proper verse and chorus breaks, improving readability.
