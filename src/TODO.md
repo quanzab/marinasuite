@@ -8,10 +8,10 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement Firebase Authentication for secure user login.
     -   [x] Create a tenant selection screen after login.
 -   [ ] **Crew Management**:
-    -   [x] Implement basic UI for Create and Read functionality.
-    -   [ ] Connect the UI to a Firestore database instead of using mock data.
-    -   [ ] Add forms for editing crew profiles.
-    -   [ ] Implement Delete functionality for crew members.
+    -   [x] Implement full CRUD functionality (Create, Read, Update, Delete) for crew members.
+    -   [x] Connect the UI to a Firestore database.
+    -   [ ] Add profile pages with details for certifications and medical records.
+    -   [ ] Implement crew scheduling UI.
 -   [ ] **Fleet Operations**:
     -   [ ] Implement CRUD functionality for vessels.
     -   [ ] Add forms for managing vessel data and maintenance schedules.
@@ -36,4 +36,3 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [ ] **Advanced AI Features**:
     -   [ ] AI-powered route optimization suggestions.
     -   [ ] Predictive maintenance alerts for vessels.
-

@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { CrewMember } from "@/lib/types"
+import { useToast } from "@/hooks/use-toast"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -29,14 +29,15 @@ const formSchema = z.object({
   status: z.enum(["Active", "On Leave", "Inactive"]),
 })
 
-type CrewFormValues = z.infer<typeof formSchema>
+export type CrewFormValues = z.infer<typeof formSchema>
 
 interface CrewFormProps {
   crewMember: CrewMember | null;
   onSubmit: (data: CrewFormValues) => void;
+  isSubmitting: boolean;
 }
 
-export function CrewForm({ crewMember, onSubmit }: CrewFormProps) {
+export function CrewForm({ crewMember, onSubmit, isSubmitting }: CrewFormProps) {
   const form = useForm<CrewFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -97,8 +98,8 @@ export function CrewForm({ crewMember, onSubmit }: CrewFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit">
-          {crewMember ? 'Save Changes' : 'Create Crew Member'}
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Saving...' : (crewMember ? 'Save Changes' : 'Create Crew Member')}
         </Button>
       </form>
     </Form>

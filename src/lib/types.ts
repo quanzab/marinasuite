@@ -4,8 +4,8 @@ export type CrewMember = {
   rank: string;
   status: 'Active' | 'On Leave' | 'Inactive';
   assignedVessel?: string;
-  certifications: string[];
-  medicalRecords: string;
+  certifications?: string[];
+  medicalRecords?: string;
 };
 
 export type Vessel = {
