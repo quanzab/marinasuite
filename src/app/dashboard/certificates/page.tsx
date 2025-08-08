@@ -11,10 +11,12 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CertificateForm, CertificateFormValues } from "./certificate-form";
+import { RenewCertificateForm } from "./renew-form";
 import { getCertificates, addCertificate, updateCertificate, deleteCertificate } from "@/lib/firestore";
-import type { Certificate, CertificateWithStatus } from "@/lib/types";
+import type { Certificate, CertificateWithStatus, RenewCertificateFormValues } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { format } from "date-fns";
 
 function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring Soon' | 'Expired', daysUntilExpiry: number } {
   const today = new Date();
@@ -34,7 +36,8 @@ function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring
 export default function CertificatesPage() {
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
+  const [isRenewDialogOpen, setIsRenewDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
   const { toast } = useToast();
@@ -69,12 +72,18 @@ export default function CertificatesPage() {
 
   const handleEdit = (certificate: Certificate) => {
     setSelectedCertificate(certificate);
-    setIsDialogOpen(true);
+    setIsFormDialogOpen(true);
   };
+  
+  const handleRenew = (certificate: Certificate) => {
+    setSelectedCertificate(certificate);
+    setIsRenewDialogOpen(true);
+  };
+
 
   const handleAdd = () => {
     setSelectedCertificate(null);
-    setIsDialogOpen(true);
+    setIsFormDialogOpen(true);
   }
 
   const handleDelete = async (id: string) => {
@@ -112,7 +121,7 @@ export default function CertificatesPage() {
         });
       }
       fetchCertificates();
-      setIsDialogOpen(false);
+      setIsFormDialogOpen(false);
     } catch (error) {
       console.error("Error saving certificate:", error);
       toast({
@@ -124,6 +133,33 @@ export default function CertificatesPage() {
       setIsSubmitting(false);
     }
   };
+  
+  const handleRenewSubmit = async (data: RenewCertificateFormValues) => {
+    if (!selectedCertificate) return;
+    setIsSubmitting(true);
+    try {
+      await updateCertificate(selectedCertificate.id, {
+        issueDate: new Date(),
+        expiryDate: data.expiryDate
+      });
+      toast({
+        title: "Success",
+        description: "Certificate renewed successfully.",
+      });
+      fetchCertificates();
+      setIsRenewDialogOpen(false);
+    } catch (error) {
+      console.error("Error renewing certificate:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to renew certificate.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
 
   const renderSkeleton = () => (
     Array.from({ length: 5 }).map((_, index) => (
@@ -150,10 +186,8 @@ export default function CertificatesPage() {
         </div>
       </div>
       
-       <Dialog open={isDialogOpen} onOpenChange={(isOpen) => {
-         if (!isSubmitting) {
-           setIsDialogOpen(isOpen);
-         }
+       <Dialog open={isFormDialogOpen} onOpenChange={(isOpen) => {
+         if (!isSubmitting) setIsFormDialogOpen(isOpen);
        }}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -169,6 +203,24 @@ export default function CertificatesPage() {
           />
         </DialogContent>
       </Dialog>
+      
+      <Dialog open={isRenewDialogOpen} onOpenChange={(isOpen) => {
+         if (!isSubmitting) setIsRenewDialogOpen(isOpen);
+       }}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Renew Certificate</DialogTitle>
+            <DialogDescription>
+              Renewing "{selectedCertificate?.name}". Set the new expiry date.
+            </DialogDescription>
+          </DialogHeader>
+          <RenewCertificateForm
+            onSubmit={handleRenewSubmit}
+            isSubmitting={isSubmitting}
+          />
+        </DialogContent>
+      </Dialog>
+
 
       <Card>
         <CardHeader>
@@ -214,7 +266,7 @@ export default function CertificatesPage() {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => handleEdit(cert)}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>Renew</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleRenew(cert)}>Renew</DropdownMenuItem>
                         <DropdownMenuItem 
                           className="text-destructive"
                           onClick={() => handleDelete(cert.id)}

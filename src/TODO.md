@@ -26,6 +26,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Dashboard Analytics**:
     -   [x] Display live data for summary cards and tables.
     -   [x] Add a chart for vessel status distribution.
+    -   [x] Add more detailed charts and graphs for operational insights (e.g., crew status).
 -   [x] **Advanced AI Features**:
     -   [x] AI-powered crew allocation suggestions.
     -   [x] AI-powered route optimization suggestions.
@@ -44,12 +45,9 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [ ] **Advanced Scheduling**:
     -   [ ] Implement drag-and-drop functionality for crew assignments on the calendar.
 -   [ ] **Advanced Certificate Management**:
+    -   [x] Add a streamlined "Renew Certificate" workflow.
     -   [ ] Add automated reminders for certificate renewals.
 -   [ ] **Advanced RBAC**:
     -   [ ] Implement role-based access control using Firebase Auth custom claims to restrict actions.
 -   [ ] **Notifications**:
     -   [ ] Implement in-app and push notifications for important events (e.g., certificate expiry, maintenance reminders).
--   [ ] **Dashboard Analytics**:
-    -   [x] Add more detailed charts and graphs for operational insights (e.g., crew status, vessel performance).
-
-    

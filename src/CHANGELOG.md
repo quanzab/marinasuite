@@ -287,4 +287,14 @@
     -   Added a "Crew Status Distribution" bar chart to the main dashboard.
     -   This chart visualizes the number of crew members by their status ('Active', 'On Leave', 'Inactive').
 
-    
+## [2.6.0] - 2024-08-24
+
+### Added
+
+-   **Advanced Certificate Management**:
+    -   Added a dedicated "Renew Certificate" action and dialog.
+    -   This feature streamlines the renewal process by automatically setting the issue date to today and suggesting a new expiry date.
+
+### Changed
+
+-   Refactored the Certificate Management page to include a separate form for renewals (`renew-form.tsx`).
