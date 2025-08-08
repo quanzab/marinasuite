@@ -1,3 +1,4 @@
+
 import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion } from 'firebase/firestore';
 import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord } from './types';
@@ -94,12 +95,13 @@ export const addVessel = async (vesselData: VesselFormValues) => {
         status,
         nextMaintenance: format(nextMaintenance, 'yyyy-MM-dd'),
         imageUrl: null,
+        videoUrl: null,
         maintenanceHistory: [],
     });
 };
 
 // UPDATE
-export const updateVessel = async (id: string, vesselData: Partial<VesselFormValues | { imageUrl: string }>) => {
+export const updateVessel = async (id: string, vesselData: Partial<VesselFormValues | { imageUrl: string, videoUrl: string }>) => {
   const vesselDoc = doc(db, 'orgs', TENANT_ID, 'vessels', id);
   
   const dataToUpdate: Record<string, any> = { ...vesselData };
@@ -211,3 +213,5 @@ export const deleteUser = async (id: string, tenantId: string) => {
     const userDoc = doc(db, 'orgs', tenantId, 'users', id);
     await deleteDoc(userDoc);
 };
+
+    

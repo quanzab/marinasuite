@@ -1,3 +1,4 @@
+
 import { z } from "zod";
 
 export type CrewMember = {
@@ -23,6 +24,7 @@ export type Vessel = {
   status: 'In Service' | 'In Maintenance' | 'Docked';
   nextMaintenance: string;
   imageUrl?: string | null;
+  videoUrl?: string | null;
   maintenanceHistory?: MaintenanceRecord[];
 };
 
@@ -82,3 +84,5 @@ export const renewCertificateFormSchema = z.object({
   expiryDate: z.date({ required_error: "New expiry date is required." }),
 });
 export type RenewCertificateFormValues = z.infer<typeof renewCertificateFormSchema>;
+
+    

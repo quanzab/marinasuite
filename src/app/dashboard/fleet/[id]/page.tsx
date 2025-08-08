@@ -8,9 +8,9 @@ import { Badge } from '@/components/ui/badge';
 import { getVesselById, getCrew } from '@/lib/firestore';
 import type { Vessel, CrewMember, MaintenanceLogFormValues } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Ship, Tag, Wrench, Calendar, Users, Wand2, Loader2, User, PlusCircle } from 'lucide-react';
+import { Ship, Tag, Wrench, Calendar, Users, Wand2, Loader2, User, PlusCircle, Video } from 'lucide-react';
 import Image from 'next/image';
-import { generateNewImageAction, logMaintenanceAction } from './actions';
+import { generateNewImageAction, logMaintenanceAction, generateNewVideoAction } from './actions';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { useCurrentUser } from '@/hooks/use-current-user';
@@ -30,9 +30,12 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   const [assignedCrew, setAssignedCrew] = useState<CrewMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isGenerating, startTransition] = useTransition();
+  const [isGeneratingImage, startImageTransition] = useTransition();
+  const [isGeneratingVideo, startVideoTransition] = useTransition();
   const [isLogMaintenanceOpen, setIsLogMaintenanceOpen] = useState(false);
   const [isSubmittingLog, setIsSubmittingLog] = useState(false);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+
 
   const { toast } = useToast();
   const { user: currentUser, isLoading: isUserLoading } = useCurrentUser();
@@ -49,6 +52,7 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
       
       if (fetchedVessel) {
         setVessel(fetchedVessel);
+        setVideoUrl(fetchedVessel.videoUrl || null);
         const crewForVessel = allCrew.filter(c => c.assignedVessel === fetchedVessel.name);
         setAssignedCrew(crewForVessel);
       } else {
@@ -71,7 +75,7 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   }, [params.id]);
 
   const handleGenerateImage = () => {
-    startTransition(async () => {
+    startImageTransition(async () => {
         toast({ title: 'AI Image Generation', description: 'The AI is creating a new image. This may take a moment...' });
         const result = await generateNewImageAction(params.id);
         if (result.success && result.imageUrl) {
@@ -82,6 +86,20 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
         }
     });
   }
+
+  const handleGenerateVideo = () => {
+    startVideoTransition(async () => {
+        toast({ title: 'AI Video Generation', description: 'The AI is creating a new video. This can take up to a minute...' });
+        const result = await generateNewVideoAction(params.id);
+        if (result.success && result.videoUrl) {
+            setVideoUrl(result.videoUrl);
+            toast({ title: 'Success!', description: 'New vessel video has been generated.' });
+        } else {
+            toast({ variant: 'destructive', title: 'Error', description: result.error });
+        }
+    });
+  }
+
 
   const handleLogMaintenanceSubmit = async (data: MaintenanceLogFormValues) => {
     setIsSubmittingLog(true);
@@ -130,7 +148,7 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
 
     <div className="flex flex-col gap-6">
        <div className="flex flex-col md:flex-row items-start gap-6">
-        <div className="w-full md:w-1/3">
+        <div className="w-full md:w-1/3 space-y-4">
           <Card>
             <CardContent className="p-0 relative">
                <Image 
@@ -142,7 +160,7 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
                   height={400}
                   className="rounded-t-lg object-cover"
                 />
-                 {isGenerating && (
+                 {isGeneratingImage && (
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-t-lg">
                         <Loader2 className="w-8 h-8 text-white animate-spin" />
                     </div>
@@ -157,14 +175,29 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
                      <Button 
                         size="sm" 
                         onClick={handleGenerateImage} 
-                        disabled={isGenerating || !isManagerOrAdmin || isUserLoading}
+                        disabled={isGeneratingImage || !isManagerOrAdmin || isUserLoading}
                      >
-                        {isGenerating ? <Loader2 className="animate-spin" /> : <Wand2 />}
+                        {isGeneratingImage ? <Loader2 className="animate-spin" /> : <Wand2 />}
                         <span className="ml-2 hidden sm:inline">Generate Image</span>
                      </Button>
                 </div>
              </CardHeader>
           </Card>
+
+            {videoUrl && (
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Generated Video</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                         <video key={videoUrl} controls className="w-full rounded-lg">
+                            <source src={videoUrl} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
+                    </CardContent>
+                </Card>
+            )}
+
         </div>
         
         <div className="w-full md:w-2/3 grid gap-4 md:grid-cols-2">
@@ -195,6 +228,23 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
                 </CardHeader>
                 <CardContent>
                     <div className="text-lg font-bold">{vessel.nextMaintenance}</div>
+                </CardContent>
+            </Card>
+             <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">AI Actions</CardTitle>
+                    <Bot className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                    <Button 
+                        size="sm" 
+                        onClick={handleGenerateVideo} 
+                        disabled={isGeneratingVideo || !isManagerOrAdmin || isUserLoading}
+                        className="w-full"
+                    >
+                        {isGeneratingVideo ? <Loader2 className="animate-spin" /> : <Video />}
+                        <span className="ml-2">Generate Video</span>
+                    </Button>
                 </CardContent>
             </Card>
         </div>
@@ -321,6 +371,15 @@ function VesselProfileSkeleton() {
                             <Skeleton className="h-7 w-24" />
                         </CardContent>
                     </Card>
+                     <Card>
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle className="text-sm font-medium">AI Actions</CardTitle>
+                            <Bot className="h-4 w-4 text-muted-foreground" />
+                        </CardHeader>
+                        <CardContent>
+                           <Skeleton className="h-9 w-full" />
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
 
@@ -361,3 +420,4 @@ function VesselProfileSkeleton() {
     );
 }
 
+    

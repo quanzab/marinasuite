@@ -1,3 +1,4 @@
+
 # Changelog
 
 ## [0.1.0] - 2024-07-30
@@ -333,3 +334,15 @@
 ### Changed
 - Updated the `Vessel` data model in `types.ts` to include a `maintenanceHistory` array.
 - Added `addMaintenanceRecord` function to `firestore.ts` to support logging new entries.
+
+## [3.5.0] - 2024-09-06
+### Added
+- **AI Vessel Video Generator**:
+  - Added a new creative AI tool to generate custom videos for vessels using the Veo model.
+  - Created a new Genkit flow (`generate-vessel-video-flow.ts`) for the video generation logic.
+  - Implemented a "Generate Video" button on the vessel profile page that triggers the AI and displays the video.
+- **Vessel Video Storage**: Added `videoUrl` field to the `Vessel` type and Firestore documents to store the generated video URLs.
+### Changed
+- Increased the Next.js server action timeout to accommodate longer video generation times.
+
+    

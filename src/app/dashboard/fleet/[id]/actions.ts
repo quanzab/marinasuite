@@ -1,6 +1,8 @@
+
 'use server';
 
 import { generateVesselImage } from '@/ai/flows/generate-vessel-image-flow';
+import { generateVesselVideo } from '@/ai/flows/generate-vessel-video-flow';
 import { getVesselById, updateVessel, addMaintenanceRecord } from '@/lib/firestore';
 import type { MaintenanceLogFormValues } from '@/lib/types';
 import { format } from 'date-fns';
@@ -32,6 +34,33 @@ export async function generateNewImageAction(vesselId: string) {
   }
 }
 
+export async function generateNewVideoAction(vesselId: string) {
+  try {
+    const vessel = await getVesselById(vesselId);
+    if (!vessel) {
+      throw new Error('Vessel not found');
+    }
+
+    const result = await generateVesselVideo({
+      vesselName: vessel.name,
+      vesselType: vessel.type,
+      imageUrl: vessel.imageUrl || undefined,
+    });
+    
+    if (result.videoDataUri) {
+        await updateVessel(vesselId, { videoUrl: result.videoDataUri });
+    }
+
+    revalidatePath(`/dashboard/fleet/${vesselId}`);
+
+    return { success: true, videoUrl: result.videoDataUri };
+  } catch (error) {
+    console.error('Error generating video:', error);
+    const message = error instanceof Error ? error.message : 'An unknown error occurred';
+    return { success: false, error: message };
+  }
+}
+
 
 export async function logMaintenanceAction(vesselId: string, data: MaintenanceLogFormValues) {
     try {
@@ -48,3 +77,5 @@ export async function logMaintenanceAction(vesselId: string, data: MaintenanceLo
         return { success: false, error: message };
     }
 }
+
+    

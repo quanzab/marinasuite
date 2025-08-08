@@ -1,3 +1,4 @@
+
 # MarinaSuite - To-Do List
 
 This document outlines the remaining tasks and future enhancements for the MarinaSuite application.
@@ -57,9 +58,6 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Creative AI Tools**:
     -   [x] AI-powered sea shanty generator with audio.
     -   [x] AI-powered vessel image generator.
+    -   [x] AI-powered vessel video generator.
 
     
-
-
-
-
