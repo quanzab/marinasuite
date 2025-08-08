@@ -329,3 +329,9 @@
 -   **Firestore**: Added sample data for routes to ensure the dashboard metric is functional on first load.
 -   **Types**: Added a `Route` type to `types.ts`.
 -   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.
+
+## [5.5.0] - 2024-09-25
+
+### Changed
+-   **UX**: Improved data consistency by converting the "Vessel Type" and "Crew Rank" free-text inputs into dropdowns with predefined options in their respective forms.
+-   **Documentation**: Finalized all project documentation (`BLUEPRINT.md`, `TODO.md`) to mark the application as feature-complete, stable, and ready for deployment.

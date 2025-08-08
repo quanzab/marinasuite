@@ -46,6 +46,8 @@ export function CrewForm({ crewMember, onSubmit, isSubmitting }: CrewFormProps) 
     },
   })
 
+  const ranks = ["Captain", "Chief Engineer", "First Mate", "Second Mate", "Third Mate", "Chief Officer", "Second Engineer", "Third Engineer", "Deck Cadet", "Engine Cadet", "Able Seaman", "Oiler"];
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -68,9 +70,16 @@ export function CrewForm({ crewMember, onSubmit, isSubmitting }: CrewFormProps) 
           render={({ field }) => (
             <FormItem>
               <FormLabel>Rank</FormLabel>
-              <FormControl>
-                <Input placeholder="Captain" {...field} />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a rank" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {ranks.map(rank => <SelectItem key={rank} value={rank}>{rank}</SelectItem>)}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

@@ -71,6 +71,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Add build configuration for Firebase Cloud Functions.
 -   [x] **Dynamic Routes Metric**:
     -   [x] Implement a `routes` collection in Firestore to make the "Open Routes" dashboard card fully dynamic.
+-   [x] **Data Consistency**:
+    -   [x] Converted free-text inputs for "Vessel Type" and "Crew Rank" to dropdowns to enforce consistency.
 
 ## Project Complete
 

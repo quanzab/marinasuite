@@ -54,6 +54,8 @@ export function VesselForm({ vessel, onSubmit, isSubmitting }: VesselFormProps) 
     },
   })
 
+  const vesselTypes = ["Container Ship", "Bulk Carrier", "Tanker", "LNG Carrier", "General Cargo", "Ro-Ro", "Passenger Ship"];
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -89,9 +91,16 @@ export function VesselForm({ vessel, onSubmit, isSubmitting }: VesselFormProps) 
           render={({ field }) => (
             <FormItem>
               <FormLabel>Type</FormLabel>
-              <FormControl>
-                <Input placeholder="Container Ship" {...field} />
-              </FormControl>
+               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a vessel type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {vesselTypes.map(type => <SelectItem key={type} value={type}>{type}</SelectItem>)}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
