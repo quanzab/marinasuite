@@ -29,7 +29,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Add a chart for vessel status distribution.
     -   [x] Add more detailed charts and graphs for operational insights (e.g., crew status).
 -   [x] **Advanced AI Features**:
-    -   [x] AI-powered crew allocation suggestions.
+    -   [x] AI-powered crew allocation suggestions (now with AI Tool Use).
     -   [x] AI-powered route optimization suggestions.
     -   [x] Predictive maintenance alerts for vessels.
     -   [x] AI-powered safety report analysis.

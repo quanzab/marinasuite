@@ -2,19 +2,18 @@
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
-import { Bot, Check, ChevronsUpDown, Loader2, User, Users } from "lucide-react";
+import { Bot, Check, Loader2, Users } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { getCrewSuggestion } from "./actions";
 import { useEffect, useState } from "react";
-import type { CrewMember, Vessel } from "@/lib/types";
-import { getCrew, getVessels } from "@/lib/firestore";
+import type { Vessel } from "@/lib/types";
+import { getVessels } from "@/lib/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
 
 function SubmitButton() {
@@ -39,7 +38,6 @@ function SubmitButton() {
 export default function CrewAllocationClient() {
   const initialState = { data: null, error: null, message: "" };
   const [state, formAction] = useFormState(getCrewSuggestion, initialState);
-  const [crew, setCrew] = useState<CrewMember[]>([]);
   const [vessels, setVessels] = useState<Vessel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -47,8 +45,7 @@ export default function CrewAllocationClient() {
     async function fetchData() {
       try {
         setIsLoading(true);
-        const [crewData, vesselData] = await Promise.all([getCrew(), getVessels()]);
-        setCrew(crewData);
+        const vesselData = await getVessels();
         setVessels(vesselData);
       } catch (error) {
         console.error("Failed to fetch data for AI form", error);
@@ -66,7 +63,7 @@ export default function CrewAllocationClient() {
         <CardHeader>
           <CardTitle>Allocation Parameters</CardTitle>
           <CardDescription>
-            Provide details about the route and select available crew.
+            Provide details for the AI to find and allocate the best crew.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -79,10 +76,6 @@ export default function CrewAllocationClient() {
                 <div className="grid gap-2">
                     <Skeleton className="h-4 w-16" />
                     <Skeleton className="h-10 w-full" />
-                </div>
-                 <div className="grid gap-2">
-                    <Skeleton className="h-4 w-24" />
-                    <Skeleton className="h-40 w-full" />
                 </div>
                 <Skeleton className="h-10 w-full" />
             </div>
@@ -102,19 +95,6 @@ export default function CrewAllocationClient() {
                   {vessels.map(v => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}
                 </SelectContent>
               </Select>
-            </div>
-             <div className="grid gap-2">
-              <Label>Available Crew</Label>
-              <div className="grid gap-2 rounded-md border p-2 max-h-60 overflow-y-auto">
-                 {crew.filter(c => c.status === 'Active').map((member) => (
-                    <div key={member.id} className="flex items-center space-x-2">
-                        <Checkbox id={member.id} name="crewMemberIds" value={member.id}/>
-                        <Label htmlFor={member.id} className="w-full font-normal">
-                            {member.name} <span className="text-muted-foreground">({member.rank})</span>
-                        </Label>
-                    </div>
-                ))}
-              </div>
             </div>
             <SubmitButton />
           </form>

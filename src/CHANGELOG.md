@@ -350,4 +350,11 @@
 - **Dashboard Analytics**:
     - The "Certificates Expiring" summary card is now dynamic, showing a live count of certificates that will expire within 30 days.
     - This provides a more accurate and actionable at-a-glance overview on the main dashboard.
+
+## [3.7.0] - 2024-09-08
+### Changed
+- **Enhanced Crew Allocation AI with Tool Use**:
+    - Refactored the Crew Allocation AI to use a Genkit Tool (`findAvailableCrew`) to autonomously fetch available crew members from Firestore.
+    - This removes the need for the user to manually select crew members, streamlining the UI and making the AI more agentic.
+    - Updated the Genkit flow, server action, and client component to support this more intelligent, tool-based approach.
     

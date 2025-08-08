@@ -12,7 +12,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Fleet Operations**: Vessel data management and maintenance scheduling.
 -   **Certificate Management**: Tracking and renewal reminders for certificates.
 -   **Role-Based Access Control (RBAC)**: Admin panel for managing user permissions.
--   **Crew Allocation AI**: Intelligent suggestions for crew allocation on routes.
+-   **Crew Allocation AI**: Intelligent suggestions for crew allocation on routes, using AI tools to find available crew.
 -   **Route Optimizer AI**: AI-powered suggestions for optimal shipping routes.
 -   **Predictive Maintenance AI**: AI-powered forecasts for vessel maintenance.
 -   **Safety Report Analysis AI**: AI-driven analysis of incident reports.
@@ -25,7 +25,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Framework**: Next.js (App Router)
 -   **Language**: TypeScript
 -   **UI**: React, ShadCN UI, Tailwind CSS
--   **AI**: Genkit
+-   **AI**: Genkit (with AI Tool Use)
 -   **Backend**: Firebase (Authentication, Firestore)
 -   **Styling**: Tailwind CSS with HSL variables for theming.
 -   **Deployment**: Firebase App Hosting

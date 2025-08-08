@@ -2,24 +2,37 @@
 
 /**
  * @fileOverview This file defines a Genkit flow for suggesting optimal crew allocations for a given route and vessel.
- *
+ * It uses a tool to find available crew members.
  * - suggestCrewAllocation - A function that handles the crew allocation suggestion process.
  * - SuggestCrewAllocationInput - The input type for the suggestCrewAllocation function.
  * - SuggestCrewAllocationOutput - The return type for the suggestCrewAllocation function.
  */
 
 import {ai} from '@/ai/genkit';
+import {getCrew} from '@/lib/firestore';
 import {z} from 'genkit';
+
+const findAvailableCrew = ai.defineTool(
+  {
+    name: 'findAvailableCrew',
+    description: 'Returns a list of all crew members who are currently active and unassigned to any vessel.',
+    inputSchema: z.object({}),
+    outputSchema: z.array(z.object({
+        name: z.string(),
+        rank: z.string(),
+        certifications: z.array(z.string()).optional(),
+    })),
+  },
+  async () => {
+    const allCrew = await getCrew();
+    return allCrew.filter(c => c.status === 'Active' && !c.assignedVessel);
+  }
+)
+
 
 const SuggestCrewAllocationInputSchema = z.object({
   route: z.string().describe('The route for which crew allocation is needed.'),
   vessel: z.string().describe('The vessel for which crew allocation is needed.'),
-  availableCrew: z
-    .array(z.string())
-    .describe('List of available crew members.'),
-  crewCertifications: z
-    .record(z.array(z.string()))
-    .describe('A record of crew member certifications'),
   vesselRequirements: z
     .array(z.string())
     .describe('List of certifications required for the vessel.'),
@@ -50,22 +63,19 @@ const prompt = ai.definePrompt({
   name: 'suggestCrewAllocationPrompt',
   input: {schema: SuggestCrewAllocationInputSchema},
   output: {schema: SuggestCrewAllocationOutputSchema},
+  tools: [findAvailableCrew],
   prompt: `You are an expert fleet manager specializing in optimizing crew allocation for vessels.
 
-  Given the following information about the route, vessel, available crew, and vessel requirements, suggest the optimal crew allocation.
+  Your first step is to call the \`findAvailableCrew\` tool to get a list of all available crew members and their certifications.
+
+  Then, using the provided information about the route, vessel, and vessel requirements, suggest the optimal crew allocation from the list of available crew you retrieved.
 
   Route: {{{route}}}
-Vessel: {{{vessel}}}
-Available Crew: {{#each availableCrew}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}
-Crew Certifications: {{#each crewCertifications}}{{{@key}}}: {{#each this}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}\n{{/each}}
-Vessel Requirements: {{#each vesselRequirements}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}
+  Vessel: {{{vessel}}}
+  Vessel Requirements: {{#each vesselRequirements}}{{{this}}}{{#unless @last}}, {{/unless}}{{/each}}
 
   Consider crew availability, certifications, and vessel requirements to make informed decisions and minimize operational costs. Provide a detailed reasoning for your suggested allocation.
-  Output should be formatted as JSON.
-  {
-    "suggestedCrew": ["crewMember1", "crewMember2"],
-    "reasoning": "Detailed explanation of the allocation decision."
-  }
+  Your final output should be formatted as JSON.
   `,
 });
 
