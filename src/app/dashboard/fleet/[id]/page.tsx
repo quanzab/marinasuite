@@ -35,7 +35,7 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   const [isGeneratingVideo, startVideoTransition] = useTransition();
   const [isLogMaintenanceOpen, setIsLogMaintenanceOpen] = useState(false);
   const [isSubmittingLog, setIsSubmittingLog] = useState(false);
-  const [videoUrl, setVideoUrl] = useState<string | null>(null);
+  const [generatedVideoUrl, setGeneratedVideoUrl] = useState<string | null>(null);
 
 
   const { toast } = useToast();
@@ -55,7 +55,6 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
       
       if (fetchedVessel) {
         setVessel(fetchedVessel);
-        setVideoUrl(fetchedVessel.videoUrl || null);
         const crewForVessel = allCrew.filter(c => c.assignedVessel === fetchedVessel.name);
         setAssignedCrew(crewForVessel);
       } else {
@@ -94,10 +93,11 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   const handleGenerateVideo = () => {
     if (!tenantId) return;
     startVideoTransition(async () => {
+        setGeneratedVideoUrl(null); // Clear previous video
         toast({ title: 'AI Video Generation', description: 'The AI is creating a new video. This can take up to a minute...' });
         const result = await generateNewVideoAction(tenantId, params.id);
         if (result.success && result.videoUrl) {
-            setVideoUrl(result.videoUrl);
+            setGeneratedVideoUrl(result.videoUrl);
             toast({ title: 'Success!', description: 'New vessel video has been generated.' });
         } else {
             toast({ variant: 'destructive', title: 'Error', description: result.error });
@@ -190,14 +190,14 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
              </CardHeader>
           </Card>
 
-            {videoUrl && (
+            {generatedVideoUrl && (
                 <Card>
                     <CardHeader>
                         <CardTitle>Generated Video</CardTitle>
                     </CardHeader>
                     <CardContent>
-                         <video key={videoUrl} controls className="w-full rounded-lg">
-                            <source src={videoUrl} type="video/mp4" />
+                         <video key={generatedVideoUrl} controls className="w-full rounded-lg">
+                            <source src={generatedVideoUrl} type="video/mp4" />
                             Your browser does not support the video tag.
                         </video>
                     </CardContent>

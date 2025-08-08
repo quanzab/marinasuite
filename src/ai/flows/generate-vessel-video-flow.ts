@@ -43,8 +43,10 @@ const generateVesselVideoFlow = ai.defineFlow(
     ];
 
     if (input.imageUrl) {
-        prompt.push({ media: { url: input.imageUrl, contentType: 'image/png' }});
-        prompt[0] = { text: `Make this image of a ${input.vesselType} named "${input.vesselName}" come to life. The vessel should be sailing on the open ocean.`}
+        prompt = [
+            { text: `Animate this image of the ${input.vesselType} named "${input.vesselName}". Make it sail on a bright, sunny day on the open ocean.`},
+            { media: { url: input.imageUrl, contentType: 'image/png' }}
+        ];
     }
 
 

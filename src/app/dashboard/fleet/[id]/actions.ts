@@ -48,9 +48,9 @@ export async function generateNewVideoAction(tenantId: string, vesselId: string)
       imageUrl: vessel.imageUrl || undefined,
     });
     
-    if (result.videoDataUri) {
-        await updateVessel(tenantId, vesselId, { videoUrl: result.videoDataUri });
-    }
+    // We don't save the video URL to the database in this demo,
+    // but in a real app you would update the vessel document here.
+    // await updateVessel(tenantId, vesselId, { videoUrl: result.videoDataUri });
 
     revalidatePath(`/dashboard/fleet/${vesselId}`);
 
