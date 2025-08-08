@@ -18,7 +18,7 @@ export function useCurrentUser() {
         // When auth state changes, force a token refresh to get latest custom claims.
         const idTokenResult = await firebaseUser.getIdTokenResult(true);
         const claims = idTokenResult.claims;
-        const userRole = claims.role || 'Viewer'; // Default to 'Viewer' if no role claim
+        const userRole = (claims.role as 'Admin' | 'Manager' | 'Viewer') || 'Viewer'; // Default to 'Viewer' if no role claim
 
         let foundUser: Omit<CurrentUser, 'role' | 'uid'> | null = null;
         try {
@@ -51,10 +51,10 @@ export function useCurrentUser() {
             });
         } else {
             // Fallback for demo environment if user not in Firestore
-            setUser({
+             setUser({
               uid: firebaseUser.uid,
               email: firebaseUser.email!,
-              name: firebaseUser.displayName || 'Admin User',
+              name: 'Admin User',
               role: userRole,
               tenant: 'Global Maritime', // Default tenant
               id: firebaseUser.uid, 

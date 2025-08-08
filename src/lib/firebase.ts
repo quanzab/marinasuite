@@ -1,7 +1,6 @@
 import { getApp, getApps, initializeApp, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth } from 'firebase/auth';
 import { getFirestore, type Firestore, enableIndexedDbPersistence } from 'firebase/firestore';
-import * as admin from 'firebase-admin';
 import { firebaseConfig } from './firebase-config';
 
 const app: FirebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
@@ -22,14 +21,4 @@ enableIndexedDbPersistence(db)
   });
 
 
-// This is a mock for client-side code, as admin SDK cannot be initialized in the browser.
-// In a real Cloud Functions environment, this would be initialized once.
-const initializeFirebaseAdmin = () => {
-  if (admin.apps.length === 0) {
-    console.log("Mock: Initializing Firebase Admin SDK");
-  }
-  return admin;
-};
-
-
-export { app, auth, db, initializeFirebaseAdmin };
+export { app, auth, db };

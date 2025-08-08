@@ -1,6 +1,6 @@
 
 
-import { db, initializeFirebaseAdmin } from './firebase';
+import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion } from 'firebase/firestore';
 import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
@@ -8,10 +8,6 @@ import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
 import type { UserFormValues } from '@/app/dashboard/admin/user-form';
 import { format } from 'date-fns';
-
-// This is a mock function to simulate server-side admin operations.
-// The actual logic would live in a Cloud Function.
-const admin = initializeFirebaseAdmin();
 
 // ====== CREW ======
 
