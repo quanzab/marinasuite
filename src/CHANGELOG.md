@@ -264,3 +264,9 @@
     -   Added `subscribeToRoutes`, `addRoute`, `updateRoute`, and `deleteRoute` to the Firestore service for real-time data management.
     -   Added a navigation link to the new page in the main layout.
 -   **Documentation**: Updated `BLUEPRINT.md` and `TODO.md` to reflect the new module.
+
+## [5.8.0] - 2024-09-16
+
+### Changed
+-   **Code Quality**: Final refinement of the `Card` component by setting the default `CardTitle` font size to `text-base` for better reusability and consistency.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
