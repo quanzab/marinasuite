@@ -9,6 +9,7 @@ import {
   Bot,
   PanelLeft,
   Search,
+  Gift,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -37,9 +38,11 @@ import {
   AdminIcon,
   AiIcon,
   Logo,
+  WhatsNewIcon,
 } from '@/components/icons';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 
 export default function DashboardLayout({
   children,
@@ -82,15 +85,21 @@ export default function DashboardLayout({
           <div className="mt-auto p-4">
             <Card>
               <CardHeader className="p-2 pt-0 md:p-4">
-                <CardTitle>Need Help?</CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle>What's New</CardTitle>
+                  <Badge variant="secondary">v0.2.0</Badge>
+                </div>
                 <CardDescription>
-                  Contact support for assistance with any issues.
+                  Check out the latest features and updates.
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                <Button size="sm" className="w-full">
-                  Contact Support
-                </Button>
+                <Link href="/CHANGELOG.md" target="_blank">
+                  <Button size="sm" className="w-full">
+                    <WhatsNewIcon className="mr-2" />
+                    View Changelog
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>

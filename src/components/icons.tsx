@@ -117,3 +117,13 @@ export const AiIcon = (props: SVGProps<SVGSVGElement>) => (
     </g>
   </IconWrapper>
 );
+
+export const WhatsNewIcon = (props: SVGProps<SVGSVGElement>) => (
+  <IconWrapper {...props}>
+    <g fill="url(#glass-gradient)">
+      <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.32 0L12 2.69z" />
+      <path d="M12 17.31V12" />
+      <path d="M12 8.69h.01" />
+    </g>
+  </IconWrapper>
+);
