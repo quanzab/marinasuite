@@ -259,3 +259,18 @@
 
 -   Updated `firestore.ts` to save `imageUrl` and `videoUrl` to vessel documents.
 -   Increased server action timeout in `next.config.ts` to accommodate slow video generation.
+   
+## [2.5.0] - 2024-08-23
+
+### Fixed
+
+-   **Critical Authentication Fix**: Resolved a persistent login failure caused by an invalid Firebase configuration. Replaced the hardcoded config with a valid one fetched directly from the backend, ensuring a reliable connection to Firebase services.
+
+## [2.6.0] - 2024-08-24
+
+### Changed
+
+-   **Advanced Scheduling UI**:
+    -   Replaced the dropdown-based crew assignment with a full drag-and-drop interface on the Scheduling page.
+    -   Users can now visually drag unassigned crew members and drop them onto vessel cards to make assignments.
+    -   This provides a more intuitive and efficient workflow for managing crew schedules.

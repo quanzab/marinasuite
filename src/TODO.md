@@ -9,7 +9,6 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement full CRUD functionality (Create, Read, Update, Delete) for crew members.
     -   [x] Connect the UI to a Firestore database.
     -   [x] Add profile pages with details for certifications and medical records.
-    -   [x] Implement crew scheduling UI (view assigned and unassigned crew).
 -   [x] **Fleet Operations**:
     -   [x] Implement CRUD functionality for vessels.
     -   [x] Connect the UI to a Firestore database.
@@ -45,7 +44,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Create a tenant selection screen after login.
 -   [x] **Advanced Scheduling**:
     -   [x] Implement direct crew assignment from the scheduling page.
-    -   [ ] Implement drag-and-drop functionality for crew assignments on the calendar.
+    -   [x] Implement drag-and-drop functionality for crew assignments.
+    -   [ ] Implement a full weekly calendar view for assignments.
 -   [x] **Advanced Certificate Management**:
     -   [x] Add a streamlined "Renew Certificate" workflow.
     -   [x] Add automated reminders for certificate renewals. (In Progress via Notifications)
