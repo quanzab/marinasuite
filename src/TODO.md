@@ -34,6 +34,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] AI-powered crew allocation suggestions.
     -   [x] AI-powered route optimization suggestions.
     -   [x] Predictive maintenance alerts for vessels.
+    -   [x] AI-powered safety report analysis.
 
 
 ## Future Enhancements

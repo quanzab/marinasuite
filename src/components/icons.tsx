@@ -136,6 +136,16 @@ export const MaintenanceIcon = (props: SVGProps<SVGSVGElement>) => (
     </IconWrapper>
 );
 
+export const SafetyIcon = (props: SVGProps<SVGSVGElement>) => (
+    <IconWrapper {...props}>
+        <g fill="url(#glass-gradient)">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <path d="m9.5 14.5 5-5"></path>
+            <path d="m14.5 14.5-5-5"></path>
+        </g>
+    </IconWrapper>
+);
+
 
 export const WhatsNewIcon = (props: SVGProps<SVGSVGElement>) => (
   <IconWrapper {...props}>

@@ -36,6 +36,7 @@ import {
   WhatsNewIcon,
   RouteIcon,
   MaintenanceIcon,
+  SafetyIcon,
 } from '@/components/icons';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -54,6 +55,7 @@ export default function DashboardLayout({
     { href: '/dashboard/crew-ai', label: 'Crew AI', icon: AiIcon },
     { href: '/dashboard/route-ai', label: 'Route AI', icon: RouteIcon },
     { href: '/dashboard/maintenance-ai', label: 'Maintenance AI', icon: MaintenanceIcon },
+    { href: '/dashboard/safety-ai', label: 'Safety AI', icon: SafetyIcon },
     { href: '/dashboard/admin', label: 'Admin', icon: AdminIcon },
   ];
 
@@ -86,7 +88,7 @@ export default function DashboardLayout({
               <CardHeader className="p-2 pt-0 md:p-4">
                 <div className="flex items-center justify-between">
                   <CardTitle>What's New</CardTitle>
-                  <Badge variant="secondary">v1.2.0</Badge>
+                  <Badge variant="secondary">v1.3.0</Badge>
                 </div>
                 <CardDescription>
                   Check out the latest features and updates.

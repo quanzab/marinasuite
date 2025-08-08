@@ -149,3 +149,12 @@
     -   New "Maintenance AI" page for generating predictive maintenance forecasts for vessels.
     -   Genkit flow (`predictive-maintenance-flow.ts`) to analyze vessel data and suggest proactive maintenance.
     -   New `MaintenanceIcon` for navigation.
+
+## [1.3.0] - 2024-08-11
+
+### Added
+
+-   **Safety Report Analysis AI**:
+    -   New "Safety AI" page for analyzing incident reports.
+    -   Genkit flow (`analyze-safety-report-flow.ts`) to identify risks and suggest corrective actions.
+    -   New `SafetyIcon` for navigation.
