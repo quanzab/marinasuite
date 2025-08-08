@@ -158,3 +158,11 @@
     -   New "Safety AI" page for analyzing incident reports.
     -   Genkit flow (`analyze-safety-report-flow.ts`) to identify risks and suggest corrective actions.
     -   New `SafetyIcon` for navigation.
+
+## [1.4.0] - 2024-08-12
+
+### Added
+
+-   **Offline Data Caching**:
+    -   Enabled Firestore's offline persistence in `firebase.ts`.
+    -   The application now caches data locally, allowing users to view and modify data even when offline. Changes are synced automatically upon reconnection.
