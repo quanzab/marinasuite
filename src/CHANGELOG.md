@@ -394,3 +394,9 @@
 ### Changed
 -   **Performance**: Optimized data fetching on the main dashboard by using `Promise.all` to fetch initial data in parallel, reducing the "waterfall" effect of network requests and improving load times.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.6.3] - 2024-10-13
+
+### Changed
+-   **Reliability**: Hardened the `addUser` Firestore function by ensuring the entire `userData` object is passed to Firestore, making it more resilient to future data model changes.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
