@@ -388,3 +388,9 @@
 ### Added
 -   **New Firestore Functions**: Added `getAssignedCrewForVessel` and `getInventoryForVessel` to `firestore.ts` to support the performance optimization.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.6.2] - 2024-10-12
+
+### Changed
+-   **Performance**: Optimized data fetching on the main dashboard by using `Promise.all` to fetch initial data in parallel, reducing the "waterfall" effect of network requests and improving load times.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.

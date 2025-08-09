@@ -49,7 +49,11 @@ export default function Dashboard() {
 
   const fetchData = useCallback(async (tenantId: string) => {
     setIsLoading(true);
+    let unsubscribeCrew = () => {};
+    let unsubscribeVessels = () => {};
+    
     try {
+      // Fetch one-time data in parallel
       const [certNotifications, routeData] = await Promise.all([
           getCertificateNotifications(tenantId),
           getRoutes(tenantId)
@@ -57,13 +61,10 @@ export default function Dashboard() {
       setExpiringCertificates(certNotifications);
       setRoutes(routeData);
 
-      const unsubCrew = await subscribeToCrew(tenantId, setCrew);
-      const unsubVessels = await subscribeToVessels(tenantId, setVessels);
+      // Set up real-time subscriptions
+      unsubscribeCrew = await subscribeToCrew(tenantId, setCrew, (err) => { throw err; });
+      unsubscribeVessels = await subscribeToVessels(tenantId, setVessels, (err) => { throw err; });
 
-      return () => {
-        unsubCrew();
-        unsubVessels();
-      };
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
        toast({
@@ -71,17 +72,22 @@ export default function Dashboard() {
         title: "Error",
         description: "Failed to fetch dashboard data.",
       });
-      return () => {};
     } finally {
       setIsLoading(false);
     }
+    
+    // Return a function that unsubscribes from all listeners
+    return () => {
+        unsubscribeCrew();
+        unsubscribeVessels();
+    };
   }, [toast]);
 
   useEffect(() => {
     if (tenantId) {
       const unsubscribePromise = fetchData(tenantId);
       return () => {
-        unsubscribePromise.then(unsub => unsub());
+        unsubscribePromise.then(unsub => unsub && unsub());
       };
     }
   }, [tenantId, fetchData]);
