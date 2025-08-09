@@ -77,6 +77,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Streamlined the "Invite User" workflow by making the name field optional.
 -   [x] **Project Configuration**:
     -   [x] Removed redundant `package.json` from `src` directory.
+    -   [x] Consolidated and removed duplicate documentation files.
     -   [x] Corrected project name from `nextn` to `marinasuite`.
 
 ## Project Complete
