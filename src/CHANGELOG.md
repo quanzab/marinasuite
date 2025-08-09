@@ -311,3 +311,9 @@
 ### Changed
 -   **UX Hardening**: Made the `email` field read-only when editing an existing user in the Admin panel to prevent accidental changes to a user's login credential.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.0.9] - 2024-09-27
+
+### Changed
+-   **UX Refinement**: Streamlined the "Invite User" workflow by making the `name` field optional. This simplifies the process for administrators and allows new users to set their own name upon their first login via the Settings page.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
