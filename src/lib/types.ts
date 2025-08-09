@@ -46,7 +46,7 @@ export type CertificateWithStatus = Certificate & {
 
 export type User = {
   id: string;
-  name?: string;
+  name: string;
   email: string;
   role: 'Admin' | 'Manager' | 'Viewer';
   tenant: string;
@@ -109,7 +109,7 @@ export type MaintenanceLogFormValues = z.infer<typeof maintenanceLogFormSchema>;
 
 
 export const userFormSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters." }).optional(),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   role: z.enum(["Admin", "Manager", "Viewer"]),
   tenant: z.string().min(2, { message: "Tenant is required." }),
