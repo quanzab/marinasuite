@@ -95,7 +95,9 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **UX Hardening**:
     -   [x] Hardened the "Edit User" workflow by making the email field read-only.
     -   [x] Hardened the route creation form by filtering the vessel dropdown to only show 'In Service' vessels.
+-   [x] **Reliability**:
     -   [x] Improved the reliability of the `addUser` function in the Firestore service.
+    -   [x] Hardened the `addCrewMember` function in the Firestore service to improve data integrity.
 -   [x] **UX Refinement**:
     -   [x] Streamlined the "Invite User" workflow by making the `name` field optional.
 -   [x] **Bug Fix**:

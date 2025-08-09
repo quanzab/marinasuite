@@ -187,8 +187,8 @@ export const addCrewMember = async (tenantId: string, crewData: CrewFormValues) 
         rank,
         status,
         assignedVessel: null,
-        certifications: ['Basic Safety Training', 'Advanced Fire Fighting'],
-        medicalRecords: "Fit for duty. Last check-up: 2023-10-15."
+        certifications: [],
+        medicalRecords: ""
     });
 };
 

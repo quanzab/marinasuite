@@ -398,5 +398,5 @@
 ## [7.6.3] - 2024-10-13
 
 ### Changed
--   **Reliability**: Hardened the `addUser` Firestore function by ensuring the entire `userData` object is passed to Firestore, making it more resilient to future data model changes.
+-   **Reliability**: Hardened the `addCrewMember` function in the Firestore service to create new crew members with empty certification and medical records, improving data integrity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
