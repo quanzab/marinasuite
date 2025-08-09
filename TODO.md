@@ -80,6 +80,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Upgraded the Crew Allocation AI tool to pre-filter by required certifications for more accurate results.
 -   [x] **Code Cleanup**:
     -   [x] Removed unused development files (`src/ai/dev.ts`).
+-   [x] **UI Refinement**:
+    -   [x] Updated the default `CardTitle` component size for better visual consistency.
 
 ## Project Complete
 

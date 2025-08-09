@@ -299,3 +299,9 @@
 ### Changed
 -   **AI Enhancement**: Upgraded the Crew Allocation AI tool to pre-filter by required certifications for more accurate results.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.0.3] - 2024-09-24
+
+### Changed
+-   **UI Refinement**: Updated the default `CardTitle` component size to `text-lg` for better visual hierarchy and consistency across the application.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
