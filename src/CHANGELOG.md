@@ -274,6 +274,11 @@
 ### Changed
 -   **AI Enhancement**: Upgraded the Crew Allocation AI tool to pre-filter by required certifications. The `findAvailableCrew` tool now accepts a list of required certifications, providing the model with a more relevant list of candidates for more accurate and efficient suggestions.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+## [7.1.6] - 2024-10-01
+
+### Changed
+-   **Performance**: Optimized data fetching on the vessel profile page by using `Promise.all` to concurrently load vessel details, assigned crew, and on-board inventory, reducing page load times.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
 ## [7.1.8] - 2024-10-02
 
 ### Changed
@@ -298,3 +303,4 @@
 ### Added
 -   **Scheduling Validation**: Implemented a validation check on the Scheduling page. The system now prevents the assignment of a crew member to a vessel if they do not possess the required certifications, improving compliance and data integrity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+

@@ -372,6 +372,15 @@ export const deleteUser = async (id: string, tenantId: string) => {
 
 // ====== INVENTORY ======
 
+// READ (all)
+export const getInventory = async (tenantId: string): Promise<InventoryItem[]> => {
+  if (!tenantId) return [];
+  const inventoryCollectionRef = collection(db, 'orgs', tenantId, 'inventory');
+  const snapshot = await getDocs(inventoryCollectionRef);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as InventoryItem));
+};
+
+
 // CREATE
 export const addInventoryItem = async (tenantId: string, itemData: InventoryFormValues) => {
     if (!tenantId) throw new Error("Tenant ID is required.");

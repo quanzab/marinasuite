@@ -5,7 +5,7 @@ import { useEffect, useState, useTransition, useCallback } from 'react';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { getVesselById, getCrew, subscribeToInventory } from '@/lib/firestore';
+import { getVesselById, getCrew, getInventory } from '@/lib/firestore';
 import type { Vessel, CrewMember, MaintenanceLogFormValues, InventoryItem } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Ship, Tag, Wrench, Calendar, Users, Wand2, Loader2, User, PlusCircle, Video, Bot } from 'lucide-react';
@@ -52,15 +52,23 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
     setIsLoading(true);
     setError(null);
     try {
-      const [fetchedVessel, allCrew] = await Promise.all([
+      // Fetch vessel, all crew, and all inventory concurrently
+      const [fetchedVessel, allCrew, allInventory] = await Promise.all([
         getVesselById(tenantId, params.id),
-        getCrew(tenantId)
+        getCrew(tenantId),
+        getInventory(tenantId),
       ]);
       
       if (fetchedVessel) {
         setVessel(fetchedVessel);
+        
+        // Filter crew and inventory for the specific vessel
         const crewForVessel = allCrew.filter(c => c.assignedVessel === fetchedVessel.name);
         setAssignedCrew(crewForVessel);
+
+        const inventoryForVessel = allInventory.filter(item => item.location === fetchedVessel.name);
+        setInventory(inventoryForVessel);
+
       } else {
         setError('Vessel not found.');
       }
@@ -76,20 +84,8 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   useEffect(() => {
     if (tenantId) {
       fetchData();
-      
-      const unsubscribe = subscribeToInventory(tenantId, (inventoryData) => {
-        setInventory(inventoryData);
-      }, (err) => {
-        console.error("Failed to subscribe to inventory:", err);
-      });
-
-      return () => {
-        unsubscribe.then(unsub => unsub());
-      }
     }
   }, [tenantId, fetchData]);
-  
-  const vesselInventory = inventory.filter(item => item.location === vessel?.name);
 
 
   const handleGenerateImage = () => {
@@ -354,9 +350,9 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
                 <CardDescription>Supplies and parts assigned to this vessel.</CardDescription>
             </CardHeader>
             <CardContent>
-                {vesselInventory.length > 0 ? (
+                {inventory.length > 0 ? (
                   <div className="space-y-3">
-                    {vesselInventory.map(item => (
+                    {inventory.map(item => (
                       <div key={item.id} className="flex items-center justify-between gap-3 p-2 rounded hover:bg-muted">
                         <div>
                           <p className="text-sm font-medium">{item.name}</p>
@@ -476,3 +472,4 @@ function VesselProfileSkeleton() {
         </div>
     );
 }
+
