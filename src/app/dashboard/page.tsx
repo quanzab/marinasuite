@@ -78,8 +78,8 @@ export default function Dashboard() {
     
     // Return a function that unsubscribes from all listeners
     return () => {
-        unsubscribeCrew();
-        unsubscribeVessels();
+        if(typeof unsubscribeCrew === 'function') unsubscribeCrew();
+        if(typeof unsubscribeVessels === 'function') unsubscribeVessels();
     };
   }, [toast]);
 
