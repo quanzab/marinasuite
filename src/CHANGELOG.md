@@ -361,3 +361,10 @@
 -   **Dependencies**: Added `papaparse` to `package.json` to handle CSV generation.
 -   **Configuration**: Synchronized `package.json` version to `7.4.7` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.4.8] - 2024-10-09
+
+### Changed
+-   **UX Refinement**: Streamlined the "Invite User" workflow by making the `name` field optional. This simplifies the process for administrators and allows new users to set their own name upon their first login via the Settings page.
+-   **Configuration**: Synchronized `package.json` version to `7.4.8` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to mark the project as complete, stable, and ready for deployment.
