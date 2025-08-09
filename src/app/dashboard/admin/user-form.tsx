@@ -57,7 +57,7 @@ export function UserForm({ user, onSubmit, isSubmitting, isAdmin }: UserFormProp
             <FormItem>
               <FormLabel>Full Name</FormLabel>
               <FormControl>
-                <Input placeholder="John Doe" {...field} disabled={!!user} />
+                <Input placeholder="John Doe" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
