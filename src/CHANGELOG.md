@@ -305,3 +305,9 @@
 ### Changed
 -   **Configuration**: Removed redundant documentation files (`BLUEPRINT.md`, `CHANGELOG.md`, `TODO.md`) from the root directory to create a single source of truth within the `src` folder. This ensures the project structure is clean and maintainable.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.3] - 2024-09-25
+
+### Changed
+-   **UI Refinement**: Updated the default `CardTitle` component size to `text-lg` for better visual hierarchy and consistency across the application.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
