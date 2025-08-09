@@ -406,3 +406,12 @@
 ### Changed
 -   **Reliability**: Refactored the `updateRoute` function in the Firestore service to improve data consistency and reliability when logging new voyage events.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.6.5] - 2024-10-15
+
+### Added
+-   **Password Reset**: Added a "Forgot your password?" flow to the login page. Users can now enter their email address in a dialog to receive a password reset link from Firebase Authentication.
+
+### Changed
+-   **Configuration**: Synchronized `package.json` version to `7.6.5` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.

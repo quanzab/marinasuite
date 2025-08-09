@@ -34,6 +34,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] AI-powered safety report analysis.
 -   [x] **Authentication & Onboarding**:
     -   [x] Re-implement Firebase Authentication for secure user login.
+    -   [x] Add a "Forgot Password" flow to the login page.
 -   [x] **Reporting**:
     -   [x] Add functionality to generate and export reports (e.g., crew lists, vessel status, certificate status).
 
