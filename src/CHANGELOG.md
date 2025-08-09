@@ -316,7 +316,7 @@
 -   **Configuration**: Synchronized `package.json` version to `7.3.4` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
 
-## [7.3.5] - 2024-10-03
+## [7.3.5] - 2024-10-04
 
 ### Fixed
 -   **Bug Fix**: Fixed a critical typo in the `addUser` Firestore function that prevented new users from being created (`name` was being passed instead of `userData`).
