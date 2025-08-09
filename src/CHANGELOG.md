@@ -303,7 +303,7 @@
 ## [7.3.2] - 2024-10-01
 
 ### Changed
--   **Project Configuration**: Removed the redundant `package-lock.json` file from the Cloud Functions directory to simplify the project structure and establish a single source of truth for dependencies.
+-   **Project Configuration**: Removed the redundant `package.json` file from the Cloud Functions directory to simplify the project structure and establish a single source of truth for dependencies.
 -   **Configuration**: Synchronized `package.json` version to `7.3.2` to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
 ## [7.3.4] - 2024-10-02
@@ -325,37 +325,3 @@
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `7.3.5` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
-
-## [7.3.6] - 2024-10-04
-
-### Added
--   **On-board Inventory Display**: The vessel profile page now includes a card that displays a real-time list of all inventory items assigned to that specific vessel.
--   **New Icon**: Added a `BoxIcon` for use in the new inventory card header.
-
-### Changed
--   **Performance**: Optimized data fetching on the vessel profile page by using `Promise.all` to fetch vessel, crew, and inventory data concurrently.
--   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
-
-## [7.3.7] - 2024-10-05
-
-### Added
--   **Reporting Enhancement**: Added an "Export to CSV" button to all reports on the Reporting page (Crew Manifest, Vessel Status, Certificate Status) to allow for easy data downloads.
--   **New Dependency**: Added `papaparse` for client-side CSV generation.
-
-### Changed
--   **Configuration**: Synchronized `package.json` version to `7.3.7` to match the latest changelog entry.
--   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
-
-## [7.3.8] - 2024-10-06
-
-### Changed
--   **AI Enhancement**: Upgraded the AI Video Generation feature to use the `veo-3.0-generate-preview` model, which offers improved video quality and includes ambient sound generation.
--   **Configuration**: Synchronized `package.json` version to `7.3.8` to match the latest changelog entry.
--   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
-
-## [7.3.9] - 2024-10-07
-
-### Changed
--   **Data Consistency**: Converted the "Role" input in the user management form to a dropdown menu to enforce data consistency and prevent invalid role assignments.
--   **Configuration**: Synchronized `package.json` version to `7.3.9` to match the latest changelog entry.
--   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
