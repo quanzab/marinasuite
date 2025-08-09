@@ -274,3 +274,9 @@
 ### Changed
 -   **Configuration**: Removed the redundant `package.json` file from the `src` directory to improve project maintainability and create a single source of truth for dependencies.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [6.9.0] - 2024-09-20
+
+### Changed
+-   **UI Refinement**: Updated the default `CardTitle` component size to `text-lg` for better visual hierarchy and consistency across the application.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
