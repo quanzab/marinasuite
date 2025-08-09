@@ -134,6 +134,21 @@ export default function ScheduleClient() {
   const unassignedCrew = useMemo(() => crew.filter(c => c.status === 'Active' && !c.assignedVessel), [crew]);
   const unassignedCrewIds = useMemo(() => unassignedCrew.map(c => c.id), [unassignedCrew]);
 
+  const checkCertifications = (crewMember: CrewMember, vessel: Vessel): { qualified: boolean; missingCerts: string[] } => {
+    const requiredCerts = vessel.requiredCerts || [];
+    if (requiredCerts.length === 0) {
+      return { qualified: true, missingCerts: [] };
+    }
+
+    const crewCerts = crewMember.certifications || [];
+    const missingCerts = requiredCerts.filter(reqCert => !crewCerts.includes(reqCert));
+
+    return {
+      qualified: missingCerts.length === 0,
+      missingCerts,
+    };
+  };
+
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
@@ -147,6 +162,17 @@ export default function ScheduleClient() {
     const targetVessel = vessels.find(v => v.id === targetVesselId);
 
     if (crewMember && targetVessel && crewMember.assignedVessel !== targetVessel.name) {
+        const { qualified, missingCerts } = checkCertifications(crewMember, targetVessel);
+
+        if (!qualified) {
+            toast({
+                variant: 'destructive',
+                title: 'Assignment Failed',
+                description: `${crewMember.name} is missing required certifications: ${missingCerts.join(', ')}.`,
+            });
+            return;
+        }
+
        try {
             // Optimistic update
             setCrew(prevCrew => prevCrew.map(c => c.id === crewMemberId ? { ...c, assignedVessel: targetVessel.name } : c));
@@ -177,6 +203,24 @@ export default function ScheduleClient() {
   const handleAssignSubmit = async (data: AssignCrewFormValues) => {
       if (!selectedCrewMember || !tenantId || !data.vesselName) return;
       
+      const targetVessel = vessels.find(v => v.name === data.vesselName);
+
+      if (!targetVessel) {
+          toast({ variant: 'destructive', title: 'Error', description: 'Selected vessel not found.' });
+          return;
+      }
+      
+      const { qualified, missingCerts } = checkCertifications(selectedCrewMember, targetVessel);
+      if (!qualified) {
+          toast({
+              variant: 'destructive',
+              title: 'Assignment Failed',
+              description: `${selectedCrewMember.name} is missing required certifications: ${missingCerts.join(', ')}.`,
+              duration: 5000,
+          });
+          return;
+      }
+
       setIsSubmitting(true);
       try {
           await updateCrewMember(tenantId, selectedCrewMember.id, { assignedVessel: data.vesselName });

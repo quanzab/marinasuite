@@ -44,6 +44,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Advanced Scheduling**:
     -   [x] Implement direct crew assignment from the scheduling page.
     -   [x] Implement drag-and-drop functionality for crew assignments.
+    -   [x] Add validation to prevent assigning unqualified crew to vessels.
 -   [x] **Advanced Certificate Management**:
     -   [x] Add a streamlined "Renew Certificate" workflow.
     -   [x] Add automated reminders for certificate renewals.

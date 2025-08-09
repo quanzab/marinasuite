@@ -292,3 +292,9 @@
 ### Added
 -   **Route Management**: Enhanced the Route Management module with Voyage Event Logging. Users can now add timestamped events to a route's log, providing real-time visibility into voyage progress.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.3.0] - 2024-10-05
+
+### Added
+-   **Scheduling Validation**: Implemented a validation check on the Scheduling page. The system now prevents the assignment of a crew member to a vessel if they do not possess the required certifications, improving compliance and data integrity.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
