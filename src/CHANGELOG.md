@@ -409,11 +409,11 @@
 
 ## [7.6.5] - 2024-10-15
 
+### Fixed
+-   **Bug Fix**: Corrected a critical bug in the user update logic (`updateUser` in `admin/page.tsx`) that was causing a persistent "unexpected error" during login by ensuring the correct arguments were passed.
+
 ### Added
 -   **Authentication**: Added a "Forgot Password" flow to the login page, allowing users to reset their password via an email link.
-
-### Fixed
--   **Bug Fix**: Corrected a critical bug that was causing an "unexpected error" during login by ensuring the Firebase Authentication service is correctly handled.
 
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `7.6.5` to match the latest changelog entry.
