@@ -329,3 +329,9 @@
 ### Changed
 -   **Configuration**: Removed the redundant `package.json` file from the `src` directory to improve project maintainability and create a single source of truth for dependencies.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.0.12] - 2024-09-30
+
+### Changed
+-   **Code Quality**: Refactored user profile validation logic by removing the redundant `updateUserFormSchema` from the settings page and importing the main `userFormSchema` from `types.ts`. This ensures a single source of truth for validation rules and improves code maintainability.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
