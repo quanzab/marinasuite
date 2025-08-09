@@ -75,6 +75,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **User Experience**:
     -   [x] Streamlined the "Invite User" workflow by making the name field optional.
     -   [x] Hardened the "Invite User" workflow by making the name field required.
+    -   [x] Hardened the "Edit User" workflow by making the email field read-only.
 -   [x] **Project Configuration**:
     -   [x] Removed redundant `package.json` from the `src` directory.
 -   [x] **UI Refinement**:

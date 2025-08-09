@@ -299,3 +299,15 @@
 ### Changed
 -   **UI Refinement**: Updated the default `CardTitle` component size to `text-2xl` for better visual hierarchy and consistency across the application.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.0.7] - 2024-09-25
+
+### Changed
+-   **Code Quality**: Refactored user profile validation logic by removing the redundant `updateUserFormSchema` from the settings page and importing the main `userFormSchema` from `types.ts`. This ensures a single source of truth for validation rules and improves code maintainability.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.0.8] - 2024-09-26
+
+### Changed
+-   **UX Hardening**: Made the `email` field read-only when editing an existing user in the Admin panel to prevent accidental changes to a user's login credential.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
