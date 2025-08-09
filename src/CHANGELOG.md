@@ -337,3 +337,10 @@
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `7.4.0` to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to mark the project as complete, stable, and ready for deployment.
+
+## [7.4.1] - 2024-10-06
+
+### Changed
+-   **AI Enhancement**: Upgraded the AI Shanty Generator's Text-to-Speech flow to use specific, thematic voices (`Calypso` and `Triton`) for a more characterful and engaging audio output.
+-   **Configuration**: Synchronized `package.json` version to `7.4.1` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
