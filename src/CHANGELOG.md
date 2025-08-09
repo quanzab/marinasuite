@@ -299,3 +299,10 @@
 ### Changed
 -   **UI Refinement**: Updated the default `CardTitle` component size to `text-lg` for better visual consistency across the application.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.3.3] - 2024-09-30
+
+### Changed
+-   **Data Consistency**: Converted the "Role" input in the user management form to a dropdown menu (`Select`) to enforce data consistency and prevent non-standard role entries.
+-   **Configuration**: Synchronized `package.json` version to `7.3.3` to match the latest changelog entry and reflect project maturity.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
