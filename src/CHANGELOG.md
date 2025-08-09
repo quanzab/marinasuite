@@ -311,3 +311,9 @@
 ### Changed
 -   **UI Refinement**: Updated the default `CardTitle` component size to `text-lg` for better visual hierarchy and consistency across the application.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.4] - 2024-09-26
+
+### Changed
+-   **Performance**: Optimized the data fetching logic on the vessel profile page by using `Promise.all` to load vessel details and crew data concurrently, resulting in a faster and more responsive user experience.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.

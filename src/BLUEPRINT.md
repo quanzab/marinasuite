@@ -25,6 +25,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Reporting**: Generation and printing of key operational reports.
 -   **User Settings**: A dedicated page for users to manage their own profile information.
 -   **Notifications**: Automated, persistent alerts for expiring certificates, driven by a scheduled Cloud Function.
+-   **Performance**: Optimized data fetching logic to ensure a responsive and efficient user experience.
 
 ## 3. Tech Stack
 

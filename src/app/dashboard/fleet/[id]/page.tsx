@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState, useTransition, useCallback } from 'react';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -46,17 +46,19 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
   const { tenantId } = useTenant();
 
 
-  const fetchData = async () => {
-    if (!tenantId) return;
+  const fetchData = useCallback(async () => {
+    if (!params.id || !tenantId) return;
+
     setIsLoading(true);
+    setError(null);
     try {
-      const fetchedVessel = await getVesselById(tenantId, params.id);
+      const [fetchedVessel, allCrew] = await Promise.all([
+        getVesselById(tenantId, params.id),
+        getCrew(tenantId)
+      ]);
       
       if (fetchedVessel) {
         setVessel(fetchedVessel);
-        const [allCrew] = await Promise.all([
-          getCrew(tenantId)
-        ]);
         const crewForVessel = allCrew.filter(c => c.assignedVessel === fetchedVessel.name);
         setAssignedCrew(crewForVessel);
       } else {
@@ -68,11 +70,11 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [params.id, tenantId]);
 
 
   useEffect(() => {
-    if (params.id && tenantId) {
+    if (tenantId) {
       fetchData();
       
       const unsubscribe = subscribeToInventory(tenantId, (inventoryData) => {
@@ -85,8 +87,7 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
         unsubscribe.then(unsub => unsub());
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.id, tenantId]);
+  }, [tenantId, fetchData]);
   
   const vesselInventory = inventory.filter(item => item.location === vessel?.name);
 
@@ -475,5 +476,3 @@ function VesselProfileSkeleton() {
         </div>
     );
 }
-
-    
