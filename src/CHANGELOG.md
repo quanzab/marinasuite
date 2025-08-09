@@ -325,3 +325,13 @@
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `7.3.5` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.3.6] - 2024-10-04
+
+### Added
+-   **On-board Inventory Display**: The vessel profile page now includes a card that displays a real-time list of all inventory items assigned to that specific vessel.
+-   **New Icon**: Added a `BoxIcon` for use in the new inventory card header.
+
+### Changed
+-   **Performance**: Optimized data fetching on the vessel profile page by using `Promise.all` to fetch vessel, crew, and inventory data concurrently.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
