@@ -12,18 +12,18 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { updateUserProfile } from "@/lib/firestore";
+import { userFormSchema } from "@/lib/types";
 
-export const updateUserFormSchema = z.object({
-    name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-});
-export type UpdateUserFormValues = z.infer<typeof updateUserFormSchema>;
+// Use the main user schema and pick only the fields needed for this form
+const settingsFormSchema = userFormSchema.pick({ name: true });
+export type UpdateUserFormValues = z.infer<typeof settingsFormSchema>;
 
 export default function SettingsPage() {
     const { user, isLoading: isUserLoading } = useCurrentUser();
     const { toast } = useToast();
 
     const form = useForm<UpdateUserFormValues>({
-        resolver: zodResolver(updateUserFormSchema),
+        resolver: zodResolver(settingsFormSchema),
         values: {
             name: user?.name || "",
         }

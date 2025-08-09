@@ -67,6 +67,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement a module to manage shipping routes with full CRUD.
 -   [x] **Code Quality & Finalization**:
     -   [x] Perform final code review and polish, including fixing type mismatches in mock data and ensuring UI component consistency.
+    -   [x] Refactor user validation schemas to remove duplication and improve maintainability.
 -   [x] **Dynamic Routes Metric**:
     -   [x] Implement a `routes` collection in Firestore to make the "Open Routes" dashboard card fully dynamic.
 -   [x] **Data Consistency**:

@@ -109,13 +109,6 @@ export const userFormSchema = z.object({
 
 export type UserFormValues = z.infer<typeof userFormSchema>;
 
-export const updateUserFormSchema = z.object({
-    name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-});
-
-export type UpdateUserFormValues = z.infer<typeof updateUserFormSchema>;
-
-
 export const renewCertificateFormSchema = z.object({
   expiryDate: z.date({ required_error: "New expiry date is required." }),
 });
