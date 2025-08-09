@@ -286,15 +286,3 @@
 ### Changed
 -   **Configuration**: Consolidated documentation by removing duplicate `BLUEPRINT.md` and `TODO.md` files from the `src` directory. The main layout's version badge has been updated to `v6.1.0`.
 -   **Documentation**: Finalized all documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to mark the project as complete, stable, and ready for deployment.
-
-## [6.2.0] - 2024-09-24
-
-### Changed
--   **Configuration**: Finalized project by synchronizing the version number across the UI, `package.json`, and all documentation to `v6.2.0`.
--   **Documentation**: Finalized all documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to mark the project as complete, stable, and ready for deployment.
-
-## [6.2.1] - 2024-09-25
-
-### Changed
--   **Code Quality**: Final refinement of the `Card` component by setting the default `CardTitle` font size to `text-base` for better reusability and consistency across the application.
--   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
