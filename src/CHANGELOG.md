@@ -310,4 +310,17 @@
 
 ### Changed
 -   **UI Refinement**: Updated the default `CardTitle` component size to `text-lg` for better visual consistency.
+-   **Performance**: Optimized data fetching on the vessel profile page by using `Promise.all` to load vessel and crew data concurrently, improving page load times.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.5] - 2024-09-26
+
+### Changed
+-   **UX Refinement**: Streamlined the "Invite User" workflow by making the `name` field optional. This simplifies the process for administrators and allows new users to set their own name upon their first login via the Settings page.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.6] - 2024-09-27
+
+### Changed
+-   **UX Hardening**: Hardened the Admin "Edit User" workflow by making the email field read-only. This prevents accidental changes to a user's primary identifier and improves data integrity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.

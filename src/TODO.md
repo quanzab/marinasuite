@@ -74,14 +74,16 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Converted free-text inputs for "Vessel Type" and "Crew Rank" to dropdowns to enforce consistency.
 -   [x] **User Experience**:
     -   [x] Hardened the "Edit User" workflow by making the email field read-only.
-    -   [x] Streamlined the "Invite User" workflow by making the name field optional.
 -   [x] **Project Configuration**:
     -   [x] Removed redundant `package.json` from the `src` directory.
-    -   [x] Synchronized `package.json` version to match the latest changelog entry.
 -   [x] **UI Refinement**:
     -   [x] Updated the default `CardTitle` component size for better visual consistency.
 -   [x] **AI Enhancement**:
     -   [x] Upgraded the Crew Allocation AI tool to pre-filter by required certifications for more accurate results.
+-   [x] **Performance**: 
+    -   [x] Optimized data fetching on the vessel profile page by using `Promise.all`.
+-   [x] **UX Hardening**:
+    -   [x] Hardened the "Edit User" workflow by making the email field read-only.
 
 ## Project Complete
 
