@@ -76,12 +76,10 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Hardened the "Invite User" workflow by making the name field required.
 -   [x] **Project Configuration**:
     -   [x] Removed redundant `package.json` from the `src` directory.
--   [x] **AI Enhancement**:
-    -   [x] Upgraded the Crew Allocation AI tool to pre-filter by required certifications for more accurate results.
--   [x] **Code Cleanup**:
-    -   [x] Removed unused development files (`src/ai/dev.ts`).
 -   [x] **UI Refinement**:
     -   [x] Updated the default `CardTitle` component size for better visual consistency.
+-   [x] **AI Enhancement**:
+    -   [x] Upgraded the Crew Allocation AI tool to pre-filter by required certifications for more accurate results.
 
 ## Project Complete
 
