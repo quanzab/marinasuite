@@ -86,6 +86,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Upgraded the Crew Allocation AI tool to pre-filter by required certifications for more accurate results.
     -   [x] Upgraded the AI Video Generation feature to use the `veo-3.0-generate-preview` model.
     -   [x] Upgraded the AI Shanty Generator to use specific, thematic voices for a more engaging experience.
+    -   [x] Upgraded the AI Video Generation flow to include ambient sound.
 -   [x] **Performance**: 
     -   [x] Optimized data fetching on the vessel profile page by using `Promise.all`.
 -   [x] **UX Hardening**:

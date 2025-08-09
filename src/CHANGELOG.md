@@ -358,3 +358,10 @@
 -   **Performance**: Optimized data fetching on the vessel profile page by using `Promise.all` for a more responsive user experience.
 -   **Configuration**: Synchronized `package.json` version to `7.4.3` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.4.4] - 2024-10-09
+
+### Changed
+-   **AI Enhancement**: Upgraded the AI Video Generation flow to include ambient sound by updating the prompts.
+-   **Configuration**: Synchronized `package.json` version to `7.4.4` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
