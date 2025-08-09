@@ -26,6 +26,7 @@ export type Vessel = {
   imageUrl?: string | null;
   videoUrl?: string | null;
   maintenanceHistory?: MaintenanceRecord[];
+  requiredCerts?: string[];
 };
 
 export type Certificate = {

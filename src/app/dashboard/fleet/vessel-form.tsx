@@ -5,13 +5,16 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
+import { Calendar as CalendarIcon, X } from "lucide-react"
+import { useEffect, useState } from "react"
+import { getCertificates } from "@/lib/firestore"
 
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,8 +23,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { Vessel } from "@/lib/types"
+import { Badge } from "@/components/ui/badge"
+import type { Vessel, Certificate } from "@/lib/types"
 import { cn } from "@/lib/utils"
+import { useTenant } from "@/hooks/use-tenant"
 
 
 const formSchema = z.object({
@@ -32,6 +37,7 @@ const formSchema = z.object({
   nextMaintenance: z.date({
     required_error: "Next maintenance date is required.",
   }),
+  requiredCerts: z.array(z.string()).optional(),
 })
 
 export type VesselFormValues = z.infer<typeof formSchema>
@@ -43,6 +49,9 @@ interface VesselFormProps {
 }
 
 export function VesselForm({ vessel, onSubmit, isSubmitting }: VesselFormProps) {
+  const [allCerts, setAllCerts] = useState<Certificate[]>([]);
+  const { tenantId } = useTenant();
+  
   const form = useForm<VesselFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -51,8 +60,19 @@ export function VesselForm({ vessel, onSubmit, isSubmitting }: VesselFormProps) 
       type: vessel?.type || "",
       status: vessel?.status || "In Service",
       nextMaintenance: vessel?.nextMaintenance ? new Date(vessel.nextMaintenance) : new Date(),
+      requiredCerts: vessel?.requiredCerts || [],
     },
   })
+
+  useEffect(() => {
+    async function fetchCerts() {
+      if (tenantId) {
+        const certs = await getCertificates(tenantId);
+        setAllCerts(certs);
+      }
+    }
+    fetchCerts();
+  }, [tenantId]);
 
   const vesselTypes = ["Container Ship", "Bulk Carrier", "Tanker", "LNG Carrier", "General Cargo", "Ro-Ro", "Passenger Ship"];
 
@@ -168,6 +188,72 @@ export function VesselForm({ vessel, onSubmit, isSubmitting }: VesselFormProps) 
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="requiredCerts"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Required Certifications</FormLabel>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <FormControl>
+                            <Button variant="outline" role="combobox" className={cn("w-full justify-start font-normal h-auto flex-wrap py-2", !field.value?.length && "text-muted-foreground")}>
+                                {field.value && field.value.length > 0 ? (
+                                    <div className="flex gap-1 flex-wrap">
+                                        {field.value.map((cert) => (
+                                             <Badge key={cert} variant="secondary" className="flex items-center gap-1">
+                                                {cert}
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        field.onChange(field.value?.filter(c => c !== cert));
+                                                    }}
+                                                    className="rounded-full hover:bg-muted-foreground/20"
+                                                >
+                                                    <X className="h-3 w-3" />
+                                                </button>
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <span>Select certifications</span>
+                                )}
+                            </Button>
+                        </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                        <div className="p-2 max-h-60 overflow-y-auto">
+                            {allCerts.map(cert => (
+                                <div key={cert.id} className="flex items-center space-x-2 p-2 hover:bg-muted rounded-md cursor-pointer" onClick={() => {
+                                    const currentCerts = field.value || [];
+                                    const newCerts = currentCerts.includes(cert.name)
+                                        ? currentCerts.filter(c => c !== cert.name)
+                                        : [...currentCerts, cert.name];
+                                    field.onChange(newCerts);
+                                }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={field.value?.includes(cert.name)}
+                                        readOnly
+                                        className="h-4 w-4"
+                                    />
+                                    <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                        {cert.name}
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
+                    </PopoverContent>
+                </Popover>
+              <FormDescription>
+                Select the certifications required for crew on this vessel.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Saving...' : (vessel ? 'Save Changes' : 'Create Vessel')}
         </Button>

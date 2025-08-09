@@ -299,3 +299,9 @@
 ### Changed
 -   **Code Quality**: Refactored the user profile settings form to remove a duplicate Zod validation schema. The form now uses the primary `userFormSchema` from `types.ts` for a single source of truth, improving maintainability.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.2] - 2024-09-24
+
+### Changed
+-   **AI Enhancement**: Upgraded the Crew Allocation AI by adding a `requiredCerts` field to the `Vessel` data model. This allows the AI to fetch vessel-specific certification requirements directly from Firestore, removing hardcoded logic and improving the accuracy of crew suggestions.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.

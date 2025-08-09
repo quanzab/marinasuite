@@ -44,19 +44,11 @@ export async function getCrewSuggestion(
         if (!selectedVessel) {
             return { data: null, error: "Selected vessel not found.", message: "Error" };
         }
-
-        // Define requirements based on vessel type. This would also be more dynamic in a real app.
-        const vesselRequirements: Record<string, string[]> = {
-            'Container Ship': ['Master Mariner', 'Chief Engineer Unlimited', 'STCW'],
-            'Bulk Carrier': ['Master Mariner', 'STCW', 'AB'],
-            'Tanker': ['OOW', 'GMDSS', 'Advanced Oil Tanker Operations'],
-            'LNG Carrier': ['LNG Certificate', 'Master Mariner', 'Gas Engineer'],
-        };
-
+        
         const input: SuggestCrewAllocationInput = {
             route,
             vessel: selectedVessel.name,
-            vesselRequirements: vesselRequirements[selectedVessel.type] || ['STCW', 'Basic Safety Training'],
+            vesselRequirements: selectedVessel.requiredCerts || ['STCW', 'Basic Safety Training'], // Use stored certs or a default
         };
 
         const result = await suggestCrewAllocation(input, tenantId);
