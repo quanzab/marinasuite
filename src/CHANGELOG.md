@@ -268,3 +268,9 @@
 ### Changed
 -   **UX Refinement**: Streamlined the "Invite User" workflow by making the `name` field optional. This simplifies the process for administrators and allows new users to set their own name upon their first login via the Settings page.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.3] - 2024-09-24
+
+### Changed
+-   **AI Enhancement**: Upgraded the Crew Allocation AI tool to pre-filter by required certifications. The `findAvailableCrew` tool now accepts a list of required certifications, providing the model with a more relevant list of candidates for more accurate and efficient suggestions.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
