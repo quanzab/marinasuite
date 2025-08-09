@@ -67,8 +67,6 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement a module to manage shipping routes with full CRUD.
 -   [x] **Code Quality & Finalization**:
     -   [x] Perform final code review and polish, including fixing type mismatches in mock data and ensuring UI component consistency.
-    -   [x] Perform final configuration cleanup to ensure all settings are up-to-date and streamlined.
-    -   [x] Add build configuration for Firebase Cloud Functions.
 -   [x] **Dynamic Routes Metric**:
     -   [x] Implement a `routes` collection in Firestore to make the "Open Routes" dashboard card fully dynamic.
 -   [x] **Data Consistency**:
@@ -77,10 +75,6 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Streamlined the "Invite User" workflow by making the name field optional.
 -   [x] **Project Configuration**:
     -   [x] Removed redundant `package.json` from `src` directory.
-    -   [x] Consolidated and removed duplicate documentation files.
-    -   [x] Corrected project name from `nextn` to `marinasuite`.
--   [x] **UI Consistency**:
-    -   [x] The version badge in the main layout now dynamically displays the version from `package.json`.
 
 ## Project Complete
 
