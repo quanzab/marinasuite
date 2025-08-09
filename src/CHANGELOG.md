@@ -305,3 +305,27 @@
 ### Changed
 -   **AI Enhancement**: Upgraded the Crew Allocation AI by adding a `requiredCerts` field to the `Vessel` data model. This allows the AI to fetch vessel-specific certification requirements directly from Firestore, removing hardcoded logic and improving the accuracy of crew suggestions.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.3] - 2024-09-25
+
+### Changed
+-   **UI Refinement**: Updated the default `CardTitle` component size to `text-lg` for better visual consistency.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.4] - 2024-09-26
+
+### Changed
+-   **Performance**: Optimized the vessel profile page by fetching vessel and crew data concurrently using `Promise.all`, reducing the overall data loading time.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.5] - 2024-09-27
+
+### Changed
+-   **UX Refinement**: Streamlined the "Invite User" workflow by making the `name` field optional and setting a default name ("New User"). This simplifies the process for administrators and empowers new users to set their own name upon first login.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.6] - 2024-09-28
+
+### Changed
+-   **UX Hardening**: The email field in the "Edit User" form is now read-only to prevent administrators from accidentally changing a user's login credentials.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
