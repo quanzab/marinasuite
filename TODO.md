@@ -79,6 +79,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Removed redundant `package.json` from `src` directory.
     -   [x] Consolidated and removed duplicate documentation files.
     -   [x] Corrected project name from `nextn` to `marinasuite`.
+-   [x] **UI Consistency**:
+    -   [x] The version badge in the main layout now dynamically displays the version from `package.json`.
 
 ## Project Complete
 

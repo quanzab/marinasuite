@@ -291,3 +291,9 @@
 ### Changed
 -   **Code Quality**: Final refinement of the `Card` component by setting the default `CardTitle` font size to `text-base` for better reusability and consistency.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [6.4.0] - 2024-09-26
+
+### Changed
+-   **UI Enhancement**: The version badge in the main layout now dynamically displays the version from `package.json` to ensure consistency.
+-   **Project Completion**: Finalized all project documentation to mark the application as complete, stable, and ready for deployment. This concludes the development cycle.
