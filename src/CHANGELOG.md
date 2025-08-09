@@ -299,3 +299,9 @@
 ### Changed
 -   **Code Quality**: Refactored the user profile settings form to remove a duplicate Zod validation schema. The form now uses the primary `userFormSchema` from `types.ts` for a single source of truth, improving maintainability.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.2] - 2024-09-24
+
+### Changed
+-   **Configuration**: Removed redundant documentation files (`BLUEPRINT.md`, `CHANGELOG.md`, `TODO.md`) from the root directory to create a single source of truth within the `src` folder. This ensures the project structure is clean and maintainable.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.

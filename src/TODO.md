@@ -85,6 +85,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Upgraded the Crew Allocation AI tool to pre-filter by required certifications for more accurate results.
 -   [x] **Code Quality**:
     -   [x] Refactored user profile settings validation to use a single source of truth, improving maintainability.
+-   [x] **Configuration**:
+    -   [x] Removed redundant root documentation files to create a single source of truth.
 
 ## Project Complete
 
