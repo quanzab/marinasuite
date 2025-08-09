@@ -3,7 +3,7 @@
 
 /**
  * @fileOverview This file defines a Genkit flow for suggesting optimal crew allocations for a given route and vessel.
- * It uses a tool to find available crew members.
+ * It uses a tool to find available and qualified crew members.
  * - suggestCrewAllocation - A function that handles the crew allocation suggestion process.
  * - SuggestCrewAllocationInput - The input type for the suggestCrewAllocation function.
  * - SuggestCrewAllocationOutput - The return type for the suggestCrewAllocation function.
@@ -16,9 +16,10 @@ import {z} from 'genkit';
 const findAvailableCrew = ai.defineTool(
   {
     name: 'findAvailableCrew',
-    description: 'Returns a list of all crew members who are currently active and unassigned to any vessel.',
+    description: 'Returns a list of all crew members who are currently active, unassigned, and meet the specified certification requirements.',
     inputSchema: z.object({
-        tenantId: z.string().describe("The ID of the tenant to search for crew within.")
+        tenantId: z.string().describe("The ID of the tenant to search for crew within."),
+        requiredCerts: z.array(z.string()).optional().describe("An optional list of certifications that the crew must possess."),
     }),
     outputSchema: z.array(z.object({
         name: z.string(),
@@ -26,9 +27,17 @@ const findAvailableCrew = ai.defineTool(
         certifications: z.array(z.string()).optional(),
     })),
   },
-  async ({ tenantId }) => {
+  async ({ tenantId, requiredCerts }) => {
     const allCrew = await getCrew(tenantId);
-    return allCrew.filter(c => c.status === 'Active' && !c.assignedVessel);
+    const availableCrew = allCrew.filter(c => c.status === 'Active' && !c.assignedVessel);
+
+    if (requiredCerts && requiredCerts.length > 0) {
+      return availableCrew.filter(c => 
+        requiredCerts.every(reqCert => c.certifications?.includes(reqCert))
+      );
+    }
+    
+    return availableCrew;
   }
 )
 
@@ -71,9 +80,10 @@ export async function suggestCrewAllocation(
       const { output } = await ai.generate({
         prompt: `You are an expert fleet manager specializing in optimizing crew allocation for vessels.
 
-        Your first step is to call the \`findAvailableCrew\` tool to get a list of all available crew members and their certifications for the tenant ID: ${tenantId}.
+        Your first step is to call the \`findAvailableCrew\` tool to get a list of all available crew members for the tenant ID: ${tenantId}. 
+        Crucially, you MUST pass the list of required certifications to the tool to get a pre-filtered list of qualified candidates.
 
-        Then, using the provided information about the route, vessel, and vessel requirements, suggest the optimal crew allocation from the list of available crew you retrieved.
+        Then, using the provided information and the list of qualified crew you retrieved, suggest the optimal crew allocation.
 
         Route: ${flowInput.route}
         Vessel: ${flowInput.vessel}

@@ -13,7 +13,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Inventory Management**: Tracking of spare parts, supplies, and other on-board items.
 -   **Route Management**: CRUD operations for tracking shipping routes and their status.
 -   **Role-Based Access Control (RBAC)**: Admin panel for managing user permissions, enforced via Firebase custom claims.
--   **Crew Allocation AI**: Intelligent suggestions for crew allocation on routes, using AI tools to find available crew.
+-   **Crew Allocation AI**: Intelligent suggestions for crew allocation on routes, using AI tools to find available and *qualified* crew.
 -   **Route Optimizer AI**: AI-powered suggestions for optimal shipping routes.
 -   **Predictive Maintenance AI**: AI-powered forecasts for vessel maintenance.
 -   **Safety Report Analysis AI**: AI-driven analysis of incident reports.
