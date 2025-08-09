@@ -222,12 +222,6 @@
 -   **Code Quality**: Performed a final series of code quality enhancements on custom UI components (`Card`, `Input`, `Textarea`, `DropdownMenu`, `Menubar`) to ensure consistency, maintainability, and accessibility.
 -   **Documentation**: Updated all project documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to reflect that the project is complete and all development work is finished.
 
-## [2.6.0] - 2024-09-06
-
-### Changed
--   **Code Quality**: Final refinement of the `Card` component by setting the default `CardTitle` font size to `text-base` for better reusability and consistency.
--   **Documentation**: Updated project documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
-
 ## [4.2.0] - 2024-09-12
 
 ### Changed
@@ -292,8 +286,8 @@
 ### Changed
 -   **Project Completion**: Synchronized the root `package.json` version to `6.2.0` to match the final changelog entry. Finalized all project documentation to mark the application as complete, stable, and ready for deployment. This concludes the development cycle.
 
-## [6.3.0] - 2024-09-24
+## [6.3.0] - 2024-09-25
 
 ### Changed
--   **Configuration**: Consolidated project configuration by removing the redundant `package.json` file from the `src` directory to improve maintainability.
+-   **Code Quality**: Final refinement of the `Card` component by setting the default `CardTitle` font size to `text-base` for better reusability and consistency.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
