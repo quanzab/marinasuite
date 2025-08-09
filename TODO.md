@@ -74,10 +74,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **User Experience**:
     -   [x] Streamlined the "Invite User" workflow by making the name field optional.
 -   [x] **Project Configuration**:
-    -   [x] Removed redundant `package.json` from `src` directory.
+    -   [x] Removed redundant `package.json` and `CHANGELOG.md` files from the `src` directory.
 
 ## Project Complete
 
 All planned features and enhancements have been successfully implemented. The MarinaSuite application is now considered feature-complete, stable, and ready for deployment. This concludes the development cycle.
-
-    
