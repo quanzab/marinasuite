@@ -279,3 +279,9 @@
 ### Changed
 -   **UX Hardening**: Re-instated the `name` field as a required input when inviting a new user to improve data consistency.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.9] - 2024-10-03
+
+### Changed
+-   **UX Hardening**: Hardened the "Edit User" form in the Admin Panel by making the email field read-only, preventing accidental changes to a user's primary login credential.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
