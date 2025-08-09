@@ -351,3 +351,10 @@
 -   **Data Consistency**: Converted the "Role" input in the user management form to a dropdown menu to enforce data consistency and prevent invalid role assignments (previously grouped under a general configuration update).
 -   **Configuration**: Synchronized `package.json` version to `7.4.2` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.4.3] - 2024-10-08
+
+### Changed
+-   **Performance**: Optimized data fetching on the vessel profile page by using `Promise.all` for a more responsive user experience.
+-   **Configuration**: Synchronized `package.json` version to `7.4.3` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
