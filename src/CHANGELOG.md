@@ -331,3 +331,10 @@
 -   **Data Consistency**: Converted the "Role" input in the user management form to a dropdown menu to enforce data consistency and prevent invalid role assignments.
 -   **Configuration**: Synchronized `package.json` version to `7.3.6` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.5.0] - 2024-10-05
+
+### Changed
+-   **UI Refinement**: Updated the default `CardTitle` component size to `text-lg` for better visual consistency across the application.
+-   **Configuration**: Synchronized `package.json` version to `7.5.0` to match the latest changelog entry and reflect project maturity.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
