@@ -406,3 +406,15 @@
 ### Changed
 -   **Reliability**: Hardened the `updateUser` function in the Firestore service by requiring explicit `tenantId` and `userId` arguments, improving data integrity and maintainability.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.6.5] - 2024-10-15
+
+### Added
+-   **Authentication**: Added a "Forgot Password" flow to the login page, allowing users to reset their password via an email link.
+
+### Fixed
+-   **Bug Fix**: Corrected a critical bug that was causing an "unexpected error" during login by ensuring the Firebase Authentication service is correctly handled.
+
+### Changed
+-   **Configuration**: Synchronized `package.json` version to `7.6.5` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.

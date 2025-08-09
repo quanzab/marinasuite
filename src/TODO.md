@@ -103,6 +103,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Streamlined the "Invite User" workflow by making the `name` field optional.
 -   [x] **Bug Fix**:
     -   [x] Fix a critical typo in the `addUser` Firestore function that prevented new users from being created.
+    -   [x] Fixed a critical bug in the login flow that caused an "unexpected error" during sign-in.
 -   [x] **Project Configuration**:
     -   [x] Removed redundant `package-lock.json` file from the Cloud Functions directory.
 -   [x] **Reporting**:
