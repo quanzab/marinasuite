@@ -304,3 +304,8 @@
 -   **Scheduling Validation**: Implemented a validation check on the Scheduling page. The system now prevents the assignment of a crew member to a vessel if they do not possess the required certifications, improving compliance and data integrity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
 
+## [7.3.1] - 2024-10-06
+
+### Changed
+-   **Configuration**: Removed the redundant `package.json` file from the Cloud Functions directory to streamline the project structure and establish a single source of truth for dependencies.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
