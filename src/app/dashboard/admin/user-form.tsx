@@ -27,9 +27,14 @@ interface UserFormProps {
   isAdmin: boolean;
 }
 
+const inviteUserSchema = userFormSchema.extend({
+  name: z.string().optional(),
+});
+
+
 export function UserForm({ user, onSubmit, isSubmitting, isAdmin }: UserFormProps) {
   const form = useForm<UserFormValues>({
-    resolver: zodResolver(userFormSchema),
+    resolver: zodResolver(user ? userFormSchema : inviteUserSchema),
     defaultValues: {
       name: user?.name || "",
       email: user?.email || "",
@@ -55,7 +60,7 @@ export function UserForm({ user, onSubmit, isSubmitting, isAdmin }: UserFormProp
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>Full Name {user ? '' : '(Optional)'}</FormLabel>
               <FormControl>
                 <Input placeholder="John Doe" {...field} />
               </FormControl>
