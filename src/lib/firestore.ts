@@ -417,7 +417,8 @@ export const getRoutes = async (tenantId: string): Promise<Route[]> => {
 export const addRoute = async (tenantId: string, routeData: RouteFormValues) => {
     if (!tenantId) throw new Error("Tenant ID is required.");
     const routesCollectionRef = collection(db, 'orgs', tenantId, 'routes');
-    await addDoc(routesCollectionRef, { ...routeData, events: [] });
+    const { newEvent, ...restOfData } = routeData;
+    await addDoc(routesCollectionRef, { ...restOfData, events: [] });
 };
 
 // UPDATE
@@ -428,7 +429,7 @@ export const updateRoute = async (tenantId: string, id: string, routeData: Parti
     // Separate the new event from other route data
     const { newEvent, ...otherData } = routeData;
 
-    const dataToUpdate: Partial<Route> = { ...otherData };
+    const dataToUpdate: Partial<Omit<Route, 'id' | 'events'>> = { ...otherData };
 
     if (newEvent && newEvent.trim() !== '') {
         const event: RouteEvent = {

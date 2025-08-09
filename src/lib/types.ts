@@ -59,7 +59,7 @@ export type CurrentUser = User & {
 export type RouteEvent = {
     timestamp: string;
     description: string;
-}
+};
 
 export type Route = {
     id: string;
@@ -68,7 +68,7 @@ export type Route = {
     vessel: string;
     status: 'Open' | 'In Progress' | 'Completed';
     events?: RouteEvent[];
-}
+};
 
 export type InventoryItem = {
     id: string;
