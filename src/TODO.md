@@ -35,7 +35,6 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Re-implement Firebase Authentication for secure user login.
 -   [x] **Reporting**:
     -   [x] Add functionality to generate and export reports (e.g., crew lists, vessel status, certificate status).
-    -   [x] Add "Export to CSV" functionality to all reports.
 
 
 ## Future Enhancements & Shelved Tasks
@@ -67,7 +66,6 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement a module to track spare parts and supplies with full CRUD.
 -   [x] **Route Management**:
     -   [x] Implement a module to manage shipping routes with full CRUD.
-    -   [x] Add Voyage Event Logging to track real-time progress.
 -   [x] **Code Quality & Finalization**:
     -   [x] Perform final code review and polish, including fixing type mismatches in mock data and ensuring UI component consistency.
     -   [x] Refactor user validation schemas to remove duplication and improve maintainability.
@@ -99,6 +97,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Fix a critical typo in the `addUser` Firestore function that prevented new users from being created.
 -   [x] **Project Configuration**:
     -   [x] Removed redundant `package-lock.json` file from the Cloud Functions directory.
+-   [x] **Reporting**:
+    -   [x] Add "Export to CSV" functionality to all reports.
 
 ## Project Complete
 
