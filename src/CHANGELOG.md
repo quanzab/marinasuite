@@ -364,3 +364,10 @@
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `7.4.4` to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to mark the project as complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.4.5] - 2024-10-10
+
+### Changed
+-   **Reporting**: Added "Export to CSV" functionality to all reports on the Reporting page.
+-   **Configuration**: Synchronized `package.json` version to `7.4.5` to match the latest changelog entry and reflect project maturity.
+-   **Documentation**: Finalized all documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to mark the project as complete, stable, and ready for deployment.
