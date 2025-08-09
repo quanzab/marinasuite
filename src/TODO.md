@@ -92,6 +92,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Re-instated the `name` field as a required input when inviting a new user to improve data consistency.
 -   [x] **UX Refinement**:
     -   [x] Streamlined the "Invite User" workflow by making the `name` field optional.
+-   [x] **Bug Fix**:
+    -   [x] Fixed a critical typo in the `addUser` Firestore function that prevented new users from being created.
 
 ## Project Complete
 

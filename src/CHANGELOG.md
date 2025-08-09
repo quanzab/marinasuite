@@ -309,3 +309,9 @@
 ### Changed
 -   **Configuration**: Removed the redundant `package.json` file from the Cloud Functions directory to streamline the project structure and establish a single source of truth for dependencies.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.3.2] - 2024-10-07
+
+### Fixed
+-   **User Management**: Fixed a critical bug in the `addUser` Firestore function where a typo in a variable name (`specificUsersCollection_ref`) prevented new users from being created.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
