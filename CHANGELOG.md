@@ -293,3 +293,9 @@
 ### Changed
 -   **Code Cleanup**: Removed the `src/ai/dev.ts` file, which was used for local development and is not needed for production.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.0.2] - 2024-09-23
+
+### Changed
+-   **AI Enhancement**: Upgraded the Crew Allocation AI tool to pre-filter by required certifications for more accurate results.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
