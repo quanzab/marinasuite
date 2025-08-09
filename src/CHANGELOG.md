@@ -338,3 +338,10 @@
 -   **UI Refinement**: Updated the default `CardTitle` component size to `text-lg` for better visual consistency across the application.
 -   **Configuration**: Synchronized `package.json` version to `7.5.0` to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.5.1] - 2024-10-06
+
+### Changed
+-   **Project Configuration**: Removed the redundant `package.json` file from the `src` directory to simplify the project structure and establish a single source of truth for dependencies.
+-   **Configuration**: Synchronized `package.json` version to `7.5.1` to match the latest changelog entry and reflect project maturity.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
