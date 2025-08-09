@@ -84,16 +84,16 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Upgraded the Crew Allocation AI tool to pre-filter by required certifications for more accurate results.
 -   [x] **Performance**: 
     -   [x] Optimized data fetching on the vessel profile page by using `Promise.all`.
--   [x] **UX Hardening**:
-    -   [x] Hardened the "Edit User" workflow by making the email field read-only.
--   [x] **Project Configuration**:
-    -   [x] Removed the redundant `package.json` file from the Cloud Functions directory.
--   [x] **Data Consistency**:
-    -   [x] Re-instated the `name` field as a required input when inviting a new user to improve data consistency.
--   [x] **UX Refinement**:
-    -   [x] Streamlined the "Invite User" workflow by making the `name` field optional.
--   [x] **Bug Fix**:
-    -   [x] Fixed a critical typo in the `addUser` Firestore function that prevented new users from being created.
+-   [ ] **UX Hardening**:
+    -   [ ] Harden the "Edit User" workflow by making the email field read-only.
+-   [ ] **Project Configuration**:
+    -   [ ] Remove the redundant `package.json` file from the Cloud Functions directory.
+-   [ ] **Data Consistency**:
+    -   [ ] Re-instate the `name` field as a required input when inviting a new user to improve data consistency.
+-   [ ] **UX Refinement**:
+    -   [ ] Streamline the "Invite User" workflow by making the `name` field optional.
+-   [ ] **Bug Fix**:
+    -   [ ] Fix a critical typo in the `addUser` Firestore function that prevented new users from being created.
 
 ## Project Complete
 
