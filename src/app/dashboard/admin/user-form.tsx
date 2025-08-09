@@ -1,4 +1,5 @@
 
+
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -55,7 +56,7 @@ export function UserForm({ user, onSubmit, isSubmitting, isAdmin }: UserFormProp
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name (Optional)</FormLabel>
+              <FormLabel>Full Name</FormLabel>
               <FormControl>
                 <Input placeholder="John Doe" {...field} />
               </FormControl>

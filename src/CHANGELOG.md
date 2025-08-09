@@ -274,3 +274,8 @@
 ### Changed
 -   **AI Enhancement**: Upgraded the Crew Allocation AI tool to pre-filter by required certifications. The `findAvailableCrew` tool now accepts a list of required certifications, providing the model with a more relevant list of candidates for more accurate and efficient suggestions.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+## [7.1.8] - 2024-09-26
+
+### Changed
+-   **Data Consistency**: Re-instated the `name` field as a required input when inviting a new user to improve data consistency across the application.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
