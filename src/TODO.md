@@ -89,6 +89,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Harden the "Edit User" workflow by making the email field read-only.
 -   [x] **Data Consistency**:
     -   [x] Re-instate the `name` field as a required input when inviting a new user to improve data consistency.
+    -   [x] Replaced the free-text "Role" input in the user form with a dropdown to enforce data integrity.
 -   [x] **UX Refinement**:
     -   [x] Streamline the "Invite User" workflow by making the `name` field optional.
 -   [x] **Bug Fix**:

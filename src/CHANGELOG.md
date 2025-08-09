@@ -285,3 +285,9 @@
 ### Fixed
 -   **Bug Fix**: Fixed a critical typo in the `addUser` Firestore function (`specificUsersCollection_ref` to `specificUsersCollectionRef`) that prevented new users from being created. This ensures the "Invite User" feature works as intended.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.3.3] - 2024-10-09
+
+### Changed
+-   **Data Consistency**: Replaced the free-text "Role" input in the user management form with a dropdown (`Select`) menu to enforce data integrity and improve the reliability of the RBAC system.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
