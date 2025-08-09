@@ -1,7 +1,6 @@
-
 {
   "name": "marinasuite",
-  "version": "7.0.10",
+  "version": "7.0.11",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack -p 9002",

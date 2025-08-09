@@ -323,3 +323,9 @@
 ### Changed
 -   **AI Enhancement**: Upgraded the Crew Allocation AI's tool (`findAvailableCrew`) to accept `requiredCerts` as a parameter. The AI can now request a pre-filtered list of qualified crew, leading to more accurate and efficient suggestions.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.0.11] - 2024-09-29
+
+### Changed
+-   **Configuration**: Removed the redundant `package.json` file from the `src` directory to improve project maintainability and create a single source of truth for dependencies.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
