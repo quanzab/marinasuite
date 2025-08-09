@@ -287,3 +287,9 @@
 -   **Data Consistency**: Converted free-text inputs for "Vessel Type" and "Crew Rank" to dropdowns to enforce consistency across the application and improve data quality.
 -   **Configuration**: Synchronized `package.json` version to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.2.1] - 2024-09-28
+
+### Changed
+-   **UX Hardening**: Hardened the "Edit User" workflow by making the email field read-only to prevent accidental changes to authentication credentials.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
