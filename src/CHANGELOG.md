@@ -278,4 +278,5 @@
 
 ### Changed
 -   **Data Consistency**: Re-instated the `name` field as a required input when inviting a new user to improve data consistency across the application.
+-   **Configuration**: Synchronized `package.json` version to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
