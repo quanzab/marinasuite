@@ -75,7 +75,6 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Converted free-text inputs for "Vessel Type" and "Crew Rank" to dropdowns to enforce consistency.
     -   [x] Re-instate the `name` field as a required input when inviting a new user to improve data consistency.
     -   [x] Converted the "Role" input in the user management form to a dropdown menu to enforce data consistency.
-    -   [x] Re-instated the `name` field as a required input when inviting a new user to improve data consistency.
 -   [x] **User Experience**:
     -   [x] Hardened the "Edit User" workflow by making the email field read-only.
 -   [x] **Project Configuration**:
