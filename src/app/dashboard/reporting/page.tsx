@@ -30,7 +30,7 @@ function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring
 }
 
 
-function downloadCSV(data: any[], filename: string) {
+export function downloadCSV(data: any[], filename: string) {
     const csv = Papa.unparse(data);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');

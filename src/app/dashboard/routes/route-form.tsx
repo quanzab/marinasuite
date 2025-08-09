@@ -4,7 +4,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { formatDistanceToNow } from "date-fns"
+import { format, formatDistanceToNow } from "date-fns"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -21,7 +21,8 @@ import { routeFormSchema, type RouteFormValues, type Route, type Vessel } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
-import { Clock } from "lucide-react"
+import { Clock, Download } from "lucide-react"
+import { downloadCSV } from "../reporting/page"
 
 
 interface RouteFormProps {
@@ -46,6 +47,17 @@ export function RouteForm({ route, vessels, onSubmit, isSubmitting }: RouteFormP
   // Sort events from newest to oldest for display
   const sortedEvents = route?.events ? [...route.events].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()) : [];
   const availableVessels = vessels.filter(v => v.status === "In Service");
+
+  const handleExportEvents = () => {
+    if (!sortedEvents || sortedEvents.length === 0) return;
+
+    const dataToExport = sortedEvents.map(event => ({
+        timestamp: format(new Date(event.timestamp), "yyyy-MM-dd HH:mm:ss"),
+        description: event.description,
+    }));
+    
+    downloadCSV(dataToExport, `voyage_events_${route?.vessel || 'route'}.csv`);
+  }
 
   return (
     <Form {...form}>
@@ -144,8 +156,20 @@ export function RouteForm({ route, vessels, onSubmit, isSubmitting }: RouteFormP
                     />
 
                     <div>
-                        <FormLabel>Recent Events</FormLabel>
-                        <div className="mt-2 space-y-3 max-h-48 overflow-y-auto rounded-md border p-3">
+                        <div className="flex justify-between items-center mb-2">
+                            <FormLabel>Recent Events</FormLabel>
+                            <Button 
+                                type="button" 
+                                variant="outline" 
+                                size="sm" 
+                                onClick={handleExportEvents}
+                                disabled={!sortedEvents || sortedEvents.length === 0}
+                            >
+                                <Download className="h-3 w-3 mr-2" />
+                                Export Events
+                            </Button>
+                        </div>
+                        <div className="space-y-3 max-h-48 overflow-y-auto rounded-md border p-3">
                             {sortedEvents.length > 0 ? (
                                 sortedEvents.map((event, index) => (
                                     <div key={index} className="flex items-start gap-3 text-sm">
