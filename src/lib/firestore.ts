@@ -1,7 +1,7 @@
 
 
 import { db } from './firebase';
-import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion, onSnapshot, orderBy } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion, onSnapshot, orderBy, writeBatch } from 'firebase/firestore';
 import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route, InventoryItem, Notification, RouteEvent } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
@@ -182,6 +182,28 @@ export const addCrewMember = async (tenantId: string, crewData: CrewFormValues) 
         medicalRecords: "Fit for duty. Last check-up: 2023-10-15."
     });
 };
+
+// CREATE (Bulk)
+export const addMultipleCrewMembers = async (tenantId: string, crewData: CrewFormValues[]) => {
+    if (!tenantId) throw new Error("Tenant ID is required.");
+    const crewCollectionRef = collection(db, 'orgs', tenantId, 'crew');
+    const batch = writeBatch(db);
+
+    crewData.forEach(crew => {
+        const newDocRef = doc(crewCollectionRef); // Create a new document reference
+        batch.set(newDocRef, {
+            name: crew.name,
+            rank: crew.rank,
+            status: crew.status,
+            assignedVessel: null,
+            certifications: ['Basic Safety Training'],
+            medicalRecords: "Awaiting initial assessment."
+        });
+    });
+
+    await batch.commit();
+};
+
 
 // UPDATE
 export const updateCrewMember = async (tenantId: string, id: string, crewData: Partial<CrewFormValues & { assignedVessel: string | null }>) => {

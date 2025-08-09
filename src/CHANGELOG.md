@@ -370,3 +370,12 @@
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `7.5.4` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.6.0] - 2024-10-10
+
+### Added
+-   **Bulk Crew Import**: Added functionality to the Crew Management page for administrators to bulk import new crew members from a CSV file, speeding up data entry.
+
+### Changed
+-   **Configuration**: Synchronized `package.json` version to `7.6.0` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.

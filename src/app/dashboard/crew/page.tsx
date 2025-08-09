@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from "react";
-import { MoreHorizontal, PlusCircle } from "lucide-react"
+import { MoreHorizontal, PlusCircle, Upload } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,18 +10,21 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CrewForm, CrewFormValues } from "./crew-form";
-import { subscribeToCrew, addCrewMember, updateCrewMember, deleteCrewMember } from "@/lib/firestore";
+import { subscribeToCrew, addCrewMember, updateCrewMember, deleteCrewMember, addMultipleCrewMembers } from "@/lib/firestore";
 import type { CrewMember } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useTenant } from "@/hooks/use-tenant";
+import Papa from 'papaparse';
+
 
 export default function CrewPage() {
   const [crew, setCrew] = useState<CrewMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isFormDialogOpen, setIsFormDialogOpen] = useState(false);
+  const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedCrew, setSelectedCrew] = useState<CrewMember | null>(null);
   const { toast } = useToast();
@@ -59,12 +62,12 @@ export default function CrewPage() {
 
   const handleEdit = (crewMember: CrewMember) => {
     setSelectedCrew(crewMember);
-    setIsDialogOpen(true);
+    setIsFormDialogOpen(true);
   };
 
   const handleAdd = () => {
     setSelectedCrew(null);
-    setIsDialogOpen(true);
+    setIsFormDialogOpen(true);
   }
 
   const handleDelete = async (id: string) => {
@@ -104,7 +107,7 @@ export default function CrewPage() {
           description: "Crew member added successfully.",
         });
       }
-      setIsDialogOpen(false);
+      setIsFormDialogOpen(false);
     } catch (error) {
       console.error("Error saving crew member:", error);
       toast({
@@ -119,6 +122,59 @@ export default function CrewPage() {
   
   const handleViewDetails = (id: string) => {
     router.push(`/dashboard/crew/${id}`);
+  };
+
+  const handleImportCSV = (file: File) => {
+    if (!tenantId) return;
+    setIsSubmitting(true);
+
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: async (results) => {
+        const requiredFields = ['name', 'rank', 'status'];
+        const headers = results.meta.fields;
+        
+        if (!headers || !requiredFields.every(field => headers.includes(field))) {
+          toast({
+            variant: "destructive",
+            title: "Import Error",
+            description: `CSV must include the following headers: ${requiredFields.join(', ')}.`,
+            duration: 5000,
+          });
+          setIsSubmitting(false);
+          return;
+        }
+
+        const newCrewMembers = results.data as CrewFormValues[];
+        
+        try {
+          await addMultipleCrewMembers(tenantId, newCrewMembers);
+          toast({
+            title: "Import Successful",
+            description: `${newCrewMembers.length} crew members have been imported.`,
+          });
+          setIsImportDialogOpen(false);
+        } catch (error) {
+          console.error("Error importing crew members:", error);
+          toast({
+            variant: "destructive",
+            title: "Import Failed",
+            description: "An error occurred while importing the data.",
+          });
+        } finally {
+          setIsSubmitting(false);
+        }
+      },
+      error: (error: any) => {
+        toast({
+          variant: "destructive",
+          title: "Parsing Error",
+          description: `Failed to parse CSV file: ${error.message}`,
+        });
+        setIsSubmitting(false);
+      }
+    });
   };
 
 
@@ -139,6 +195,10 @@ export default function CrewPage() {
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-semibold md:text-3xl">Crew Management</h1>
         <div className="ml-auto flex items-center gap-2">
+            <Button onClick={() => setIsImportDialogOpen(true)} variant="outline" disabled={!isManagerOrAdmin || isUserLoading}>
+                <Upload className="mr-2 h-4 w-4" />
+                Import from CSV
+            </Button>
            <Button onClick={handleAdd} disabled={!isManagerOrAdmin || isUserLoading}>
             <PlusCircle className="mr-2 h-4 w-4" />
             Add Crew Member
@@ -146,9 +206,9 @@ export default function CrewPage() {
         </div>
       </div>
 
-       <Dialog open={isDialogOpen} onOpenChange={(isOpen) => {
+       <Dialog open={isFormDialogOpen} onOpenChange={(isOpen) => {
          if (!isSubmitting) {
-           setIsDialogOpen(isOpen);
+           setIsFormDialogOpen(isOpen);
          }
        }}>
         <DialogContent className="sm:max-w-[425px]">
@@ -165,6 +225,39 @@ export default function CrewPage() {
           />
         </DialogContent>
       </Dialog>
+      
+      <Dialog open={isImportDialogOpen} onOpenChange={(isOpen) => {
+          if (!isSubmitting) setIsImportDialogOpen(isOpen);
+      }}>
+          <DialogContent>
+              <DialogHeader>
+                  <DialogTitle>Import Crew from CSV</DialogTitle>
+                  <DialogDescription>
+                      Upload a CSV file with the headers: `name`, `rank`, and `status`. Each row will create a new crew member.
+                  </DialogDescription>
+              </DialogHeader>
+              <div>
+                  <label htmlFor="csv-upload" className="block text-sm font-medium text-gray-700 mb-2">
+                      CSV File
+                  </label>
+                  <Input
+                      id="csv-upload"
+                      type="file"
+                      accept=".csv"
+                      onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                              handleImportCSV(e.target.files[0]);
+                          }
+                      }}
+                      disabled={isSubmitting}
+                  />
+                  <p className="mt-2 text-xs text-muted-foreground">
+                      Note: `status` must be 'Active', 'On Leave', or 'Inactive'.
+                  </p>
+              </div>
+          </DialogContent>
+      </Dialog>
+
 
       <Card>
         <CardHeader>

@@ -7,7 +7,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 ## 2. Core Features
 
 -   **Authentication & Tenant Selection**: Secure user login and tenant management using Firebase Authentication.
--   **Crew Management**: CRUD operations for crew profiles, certifications, and medical records.
+-   **Crew Management**: CRUD operations for crew profiles, certifications, and medical records. Includes bulk import from CSV.
 -   **Fleet Operations**: Vessel data management, maintenance scheduling, and on-board inventory tracking.
 -   **Certificate Management**: Tracking and renewal reminders for certificates.
 -   **Inventory Management**: Tracking of spare parts, supplies, and other on-board items.
