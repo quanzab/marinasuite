@@ -1,4 +1,3 @@
-
 {
   "name": "marinasuite",
   "version": "7.0.1",
