@@ -28,7 +28,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetTrigger } from '@/components/ui/sheet';
 import {
   DashboardIcon,
   CrewIcon,
@@ -190,14 +190,18 @@ export default function DashboardLayout({
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="flex flex-col">
+                 <SheetHeader className="text-left">
+                    <SheetTitle>
+                        <Link href="/" className="flex items-center gap-2 font-semibold">
+                            <Logo className="h-6 w-6 text-primary" />
+                            <span>MarinaSuite</span>
+                        </Link>
+                    </SheetTitle>
+                    <SheetDescription>
+                        Maritime Management, Simplified.
+                    </SheetDescription>
+                </SheetHeader>
                 <nav className="grid gap-2 text-lg font-medium">
-                  <Link
-                    href="#"
-                    className="flex items-center gap-2 text-lg font-semibold"
-                  >
-                    <Logo className="h-6 w-6 text-primary" />
-                    <span className="sr-only">MarinaSuite</span>
-                  </Link>
                   {navLinks.map((link) => 
                     link.type === 'separator' ? null : (
                     <Link
