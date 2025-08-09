@@ -29,13 +29,8 @@ interface UserFormProps {
 }
 
 export function UserForm({ user, onSubmit, isSubmitting, isAdmin }: UserFormProps) {
-  // Dynamically adjust schema based on whether we are creating or editing
-  const effectiveSchema = user ? userFormSchema : userFormSchema.extend({
-    name: userFormSchema.shape.name.optional(),
-  });
-
   const form = useForm<UserFormValues>({
-    resolver: zodResolver(effectiveSchema),
+    resolver: zodResolver(userFormSchema),
     defaultValues: {
       name: user?.name || "",
       email: user?.email || "",

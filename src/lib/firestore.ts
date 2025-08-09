@@ -336,14 +336,12 @@ export const getUsers = async (): Promise<User[]> => {
 export const addUser = async (userData: UserFormValues) => {
     const { tenant, email, role, name } = userData;
     const specificUsersCollectionRef = collection(db, 'orgs', tenant, 'users');
-    // Ensure we don't write "undefined" to Firestore if name is optional
-    const dataToAdd = {
-        name: name || '',
+    await addDoc(specificUsersCollectionRef, {
+        name,
         email,
         role,
         tenant,
-    };
-    await addDoc(specificUsersCollectionRef, dataToAdd);
+    });
 };
 
 // UPDATE
