@@ -365,3 +365,12 @@
 -   **AI Enhancement**: Upgraded the AI Video Generation flow to include ambient sound by updating the prompts.
 -   **Configuration**: Synchronized `package.json` version to `7.4.4` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.4.5] - 2024-10-10
+
+### Added
+-   **Reporting Enhancement**: Added "Export to CSV" functionality to all reports on the Reporting page, allowing users to easily download data for external use.
+
+### Changed
+-   **Configuration**: Synchronized `package.json` version to `7.4.5` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
