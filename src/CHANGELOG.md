@@ -293,3 +293,9 @@
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `7.1.0` to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.1] - 2024-09-23
+
+### Changed
+-   **Code Quality**: Refactored the user profile settings form to remove a duplicate Zod validation schema. The form now uses the primary `userFormSchema` from `types.ts` for a single source of truth, improving maintainability.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
