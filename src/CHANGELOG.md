@@ -324,3 +324,15 @@
 ### Changed
 -   **UX Hardening**: Hardened the Admin "Edit User" workflow by making the email field read-only. This prevents accidental changes to a user's primary identifier and improves data integrity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.7] - 2024-09-28
+
+### Changed
+-   **Configuration**: Removed the redundant `package.json` file from the Cloud Functions directory to improve project maintainability and create a single source of truth for dependencies.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.8] - 2024-09-29
+
+### Changed
+-   **UX Hardening**: Re-instated the `name` field as a required input when inviting a new user. This improves the onboarding experience by ensuring all users have a display name from their first login, improving data consistency.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.

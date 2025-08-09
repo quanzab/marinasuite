@@ -84,6 +84,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Optimized data fetching on the vessel profile page by using `Promise.all`.
 -   [x] **UX Hardening**:
     -   [x] Hardened the "Edit User" workflow by making the email field read-only.
+-   [x] **Project Configuration**:
+    -   [x] Removed the redundant `package.json` file from the Cloud Functions directory.
 
 ## Project Complete
 

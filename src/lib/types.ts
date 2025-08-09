@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 export type CrewMember = {
@@ -102,7 +101,7 @@ export type MaintenanceLogFormValues = z.infer<typeof maintenanceLogFormSchema>;
 
 
 export const userFormSchema = z.object({
-  name: z.string().optional(),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   role: z.enum(["Admin", "Manager", "Viewer"]),
   tenant: z.string().min(2, { message: "Tenant is required." }),

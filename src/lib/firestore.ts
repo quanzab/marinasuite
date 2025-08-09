@@ -6,7 +6,7 @@ import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route, I
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
-import type { UserFormValues } from '@/app/dashboard/admin/user-form';
+import type { UserFormValues } from '@/lib/types';
 import type { UpdateUserFormValues } from '@/app/dashboard/settings/page';
 import { format } from 'date-fns';
 import type { RouteFormValues } from '@/app/dashboard/routes/route-form';
@@ -335,13 +335,7 @@ export const getUsers = async (): Promise<User[]> => {
 // CREATE
 export const addUser = async (userData: UserFormValues) => {
     const specificUsersCollectionRef = collection(db, 'orgs', userData.tenant, 'users');
-    const dataToAdd = {
-        email: userData.email,
-        role: userData.role,
-        tenant: userData.tenant,
-        name: userData.name || "New User",
-    };
-    await addDoc(specificUsersCollectionRef, dataToAdd);
+    await addDoc(specificUsersCollectionRef, userData);
 };
 
 // UPDATE
