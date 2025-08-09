@@ -329,3 +329,9 @@
 ### Changed
 -   **UX Hardening**: The email field in the "Edit User" form is now read-only to prevent administrators from accidentally changing a user's login credentials.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.7] - 2024-09-29
+
+### Changed
+-   **Configuration**: Removed the redundant `package.json` file from the Cloud Functions directory to improve project maintainability and create a single source of truth for dependencies.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
