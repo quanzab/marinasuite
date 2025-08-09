@@ -31,7 +31,7 @@ export function UserForm({ user, onSubmit, isSubmitting, isAdmin }: UserFormProp
   const form = useForm<UserFormValues>({
     resolver: zodResolver(userFormSchema),
     defaultValues: {
-      name: user?.name || "",
+      name: user?.name || "New User",
       email: user?.email || "",
       role: user?.role || "Viewer",
       tenant: user?.tenant || "Global Maritime",
@@ -40,7 +40,7 @@ export function UserForm({ user, onSubmit, isSubmitting, isAdmin }: UserFormProp
 
   useEffect(() => {
     form.reset({
-      name: user?.name || "",
+      name: user?.name || "New User",
       email: user?.email || "",
       role: user?.role || "Viewer",
       tenant: user?.tenant || "Global Maritime",

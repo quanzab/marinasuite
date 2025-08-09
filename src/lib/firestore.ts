@@ -226,13 +226,14 @@ export const getVesselById = async (tenantId: string, id: string): Promise<Vesse
 export const addVessel = async (tenantId: string, vesselData: VesselFormValues) => {
     if (!tenantId) throw new Error("Tenant ID is required.");
     const vesselsCollectionRef = collection(db, 'orgs', tenantId, 'vessels');
-    const { name, imo, type, status, nextMaintenance } = vesselData;
+    const { name, imo, type, status, nextMaintenance, requiredCerts } = vesselData;
     await addDoc(vesselsCollectionRef, {
         name,
         imo,
         type,
         status,
         nextMaintenance: format(nextMaintenance, 'yyyy-MM-dd'),
+        requiredCerts: requiredCerts || [],
         imageUrl: null,
         videoUrl: null,
         maintenanceHistory: [],
