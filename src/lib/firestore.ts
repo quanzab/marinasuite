@@ -367,6 +367,7 @@ export const getUsers = async (): Promise<User[]> => {
 export const addUser = async (userData: UserFormValues) => {
     if (!userData.tenant) throw new Error("Tenant ID is required to add a user.");
     const specificUsersCollectionRef = collection(db, 'orgs', userData.tenant, 'users');
+    // Ensure the entire object is passed, not just form fields.
     await addDoc(specificUsersCollectionRef, userData);
 };
 
