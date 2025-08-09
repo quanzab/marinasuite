@@ -300,9 +300,10 @@
 -   **UI Refinement**: Updated the default `CardTitle` component size to `text-lg` for better visual consistency across the application.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
 
-## [7.3.3] - 2024-09-30
+## [7.3.2] - 2024-09-30
 
 ### Changed
--   **Data Consistency**: Converted the "Role" input in the user management form to a dropdown menu (`Select`) to enforce data consistency and prevent non-standard role entries.
--   **Configuration**: Synchronized `package.json` version to `7.3.3` to match the latest changelog entry and reflect project maturity.
+-   **Project Configuration**: Removed the redundant `package.json` file from the Cloud Functions directory to simplify the project structure and establish a single source of truth for dependencies.
+-   **Bug Fix**: Fixed a critical typo in the `addUser` Firestore function that prevented new users from being created. The variable `specificUsersCollection_ref` was corrected to `specificUsersCollectionRef`.
+-   **Configuration**: Synchronized `package.json` version to `7.3.2` to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
