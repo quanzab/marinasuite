@@ -88,6 +88,8 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Removed the redundant `package.json` file from the Cloud Functions directory.
 -   [x] **Data Consistency**:
     -   [x] Re-instated the `name` field as a required input when inviting a new user to improve data consistency.
+-   [x] **UX Refinement**:
+    -   [x] Streamlined the "Invite User" workflow by making the `name` field optional.
 
 ## Project Complete
 

@@ -334,8 +334,14 @@ export const getUsers = async (): Promise<User[]> => {
 
 // CREATE
 export const addUser = async (userData: UserFormValues) => {
-    const specificUsersCollectionRef = collection(db, 'orgs', userData.tenant, 'users');
-    await addDoc(specificUsersCollectionRef, userData);
+    const { tenant, name, email, role } = userData;
+    const specificUsersCollectionRef = collection(db, 'orgs', tenant, 'users');
+    await addDoc(specificUsersCollectionRef, {
+        name: name || 'New User',
+        email,
+        role,
+        tenant,
+    });
 };
 
 // UPDATE
