@@ -1,7 +1,7 @@
 
 {
   "name": "marinasuite",
-  "version": "6.4.0",
+  "version": "6.5.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack -p 9002",
@@ -71,3 +71,5 @@
     "typescript": "^5"
   }
 }
+
+    

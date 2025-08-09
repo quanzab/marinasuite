@@ -60,6 +60,7 @@ import type { Notification } from '@/lib/types';
 import { useTenant } from '@/hooks/use-tenant';
 import { useCurrentUser } from '@/hooks/use-current-user';
 import { Skeleton } from '@/components/ui/skeleton';
+import packageJson from '../../../package.json';
 
 
 const getAvatarFallback = (name?: string) => {
@@ -176,7 +177,7 @@ export default function DashboardLayout({
                 <CardHeader className="p-2 pt-0 md:p-4">
                   <div className="flex items-center justify-between">
                     <CardTitle>What's New</CardTitle>
-                    <Badge variant="secondary">v6.4.0</Badge>
+                    <Badge variant="secondary">v{packageJson.version}</Badge>
                   </div>
                   <CardDescription>
                     Check out the latest features and updates.
@@ -332,3 +333,5 @@ export default function DashboardLayout({
     </ProtectedRoute>
   );
 }
+
+    
