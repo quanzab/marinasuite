@@ -338,7 +338,7 @@ export const addUser = async (userData: UserFormValues) => {
         email: userData.email,
         role: userData.role,
         tenant: userData.tenant,
-        name: userData.name || "New User", // Set default name if not provided
+        name: userData.name || "New User",
     };
     await addDoc(specificUsersCollectionRef, dataToAdd);
 };

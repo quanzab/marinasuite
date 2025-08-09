@@ -299,3 +299,9 @@
 ### Changed
 -   **Code Quality**: Refactored the user profile settings form to remove a duplicate Zod validation schema. The form now uses the primary `userFormSchema` from `types.ts` for a single source of truth, improving maintainability.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.1.5] - 2024-09-24
+
+### Changed
+-   **UX Refinement**: Streamlined the "Invite User" workflow by making the `name` field optional again. This simplifies the process for administrators and allows new users to set their own name upon their first login via the Settings page.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
