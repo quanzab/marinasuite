@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged, type User as FirebaseUser } from 'firebase/auth';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, collectionGroup } from 'firebase/firestore';
 import { auth, db } from '@/lib/firebase';
 import type { CurrentUser } from '@/lib/types';
 
@@ -22,22 +22,22 @@ export function useCurrentUser() {
 
         let foundUser: Omit<CurrentUser, 'role' | 'uid'> | null = null;
         try {
-            const orgsSnapshot = await getDocs(collection(db, 'orgs'));
-            for (const orgDoc of orgsSnapshot.docs) {
-                const usersCollectionRef = collection(db, 'orgs', orgDoc.id, 'users');
-                const q = query(usersCollectionRef, where("email", "==", firebaseUser.email));
-                const userSnapshot = await getDocs(q);
+            // Because a user's email is unique across the entire project,
+            // we can search the 'users' collection group to find them, regardless of tenant.
+            const usersCollectionGroup = collectionGroup(db, 'users');
+            const q = query(usersCollectionGroup, where("email", "==", firebaseUser.email));
+            const userSnapshot = await getDocs(q);
 
-                if (!userSnapshot.empty) {
-                    const userData = userSnapshot.docs[0].data();
-                    foundUser = {
-                        id: userSnapshot.docs[0].id,
-                        email: firebaseUser.email!,
-                        name: userData.name || firebaseUser.displayName || 'Admin User',
-                        tenant: userData.tenant,
-                    };
-                    break;
-                }
+            if (!userSnapshot.empty) {
+                // Should only be one result, but we'll take the first one.
+                const userDoc = userSnapshot.docs[0];
+                const userData = userDoc.data();
+                foundUser = {
+                    id: userDoc.id,
+                    email: firebaseUser.email!,
+                    name: userData.name || firebaseUser.displayName || 'Admin User',
+                    tenant: userData.tenant,
+                };
             }
         } catch (error) {
             console.error("Error fetching user data from Firestore:", error);
@@ -50,7 +50,7 @@ export function useCurrentUser() {
               role: userRole,
             });
         } else {
-            // Fallback for demo environment if user not in Firestore
+            // Fallback for demo environment if user not in Firestore (e.g., initial seed user)
              setUser({
               uid: firebaseUser.uid,
               email: firebaseUser.email!,
