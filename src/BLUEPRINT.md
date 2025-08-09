@@ -22,7 +22,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Real-Time Data**: Live data updates across the application using Firestore's real-time listeners.
 -   **Offline Data Caching**: Offline data access and synchronization.
 -   **Advanced Scheduling**: Drag-and-drop and direct assignment of crew to vessels, with validation for required certifications.
--   **Reporting**: Generation and printing of key operational reports.
+-   **Reporting**: Generation, printing, and CSV export of key operational reports.
 -   **User Settings**: A dedicated page for users to manage their own profile information.
 -   **Notifications**: Automated, persistent alerts for expiring certificates, driven by a scheduled Cloud Function.
 -   **Performance**: Optimized data fetching logic to ensure a responsive and efficient user experience.

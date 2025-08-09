@@ -35,6 +35,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Re-implement Firebase Authentication for secure user login.
 -   [x] **Reporting**:
     -   [x] Add functionality to generate and export reports (e.g., crew lists, vessel status, certificate status).
+    -   [x] Add "Export to CSV" functionality to all reports.
 
 
 ## Future Enhancements & Shelved Tasks

@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Printer } from 'lucide-react';
+import { Printer, Download } from 'lucide-react';
 import { getCrew, getVessels, getCertificates } from '@/lib/firestore';
 import type { Certificate, CertificateWithStatus, CrewMember, Vessel } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
@@ -13,6 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { differenceInDays } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { useTenant } from '@/hooks/use-tenant';
+import Papa from 'papaparse';
 
 function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring Soon' | 'Expired', daysUntilExpiry: number } {
   const today = new Date();
@@ -26,6 +27,22 @@ function getCertificateStatus(expiryDate: string): { status: 'Valid' | 'Expiring
     return { status: 'Expiring Soon', daysUntilExpiry };
   }
   return { status: 'Valid', daysUntilExpiry };
+}
+
+
+function downloadCSV(data: any[], filename: string) {
+    const csv = Papa.unparse(data);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', filename);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
 }
 
 
@@ -68,6 +85,18 @@ function CrewManifestReport() {
     }
   };
 
+  const handleExport = () => {
+    const dataToExport = crew.map(c => ({
+        id: c.id,
+        name: c.name,
+        rank: c.rank,
+        status: c.status,
+        assignedVessel: c.assignedVessel || 'N/A',
+        certifications: c.certifications?.join(', ') || '',
+    }));
+    downloadCSV(dataToExport, 'crew_manifest.csv');
+  };
+
   return (
     <Card id="crew-manifest" className="print:shadow-none print:border-none">
       <CardHeader>
@@ -76,10 +105,16 @@ function CrewManifestReport() {
             <CardTitle>Crew Manifest</CardTitle>
             <CardDescription>A complete list of all crew members in the database.</CardDescription>
           </div>
-          <Button onClick={handlePrint} className="print:hidden">
-            <Printer className="mr-2 h-4 w-4" />
-            Print Report
-          </Button>
+           <div className="flex gap-2 print:hidden">
+            <Button onClick={handleExport} variant="outline">
+                <Download className="mr-2 h-4 w-4" />
+                Export CSV
+            </Button>
+            <Button onClick={handlePrint}>
+                <Printer className="mr-2 h-4 w-4" />
+                Print Report
+            </Button>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
@@ -161,6 +196,18 @@ function VesselStatusReport() {
             window.location.reload();
         }
     };
+    
+    const handleExport = () => {
+        const dataToExport = vessels.map(v => ({
+            id: v.id,
+            name: v.name,
+            imo: v.imo,
+            type: v.type,
+            status: v.status,
+            nextMaintenance: v.nextMaintenance,
+        }));
+        downloadCSV(dataToExport, 'vessel_status_report.csv');
+    };
 
     return (
         <Card id="vessel-status-report" className="print:shadow-none print:border-none">
@@ -170,10 +217,16 @@ function VesselStatusReport() {
                         <CardTitle>Vessel Status Report</CardTitle>
                         <CardDescription>An overview of the entire fleet's operational status.</CardDescription>
                     </div>
-                    <Button onClick={handlePrint} className="print:hidden">
-                        <Printer className="mr-2 h-4 w-4" />
-                        Print Report
-                    </Button>
+                     <div className="flex gap-2 print:hidden">
+                        <Button onClick={handleExport} variant="outline">
+                            <Download className="mr-2 h-4 w-4" />
+                            Export CSV
+                        </Button>
+                        <Button onClick={handlePrint}>
+                            <Printer className="mr-2 h-4 w-4" />
+                            Print Report
+                        </Button>
+                    </div>
                 </div>
             </CardHeader>
             <CardContent>
@@ -263,6 +316,20 @@ function CertificateStatusReport() {
             window.location.reload();
         }
     };
+    
+    const handleExport = () => {
+        const dataToExport = certificatesWithStatus.map(c => ({
+            id: c.id,
+            name: c.name,
+            issuedBy: c.issuedBy,
+            issueDate: c.issueDate,
+            expiryDate: c.expiryDate,
+            status: c.status,
+            daysUntilExpiry: c.daysUntilExpiry,
+        }));
+        downloadCSV(dataToExport, 'certificate_status_report.csv');
+    };
+
 
     return (
         <Card id="certificate-status-report" className="print:shadow-none print:border-none">
@@ -272,10 +339,16 @@ function CertificateStatusReport() {
                         <CardTitle>Certificate Status Report</CardTitle>
                         <CardDescription>An overview of all certificates and their validity.</CardDescription>
                     </div>
-                    <Button onClick={handlePrint} className="print:hidden">
-                        <Printer className="mr-2 h-4 w-4" />
-                        Print Report
-                    </Button>
+                     <div className="flex gap-2 print:hidden">
+                        <Button onClick={handleExport} variant="outline">
+                            <Download className="mr-2 h-4 w-4" />
+                            Export CSV
+                        </Button>
+                        <Button onClick={handlePrint}>
+                            <Printer className="mr-2 h-4 w-4" />
+                            Print Report
+                        </Button>
+                    </div>
                 </div>
             </CardHeader>
             <CardContent>

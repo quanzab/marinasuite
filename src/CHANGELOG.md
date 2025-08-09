@@ -335,3 +335,13 @@
 ### Changed
 -   **Performance**: Optimized data fetching on the vessel profile page by using `Promise.all` to fetch vessel, crew, and inventory data concurrently.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.3.7] - 2024-10-05
+
+### Added
+-   **Reporting Enhancement**: Added an "Export to CSV" button to all reports on the Reporting page (Crew Manifest, Vessel Status, Certificate Status) to allow for easy data downloads.
+-   **New Dependency**: Added `papaparse` for client-side CSV generation.
+
+### Changed
+-   **Configuration**: Synchronized `package.json` version to `7.3.7` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
