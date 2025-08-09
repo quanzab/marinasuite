@@ -354,3 +354,10 @@
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `7.5.2` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.5.3] - 2024-10-08
+
+### Changed
+-   **UX Hardening**: Hardened the route creation form by filtering the vessel dropdown to only show 'In Service' vessels, preventing users from assigning a route to a vessel that is in maintenance or docked.
+-   **Configuration**: Synchronized `package.json` version to `7.5.3` to match the latest changelog entry and reflect project maturity.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
