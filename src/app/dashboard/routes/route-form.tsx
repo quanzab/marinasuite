@@ -1,13 +1,16 @@
 
+
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
+import { formatDistanceToNow } from "date-fns"
 
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,6 +19,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { routeFormSchema, type RouteFormValues, type Route, type Vessel } from "@/lib/types"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { Separator } from "@/components/ui/separator"
+import { Clock } from "lucide-react"
 
 
 interface RouteFormProps {
@@ -33,81 +39,131 @@ export function RouteForm({ route, vessels, onSubmit, isSubmitting }: RouteFormP
       endPort: route?.endPort || "",
       vessel: route?.vessel || "",
       status: route?.status || "Open",
+      newEvent: "",
     },
   })
 
+  // Sort events from newest to oldest for display
+  const sortedEvents = route?.events ? [...route.events].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()) : [];
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="startPort"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Start Port</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g., Port of Singapore" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="endPort"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>End Port</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g., Port of Rotterdam" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-         <FormField
-          control={form.control}
-          name="vessel"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Assigned Vessel</FormLabel>
-               <Select onValueChange={field.onChange} defaultValue={field.value}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="space-y-4">
+            <FormField
+            control={form.control}
+            name="startPort"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Start Port</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a vessel" />
-                  </SelectTrigger>
+                    <Input placeholder="e.g., Port of Singapore" {...field} />
                 </FormControl>
-                <SelectContent>
-                  {vessels.filter(v => v.status === "In Service").map(v => <SelectItem key={v.id} value={v.name}>{v.name}</SelectItem>)}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-         <FormField
-          control={form.control}
-          name="status"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Status</FormLabel>
-               <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+            <FormField
+            control={form.control}
+            name="endPort"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>End Port</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a status" />
-                  </SelectTrigger>
+                    <Input placeholder="e.g., Port of Rotterdam" {...field} />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="Open">Open</SelectItem>
-                  <SelectItem value="In Progress">In Progress</SelectItem>
-                  <SelectItem value="Completed">Completed</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isSubmitting}>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+            <FormField
+            control={form.control}
+            name="vessel"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Assigned Vessel</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select a vessel" />
+                    </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                    {vessels.filter(v => v.status === "In Service").map(v => <SelectItem key={v.id} value={v.name}>{v.name}</SelectItem>)}
+                    </SelectContent>
+                </Select>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+            <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Status</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                    <SelectTrigger>
+                        <SelectValue placeholder="Select a status" />
+                    </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                    <SelectItem value="Open">Open</SelectItem>
+                    <SelectItem value="In Progress">In Progress</SelectItem>
+                    <SelectItem value="Completed">Completed</SelectItem>
+                    </SelectContent>
+                </Select>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+        </div>
+        
+        {route && (
+            <>
+                <Separator />
+                 <div className="space-y-4">
+                    <FormField
+                        control={form.control}
+                        name="newEvent"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Add Voyage Event</FormLabel>
+                                <FormControl>
+                                    <Textarea placeholder="e.g., 'Departed from port' or 'Reached waypoint Alpha'" {...field} />
+                                </FormControl>
+                                <FormDescription>Log a new event for this voyage. This will be timestamped.</FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <div>
+                        <FormLabel>Recent Events</FormLabel>
+                        <div className="mt-2 space-y-3 max-h-48 overflow-y-auto rounded-md border p-3">
+                            {sortedEvents.length > 0 ? (
+                                sortedEvents.map((event, index) => (
+                                    <div key={index} className="flex items-start gap-3 text-sm">
+                                        <Clock className="h-4 w-4 mt-0.5 shrink-0 text-muted-foreground" />
+                                        <div className="flex-1">
+                                            <p>{event.description}</p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {formatDistanceToNow(new Date(event.timestamp), { addSuffix: true })}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-sm text-muted-foreground text-center py-4">No events logged yet.</p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </>
+        )}
+       
+        <Button type="submit" disabled={isSubmitting} className="w-full">
           {isSubmitting ? 'Saving...' : (route ? 'Save Changes' : 'Add Route')}
         </Button>
       </form>

@@ -65,6 +65,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Implement a module to track spare parts and supplies with full CRUD.
 -   [x] **Route Management**:
     -   [x] Implement a module to manage shipping routes with full CRUD.
+    -   [x] Add Voyage Event Logging to track real-time progress.
 -   [x] **Code Quality & Finalization**:
     -   [x] Perform final code review and polish, including fixing type mismatches in mock data and ensuring UI component consistency.
     -   [x] Refactor user validation schemas to remove duplication and improve maintainability.

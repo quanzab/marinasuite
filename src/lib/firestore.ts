@@ -2,7 +2,7 @@
 
 import { db } from './firebase';
 import { collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, collectionGroup, query, where, arrayUnion, onSnapshot, orderBy } from 'firebase/firestore';
-import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route, InventoryItem, Notification } from './types';
+import type { User, CrewMember, Vessel, Certificate, MaintenanceRecord, Route, InventoryItem, Notification, RouteEvent } from './types';
 import type { CrewFormValues } from '@/app/dashboard/crew/crew-form';
 import type { VesselFormValues } from '@/app/dashboard/fleet/vessel-form';
 import type { CertificateFormValues } from '@/app/dashboard/certificates/certificate-form';
@@ -408,14 +408,32 @@ export const getRoutes = async (tenantId: string): Promise<Route[]> => {
 export const addRoute = async (tenantId: string, routeData: RouteFormValues) => {
     if (!tenantId) throw new Error("Tenant ID is required.");
     const routesCollectionRef = collection(db, 'orgs', tenantId, 'routes');
-    await addDoc(routesCollectionRef, routeData);
+    await addDoc(routesCollectionRef, { ...routeData, events: [] });
 };
 
 // UPDATE
 export const updateRoute = async (tenantId: string, id: string, routeData: Partial<RouteFormValues>) => {
     if (!tenantId) throw new Error("Tenant ID is required.");
     const routeDoc = doc(db, 'orgs', tenantId, 'routes', id);
-    await updateDoc(routeDoc, routeData);
+    
+    // Separate the new event from other route data
+    const { newEvent, ...otherData } = routeData;
+
+    const dataToUpdate: Partial<Route> = { ...otherData };
+
+    if (newEvent && newEvent.trim() !== '') {
+        const event: RouteEvent = {
+            description: newEvent,
+            timestamp: new Date().toISOString(),
+        };
+        // Use arrayUnion to safely add the new event to the array
+        await updateDoc(routeDoc, {
+            ...dataToUpdate,
+            events: arrayUnion(event),
+        });
+    } else {
+        await updateDoc(routeDoc, dataToUpdate);
+    }
 };
 
 // DELETE

@@ -286,3 +286,9 @@
 -   **UX Hardening**: Hardened the "Edit User" form in the Admin Panel by making the email field read-only, preventing accidental changes to a user's primary login credential.
 -   **Configuration**: Synchronized `package.json` version to `7.1.9` to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.2.0] - 2024-10-04
+
+### Added
+-   **Route Management**: Enhanced the Route Management module with Voyage Event Logging. Users can now add timestamped events to a route's log, providing real-time visibility into voyage progress.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.

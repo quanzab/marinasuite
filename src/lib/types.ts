@@ -56,12 +56,18 @@ export type CurrentUser = User & {
     uid: string;
 }
 
+export type RouteEvent = {
+    timestamp: string;
+    description: string;
+}
+
 export type Route = {
     id: string;
     startPort: string;
     endPort: string;
     vessel: string;
     status: 'Open' | 'In Progress' | 'Completed';
+    events?: RouteEvent[];
 }
 
 export type InventoryItem = {
@@ -135,5 +141,6 @@ export const routeFormSchema = z.object({
     endPort: z.string().min(2, { message: "End port is required." }),
     vessel: z.string().min(1, { message: "Please select a vessel." }),
     status: z.enum(["Open", "In Progress", "Completed"]),
+    newEvent: z.string().optional(),
 });
 export type RouteFormValues = z.infer<typeof routeFormSchema>;
