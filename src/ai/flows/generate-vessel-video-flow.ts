@@ -38,25 +38,19 @@ const generateVesselVideoFlow = ai.defineFlow(
     outputSchema: GenerateVesselVideoOutputSchema,
   },
   async (input) => {
-    let prompt: (string | MediaPart)[] = [
-        { text: `A cinematic, photorealistic video of a ${input.vesselType} named "${input.vesselName}" sailing on the open ocean during a bright, sunny day.`}
-    ];
+    let prompt: (string | MediaPart)[] | string = `A cinematic shot of a ${input.vesselType} named "${input.vesselName}" sailing on the open ocean during a bright, sunny day, with ambient sound.`;
 
     if (input.imageUrl) {
         prompt = [
-            { text: `Animate this image of the ${input.vesselType} named "${input.vesselName}". Make it sail on a bright, sunny day on the open ocean.`},
+            { text: `Animate this image of the ${input.vesselType} named "${input.vesselName}". Make it sail on a bright, sunny day on the open ocean, with ambient sounds of the sea and the ship.`},
             { media: { url: input.imageUrl, contentType: 'image/png' }}
         ];
     }
 
 
     let { operation } = await ai.generate({
-        model: googleAI.model('veo-2.0-generate-001'),
+        model: googleAI.model('veo-3.0-generate-preview'),
         prompt: prompt,
-        config: {
-            durationSeconds: 5,
-            aspectRatio: '16:9',
-        },
     });
 
     if (!operation) {

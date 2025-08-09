@@ -18,7 +18,7 @@ MarinaSuite is a comprehensive maritime management application designed to strea
 -   **Predictive Maintenance AI**: AI-powered forecasts for vessel maintenance.
 -   **Safety Report Analysis AI**: AI-driven analysis of incident reports.
 -   **AI Shanty Generator**: A creative AI tool to generate sea shanties about vessels, complete with multi-speaker Text-to-Speech audio output.
--   **AI Image/Video Generator**: AI tools to generate images and videos of vessels.
+-   **AI Image/Video Generator**: AI tools to generate images and videos of vessels, now using the latest models for enhanced quality and sound.
 -   **Real-Time Data**: Live data updates across the application using Firestore's real-time listeners.
 -   **Offline Data Caching**: Offline data access and synchronization.
 -   **Advanced Scheduling**: Drag-and-drop and direct assignment of crew to vessels, with validation for required certifications.
