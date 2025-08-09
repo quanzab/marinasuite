@@ -92,6 +92,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Optimized data fetching on the vessel profile page by using `Promise.all`.
 -   [x] **UX Hardening**:
     -   [x] Harden the "Edit User" workflow by making the email field read-only.
+    -   [x] Harden the route creation form by filtering the vessel dropdown to only show 'In Service' vessels.
 -   [x] **UX Refinement**:
     -   [x] Streamline the "Invite User" workflow by making the `name` field optional.
 -   [x] **Bug Fix**:

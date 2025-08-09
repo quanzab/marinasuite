@@ -351,3 +351,10 @@
 -   **Data Consistency**: Converted the "Role" input in the user management form to a dropdown menu to enforce data consistency and prevent invalid role assignments (previously grouped under a general configuration update).
 -   **Configuration**: Synchronized `package.json` version to `7.4.2` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.4.3] - 2024-10-08
+
+### Changed
+-   **UX Refinement**: Hardened the route creation form by filtering the "Assigned Vessel" dropdown to only show vessels that are currently 'In Service', preventing operational errors.
+-   **Configuration**: Synchronized `package.json` version to `7.4.3` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
