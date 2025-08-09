@@ -73,6 +73,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Converted free-text inputs for "Vessel Type" and "Crew Rank" to dropdowns to enforce consistency.
 -   [x] **User Experience**:
     -   [x] Streamlined the "Invite User" workflow by making the name field optional.
+    -   [x] Hardened the "Invite User" workflow by making the name field required.
 -   [x] **Project Configuration**:
     -   [x] Removed redundant `package.json` from the `src` directory.
 

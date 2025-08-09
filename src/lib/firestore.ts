@@ -334,11 +334,7 @@ export const getUsers = async (): Promise<User[]> => {
 // CREATE
 export const addUser = async (userData: UserFormValues) => {
     const specificUsersCollectionRef = collection(db, 'orgs', userData.tenant, 'users');
-    const dataToAdd = { ...userData };
-    if (!dataToAdd.name) {
-      dataToAdd.name = 'New User';
-    }
-    await addDoc(specificUsersCollectionRef, dataToAdd);
+    await addDoc(specificUsersCollectionRef, userData);
 };
 
 // UPDATE

@@ -280,3 +280,10 @@
 ### Changed
 -   **UI Refinement**: Updated the default `CardTitle` component size to `text-lg` for better visual hierarchy and consistency across the application.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.0.0] - 2024-09-21
+
+### Changed
+-   **UX Hardening**: Re-instated the `name` field as a required input when inviting a new user. This improves the onboarding experience by ensuring all users have a display name from their first login.
+-   **Version Bump**: Updated the project version to `7.0.0` to signify a major, stable release.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
