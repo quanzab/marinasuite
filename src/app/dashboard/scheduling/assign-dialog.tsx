@@ -73,4 +73,3 @@ export function AssignDialog({ isOpen, onOpenChange, isSubmitting, vessels, crew
         </Dialog>
     );
 }
-
