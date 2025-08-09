@@ -320,7 +320,7 @@
 ## [7.3.5] - 2024-10-03
 
 ### Fixed
--   **Bug Fix**: Fixed a critical typo in the `addUser` Firestore function that prevented new users from being created (`name` was being passed instead of `name`).
+-   **Bug Fix**: Fixed a critical typo in the `addUser` Firestore function that prevented new users from being created (`name` was being passed instead of `userData`).
 
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `7.3.5` to match the latest changelog entry.
