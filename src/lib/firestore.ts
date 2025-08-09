@@ -205,8 +205,8 @@ export const addMultipleCrewMembers = async (tenantId: string, crewData: CrewFor
             rank: crew.rank,
             status: crew.status,
             assignedVessel: null,
-            certifications: ['Basic Safety Training'],
-            medicalRecords: "Awaiting initial assessment."
+            certifications: [],
+            medicalRecords: ""
         });
     });
 
@@ -367,16 +367,15 @@ export const getUsers = async (): Promise<User[]> => {
 export const addUser = async (userData: UserFormValues) => {
     if (!userData.tenant) throw new Error("Tenant ID is required to add a user.");
     const specificUsersCollectionRef = collection(db, 'orgs', userData.tenant, 'users');
-    // Ensure the entire object is passed, not just form fields.
     await addDoc(specificUsersCollectionRef, userData);
 };
 
 // UPDATE
-export const updateUser = async (id: string, userData: Partial<UserFormValues>) => {
-  if (!userData.tenant) {
+export const updateUser = async (tenantId: string, userId: string, userData: Partial<UserFormValues>) => {
+  if (!tenantId) {
       throw new Error("Tenant must be provided to update a user.");
   }
-  const userDoc = doc(db, 'orgs', userData.tenant, 'users', id);
+  const userDoc = doc(db, 'orgs', tenantId, 'users', userId);
   await updateDoc(userDoc, userData);
 };
 

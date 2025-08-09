@@ -400,3 +400,9 @@
 ### Changed
 -   **Reliability**: Hardened the `addCrewMember` function in the Firestore service to create new crew members with empty certification and medical records, improving data integrity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.6.4] - 2024-10-14
+
+### Changed
+-   **Reliability**: Hardened the `updateUser` function in the Firestore service by requiring explicit `tenantId` and `userId` arguments, improving data integrity and maintainability.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.

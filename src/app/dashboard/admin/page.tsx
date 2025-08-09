@@ -83,7 +83,7 @@ export default function AdminPage() {
     setIsSubmitting(true);
     try {
       if (selectedUser) {
-        await updateUser(selectedUser.id, data);
+        await updateUser(selectedUser.tenant, selectedUser.id, data);
         toast({
           title: "Success",
           description: "User updated successfully.",

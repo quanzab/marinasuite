@@ -98,6 +98,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **Reliability**:
     -   [x] Improved the reliability of the `addUser` function in the Firestore service.
     -   [x] Hardened the `addCrewMember` function in the Firestore service to improve data integrity.
+    -   [x] Hardened the `updateUser` function in the Firestore service to improve data integrity and maintainability.
 -   [x] **UX Refinement**:
     -   [x] Streamlined the "Invite User" workflow by making the `name` field optional.
 -   [x] **Bug Fix**:
