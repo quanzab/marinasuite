@@ -344,3 +344,10 @@
 -   **AI Enhancement**: Upgraded the AI Shanty Generator's Text-to-Speech flow to use specific, thematic voices (`Calypso` and `Triton`) for a more characterful and engaging audio output.
 -   **Configuration**: Synchronized `package.json` version to `7.4.1` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.4.2] - 2024-10-07
+
+### Changed
+-   **Data Consistency**: Converted the "Role" input in the user management form to a dropdown menu to enforce data consistency and prevent invalid role assignments (previously grouped under a general configuration update).
+-   **Configuration**: Synchronized `package.json` version to `7.4.2` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
