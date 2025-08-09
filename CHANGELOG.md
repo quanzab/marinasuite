@@ -284,5 +284,5 @@
 ## [6.1.0] - 2024-09-22
 
 ### Changed
--   **Configuration**: Changed the project name in `package.json` from `nextn` to `marinasuite` and synchronized the version to `6.1.0` to reflect the latest changes.
+-   **Configuration**: Consolidated documentation by removing duplicate `BLUEPRINT.md` and `TODO.md` files from the `src` directory. The main layout's version badge has been updated to `v6.1.0`.
 -   **Documentation**: Finalized all documentation (`BLUEPRINT.md`, `TODO.md`, `CHANGELOG.md`) to mark the project as complete, stable, and ready for deployment.
