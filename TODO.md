@@ -74,7 +74,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
 -   [x] **User Experience**:
     -   [x] Streamlined the "Invite User" workflow by making the name field optional.
 -   [x] **Project Configuration**:
-    -   [x] Removed redundant `package.json` and `CHANGELOG.md` files from the `src` directory.
+    -   [x] Removed redundant `package.json` from the `src` directory.
 
 ## Project Complete
 
