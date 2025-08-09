@@ -334,9 +334,10 @@ export const getUsers = async (): Promise<User[]> => {
 
 // CREATE
 export const addUser = async (userData: UserFormValues) => {
-    const { tenant } = userData;
+    const { tenant, ...rest } = userData;
+    if (!tenant) throw new Error("Tenant ID is required to add a user.");
     const specificUsersCollectionRef = collection(db, 'orgs', tenant, 'users');
-    await addDoc(specificUsersCollectionRef, userData);
+    await addDoc(specificUsersCollectionRef, rest);
 };
 
 // UPDATE

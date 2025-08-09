@@ -345,3 +345,12 @@
 -   **Project Configuration**: Removed the redundant `package.json` file from the `src` directory to simplify the project structure and establish a single source of truth for dependencies.
 -   **Configuration**: Synchronized `package.json` version to `7.5.1` to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.5.2] - 2024-10-07
+
+### Fixed
+-   **Bug Fix**: Corrected a critical logic error in the `addUser` Firestore function where the `userData` object was being improperly destructured, preventing new users from being created. This restores the user invitation functionality.
+
+### Changed
+-   **Configuration**: Synchronized `package.json` version to `7.5.2` to match the latest changelog entry.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
