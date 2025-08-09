@@ -56,7 +56,7 @@ export function UserForm({ user, onSubmit, isSubmitting, isAdmin }: UserFormProp
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>Full Name (Optional)</FormLabel>
               <FormControl>
                 <Input placeholder="John Doe" {...field} />
               </FormControl>

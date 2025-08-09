@@ -336,12 +336,11 @@ export const getUsers = async (): Promise<User[]> => {
 export const addUser = async (userData: UserFormValues) => {
     const { tenant, email, role, name } = userData;
     const specificUsersCollectionRef = collection(db, 'orgs', tenant, 'users');
-    await addDoc(specificUsersCollectionRef, {
-        name,
-        email,
-        role,
-        tenant,
-    });
+    const dataToAdd: Omit<User, 'id'> = { email, role, tenant };
+    if (name) {
+        dataToAdd.name = name;
+    }
+    await addDoc(specificUsersCollectionRef, dataToAdd);
 };
 
 // UPDATE
