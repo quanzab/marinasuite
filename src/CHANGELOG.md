@@ -307,3 +307,10 @@
 -   **Bug Fix**: Fixed a critical typo in the `addUser` Firestore function that prevented new users from being created. The variable `specificUsersCollection_ref` was corrected to `specificUsersCollectionRef`.
 -   **Configuration**: Synchronized `package.json` version to `7.3.2` to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.3.3] - 2024-10-01
+
+### Changed
+-   **Data Consistency**: Converted the "Role" input in the user management form to a dropdown menu to enforce data consistency and prevent invalid role assignments.
+-   **Configuration**: Synchronized `package.json` version to `7.3.3` to match the latest changelog entry and reflect project maturity.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
