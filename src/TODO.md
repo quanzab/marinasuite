@@ -78,6 +78,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Hardened the "Edit User" workflow by making the email field read-only.
 -   [x] **Project Configuration**:
     -   [x] Removed redundant `package.json` from the `src` directory.
+    -   [x] Remove the redundant `package.json` file from the Cloud Functions directory.
 -   [x] **UI Refinement**:
     -   [x] Updated the default `CardTitle` component size for better visual consistency.
 -   [x] **AI Enhancement**:
@@ -86,8 +87,6 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Optimized data fetching on the vessel profile page by using `Promise.all`.
 -   [x] **UX Hardening**:
     -   [x] Harden the "Edit User" workflow by making the email field read-only.
--   [x] **Project Configuration**:
-    -   [x] Remove the redundant `package.json` file from the Cloud Functions directory.
 -   [x] **Data Consistency**:
     -   [x] Re-instate the `name` field as a required input when inviting a new user to improve data consistency.
 -   [x] **UX Refinement**:
