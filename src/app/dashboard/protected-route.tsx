@@ -2,38 +2,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { usePathname } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      const isAuthed = !!user;
-      setIsAuthenticated(isAuthed);
-
-      if (pathname === '/') {
-        // The root page will handle its own redirection.
-        return;
-      }
-      
-      if (!isAuthed && !pathname.startsWith('/login')) {
-        router.replace('/login');
-      } else if (isAuthed && pathname.startsWith('/login')) {
-        router.replace('/dashboard/select-tenant');
-      }
-    });
-
-    return () => unsubscribe();
-  }, [router, pathname]);
+    // Since we are bypassing login, we just need to ensure the app is ready to render.
+    setIsReady(true);
+  }, []);
 
   // While checking auth status, show a loading skeleton.
-  if (isAuthenticated === null) {
+  if (!isReady) {
     return (
         <div className="flex items-center justify-center h-screen w-screen">
             <div className="flex flex-col items-center gap-4">

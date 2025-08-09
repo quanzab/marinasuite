@@ -52,7 +52,6 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import ProtectedRoute from './protected-route';
-import { getAuth, signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { subscribeToNotifications } from '@/lib/firestore';
@@ -101,7 +100,6 @@ export default function DashboardLayout({
     { href: '/dashboard/notifications', label: 'Notifications', icon: NotificationsIcon },
     { href: '/dashboard/settings', label: 'Settings', icon: SettingsIcon },
   ];
-  const auth = getAuth();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -124,23 +122,10 @@ export default function DashboardLayout({
   }, [tenantId, toast]);
 
   const handleSignOut = async () => {
-    try {
-      await signOut(auth);
-      // Also clear tenant from session storage on sign out
-      sessionStorage.removeItem('marinasuite-tenantId');
-      router.push('/login');
-      toast({
-        title: "Signed Out",
-        description: "You have been successfully signed out.",
-      });
-    } catch (error) {
-      console.error("Error signing out: ", error);
-       toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to sign out.",
-      });
-    }
+    toast({
+        title: "Sign Out Disabled",
+        description: "Authentication is currently bypassed for development.",
+    });
   };
 
 
@@ -333,5 +318,3 @@ export default function DashboardLayout({
     </ProtectedRoute>
   );
 }
-
-    
