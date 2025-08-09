@@ -379,3 +379,12 @@
 ### Changed
 -   **Configuration**: Synchronized `package.json` version to `7.6.0` to match the latest changelog entry.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.6.1] - 2024-10-11
+
+### Changed
+-   **Performance**: Optimized data fetching on the vessel profile page by fetching only the crew and inventory specifically assigned to that vessel, rather than all records. This improves scalability and reduces load times.
+
+### Added
+-   **New Firestore Functions**: Added `getAssignedCrewForVessel` and `getInventoryForVessel` to `firestore.ts` to support the performance optimization.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.

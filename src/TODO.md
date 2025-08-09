@@ -89,7 +89,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Upgraded the AI Video Generation feature to use the `veo-3.0-generate-preview` model.
     -   [x] Upgraded the AI Shanty Generator to use specific, thematic voices for a more engaging experience.
 -   [x] **Performance**: 
-    -   [x] Optimized data fetching on the vessel profile page by using `Promise.all`.
+    -   [x] Optimized data fetching on the vessel profile page by using `Promise.all` and then server-side filtering.
 -   [x] **UX Hardening**:
     -   [x] Hardened the "Edit User" workflow by making the email field read-only.
     -   [x] Hardened the route creation form by filtering the vessel dropdown to only show 'In Service' vessels.

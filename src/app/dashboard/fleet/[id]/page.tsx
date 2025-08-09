@@ -5,7 +5,7 @@ import { useEffect, useState, useTransition, useCallback } from 'react';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { getVesselById, getCrew, getInventory } from '@/lib/firestore';
+import { getVesselById, getAssignedCrewForVessel, getInventoryForVessel, addMaintenanceRecord } from '@/lib/firestore';
 import type { Vessel, CrewMember, MaintenanceLogFormValues, InventoryItem } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Ship, Tag, Wrench, Calendar, Users, Wand2, Loader2, User, PlusCircle, Video, Bot } from 'lucide-react';
@@ -52,21 +52,18 @@ export default function VesselProfilePage({ params }: { params: { id: string } }
     setIsLoading(true);
     setError(null);
     try {
-      // Fetch vessel, all crew, and all inventory concurrently
-      const [fetchedVessel, allCrew, allInventory] = await Promise.all([
-        getVesselById(tenantId, params.id),
-        getCrew(tenantId),
-        getInventory(tenantId),
-      ]);
+      const fetchedVessel = await getVesselById(tenantId, params.id);
       
       if (fetchedVessel) {
         setVessel(fetchedVessel);
         
-        // Filter crew and inventory for the specific vessel
-        const crewForVessel = allCrew.filter(c => c.assignedVessel === fetchedVessel.name);
-        setAssignedCrew(crewForVessel);
+        // Fetch assigned crew and inventory concurrently
+        const [crewForVessel, inventoryForVessel] = await Promise.all([
+            getAssignedCrewForVessel(tenantId, fetchedVessel.name),
+            getInventoryForVessel(tenantId, fetchedVessel.name),
+        ]);
 
-        const inventoryForVessel = allInventory.filter(item => item.location === fetchedVessel.name);
+        setAssignedCrew(crewForVessel);
         setInventory(inventoryForVessel);
 
       } else {

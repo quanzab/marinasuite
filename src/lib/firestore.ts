@@ -167,6 +167,15 @@ export const getCrewMemberById = async (tenantId: string, id: string): Promise<C
   }
 };
 
+// READ (assigned to vessel)
+export const getAssignedCrewForVessel = async (tenantId: string, vesselName: string): Promise<CrewMember[]> => {
+  if (!tenantId) return [];
+  const crewCollectionRef = collection(db, 'orgs', tenantId, 'crew');
+  const q = query(crewCollectionRef, where("assignedVessel", "==", vesselName));
+  const snapshot = await getDocs(q);
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as CrewMember));
+};
+
 
 // CREATE
 export const addCrewMember = async (tenantId: string, crewData: CrewFormValues) => {
@@ -396,6 +405,15 @@ export const getInventory = async (tenantId: string): Promise<InventoryItem[]> =
   const inventoryCollectionRef = collection(db, 'orgs', tenantId, 'inventory');
   const snapshot = await getDocs(inventoryCollectionRef);
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as InventoryItem));
+};
+
+// READ (for a specific location)
+export const getInventoryForVessel = async (tenantId: string, location: string): Promise<InventoryItem[]> => {
+    if (!tenantId) return [];
+    const inventoryCollectionRef = collection(db, 'orgs', tenantId, 'inventory');
+    const q = query(inventoryCollectionRef, where("location", "==", location));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as InventoryItem));
 };
 
 
