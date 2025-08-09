@@ -78,6 +78,7 @@ This document outlines the remaining tasks and future enhancements for the Marin
     -   [x] Hardened the "Edit User" workflow by making the email field read-only.
 -   [x] **Project Configuration**:
     -   [x] Removed redundant `package.json` from the `src` directory.
+    -   [x] Synchronized `package.json` version to match the latest changelog entry.
 -   [x] **UI Refinement**:
     -   [x] Updated the default `CardTitle` component size for better visual consistency.
 -   [x] **AI Enhancement**:
