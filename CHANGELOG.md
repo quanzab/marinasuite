@@ -293,3 +293,9 @@
 ### Changed
 -   **AI Enhancement**: Upgraded the Crew Allocation AI's tool (`findAvailableCrew`) to accept `requiredCerts` as a parameter. The AI can now request a pre-filtered list of qualified crew, leading to more accurate and efficient suggestions.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.0.6] - 2024-09-24
+
+### Changed
+-   **UI Refinement**: Updated the default `CardTitle` component size to `text-2xl` for better visual hierarchy and consistency across the application.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
