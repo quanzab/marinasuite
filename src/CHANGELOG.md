@@ -400,3 +400,9 @@
 ### Changed
 -   **UX Hardening**: Improved the reliability of the `addUser` function in the Firestore service by ensuring the entire `userData` object is passed, preventing potential data loss if the user schema changes in the future.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
+
+## [7.6.4] - 2024-10-14
+
+### Changed
+-   **Reliability**: Refactored the `updateRoute` function in the Firestore service to improve data consistency and reliability when logging new voyage events.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment.
