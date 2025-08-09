@@ -274,3 +274,9 @@
 ### Changed
 -   **Configuration**: Consolidated project configuration by removing the redundant `package.json` and `CHANGELOG.md` files from the `src` directory to improve maintainability. The main layout's version badge has been updated to `v6.0.0`.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [6.4.0] - 2024-09-22
+
+### Changed
+-   **Configuration**: Synchronized `package.json` version to `6.4.0` and updated the main layout's version badge to match.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
