@@ -344,3 +344,10 @@
 -   **Data Consistency**: Re-instated the `name` field as a required input when inviting a new user to improve data consistency across the application.
 -   **Configuration**: Synchronized `package.json` version to match the latest changelog entry and reflect project maturity.
 -   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.
+
+## [7.4.2] - 2024-10-07
+
+### Changed
+-   **UX Hardening**: Hardened the route creation form by filtering the vessel dropdown to only show 'In Service' vessels, preventing assignment to unavailable ships.
+-   **Configuration**: Synchronized `package.json` version to match the latest changelog entry and reflect project maturity.
+-   **Documentation**: Finalized all documentation to reflect that the application is now feature-complete, stable, and ready for deployment. This concludes the development cycle.

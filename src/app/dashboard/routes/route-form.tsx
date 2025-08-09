@@ -45,6 +45,7 @@ export function RouteForm({ route, vessels, onSubmit, isSubmitting }: RouteFormP
 
   // Sort events from newest to oldest for display
   const sortedEvents = route?.events ? [...route.events].sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()) : [];
+  const availableVessels = vessels.filter(v => v.status === "In Service");
 
   return (
     <Form {...form}>
@@ -89,9 +90,12 @@ export function RouteForm({ route, vessels, onSubmit, isSubmitting }: RouteFormP
                     </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                    {vessels.filter(v => v.status === "In Service").map(v => <SelectItem key={v.id} value={v.name}>{v.name}</SelectItem>)}
+                    {availableVessels.map(v => <SelectItem key={v.id} value={v.name}>{v.name}</SelectItem>)}
                     </SelectContent>
                 </Select>
+                 <FormDescription>
+                    Only vessels currently "In Service" are shown.
+                </FormDescription>
                 <FormMessage />
                 </FormItem>
             )}
